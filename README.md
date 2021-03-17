@@ -1,4 +1,6 @@
 # Project Mercurius
+![Banner](/misc/mercurius-banner.png)
+
 Project for M151 &amp; M152
 
 ## :scroll: Table of contents
