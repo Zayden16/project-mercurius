@@ -13,5 +13,5 @@ Project for M151 &amp; M152
 	
 ## :flight_departure: Setup
 ```
-Command to run 
+Command to run
 ```
