@@ -14,7 +14,7 @@ CREATE TABLE public."Article"
 CREATE TABLE public."ArticlePosition"
 (
     "ArticlePosition_Id" uuid NOT NULL,
-	"Document_Id" uuid,
+    "Document_Id" uuid,
     "Article_Id" uuid,
     "Article_Quantity" double precision,
     PRIMARY KEY ("ArticlePosition_Id")
