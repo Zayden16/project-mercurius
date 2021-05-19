@@ -1,25 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "/home/yazdan/Desktop/Repos/project-mercurius/backend/MercuriusApi/MercuriusApi.csproj": {}
+    "C:\\Dev\\School\\Modul-152\\project-mercurius\\backend\\MercuriusApi\\MercuriusApi.csproj": {}
   },
   "projects": {
-    "/home/yazdan/Desktop/Repos/project-mercurius/backend/MercuriusApi/MercuriusApi.csproj": {
+    "C:\\Dev\\School\\Modul-152\\project-mercurius\\backend\\MercuriusApi\\MercuriusApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/yazdan/Desktop/Repos/project-mercurius/backend/MercuriusApi/MercuriusApi.csproj",
+        "projectUniqueName": "C:\\Dev\\School\\Modul-152\\project-mercurius\\backend\\MercuriusApi\\MercuriusApi.csproj",
         "projectName": "MercuriusApi",
-        "projectPath": "/home/yazdan/Desktop/Repos/project-mercurius/backend/MercuriusApi/MercuriusApi.csproj",
-        "packagesPath": "/home/yazdan/.nuget/packages/",
-        "outputPath": "/home/yazdan/Desktop/Repos/project-mercurius/backend/MercuriusApi/obj/",
+        "projectPath": "C:\\Dev\\School\\Modul-152\\project-mercurius\\backend\\MercuriusApi\\MercuriusApi.csproj",
+        "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\School\\Modul-152\\project-mercurius\\backend\\MercuriusApi\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/home/yazdan/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -49,7 +58,6 @@
               "version": "[2.0.3, )"
             },
             "Microsoft.NETCore.App": {
-              "suppressParent": "All",
               "target": "Package",
               "version": "[2.2.8, )"
             },
@@ -63,7 +71,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[5.6.3, )"
+              "version": "[6.1.4, )"
             }
           },
           "imports": [
@@ -84,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
