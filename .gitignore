@@ -24,3 +24,9 @@ hs_err_pid*
 
 # Bin
 /backend/MercuriusApi/bin/*
+
+# .vs
+/backend/.vs/*
+
+# Debug
+/backend/MercuriusApi/obj/Debug/*
