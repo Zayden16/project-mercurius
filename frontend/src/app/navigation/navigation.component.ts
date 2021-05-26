@@ -15,20 +15,33 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {
-          label: 'File',
-          icon: 'pi pi-pw pi-file',
-          items: [{
-                  label: 'New', 
-                  icon: 'pi pi-fw pi-plus',
-                  items: [
-                      {label: 'User', icon: 'pi pi-fw pi-user-plus'},
-                      {label: 'Filter', icon: 'pi pi-fw pi-filter'}
-                  ]
-              },
-              {label: 'Open', icon: 'pi pi-fw pi-external-link'},
-              {separator: true},
-              {label: 'Quit', icon: 'pi pi-fw pi-times'}
-          ]
+          label: 'Dashboard',
+          icon: 'pi pi-home',
+      },
+      {
+        label: 'Customers',
+        icon: 'pi pi-users',
+        items: [
+          {label: 'Users', icon: 'pi pi-user'},
+          {label: 'PLZ Codes', icon: 'pi pi-map-marker'},
+      ]
+      },
+      {
+        label: 'Documents',
+        icon: 'pi pi-file'
+      },
+      {
+        label: 'Articles',
+        icon: 'pi pi-briefcase',
+        items: [
+          {label: 'Articles', icon: 'pi pi-briefcase'},
+          {label: 'Tax Rates', icon: 'pi pi-percentage'},
+          {label: 'Article Units', icon: 'pi pi-tags'}
+      ]
+      },
+      {
+        label: 'Settings',
+        icon: 'pi pi-cog'
       }
   ];
   }
