@@ -4,7 +4,7 @@ CREATE TABLE "Article"
 (
     "Article_Id" SERIAL PRIMARY KEY,
     "Article_Title" VARCHAR,
-    "Aritcle_Descrption" VARCHAR,
+    "Article_Description" VARCHAR,
     "Article_Price" numeric,
 	"Article_TaxRate" integer,
     "Article_Unit" integer
@@ -13,7 +13,6 @@ CREATE TABLE "Article"
 CREATE TABLE "ArticlePosition"
 (
     "ArticlePosition_Id" SERIAL PRIMARY KEY,
-    "Document_Id" integer,
     "Article_Id" integer,
     "Article_Quantity" numeric
 );
@@ -97,11 +96,6 @@ ALTER TABLE "Customer"
     ADD CONSTRAINT "FK_Customer_PlzId"
     FOREIGN KEY ("Customer_PlzId") 
     REFERENCES "Plz" ("Plz_Id");
-
-ALTER TABLE "ArticlePosition"
-    ADD CONSTRAINT "FK_Document_Id"
-    FOREIGN KEY ("Document_Id") 
-    REFERENCES "Document" ("Document_Id");
 	
 ALTER TABLE "ArticlePosition"
     ADD CONSTRAINT "FK_Article_Id"
