@@ -6,9 +6,13 @@ namespace MercuriusApi.DataAccess
     public interface IDataAccessProvider  
     {  
         void AddUserRecord(User patient);  
+
         void UpdateUserRecord(User patient);  
-        void DeleteUserRecord(string id);  
-        User GetUserSingleRecord(string id);  
+
+        void DeleteUserRecord(int id);  
+
+        User GetUserSingleRecord(int id);  
+
         List<User> GetUserRecords();  
     }  
 }

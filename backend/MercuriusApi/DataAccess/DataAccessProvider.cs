@@ -15,31 +15,31 @@ namespace MercuriusApi.DataAccess
   
         public void AddUserRecord(User patient)  
         {  
-            _context.Users.Add(patient);  
+            _context.User.Add(patient);  
             _context.SaveChanges();  
         }  
   
         public void UpdateUserRecord(User patient)  
         {  
-            _context.Users.Update(patient);  
+            _context.User.Update(patient);  
             _context.SaveChanges();  
         }  
   
-        public void DeleteUserRecord(string id)  
+        public void DeleteUserRecord(int id)  
         {  
-            var entity = _context.Users.FirstOrDefault(t => t.User_Id == id);  
-            _context.Users.Remove(entity);  
+            var entity = _context.User.FirstOrDefault(t => t.User_Id == id);  
+            _context.User.Remove(entity);  
             _context.SaveChanges();  
         }  
   
-        public User GetUserSingleRecord(string id)  
+        public User GetUserSingleRecord(int id)  
         {  
-            return _context.Users.FirstOrDefault(t => t.User_Id == id);  
+            return _context.User.FirstOrDefault(t => t.User_Id == id);  
         }  
   
         public List<User> GetUserRecords()  
         {  
-            return _context.Users.ToList();  
+            return _context.User.ToList();  
         }  
     }  
 
