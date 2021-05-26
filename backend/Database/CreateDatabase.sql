@@ -1,148 +1,136 @@
 BEGIN;
 
-CREATE TABLE public."Article"
+CREATE TABLE "Article"
 (
-    "Article_Id" uuid NOT NULL,
-    "Article_Title" character varying,
-    "Aritcle_Descrption" character varying,
+    "Article_Id" SERIAL PRIMARY KEY,
+    "Article_Title" VARCHAR,
+    "Aritcle_Descrption" VARCHAR,
     "Article_Price" numeric,
-    "Article_TaxRate" uuid,
-    "Article_Unit" uuid,
-    PRIMARY KEY ("Article_Id")
+	"Article_TaxRate" integer,
+    "Article_Unit" integer
 );
 
-CREATE TABLE public."ArticlePosition"
+CREATE TABLE "ArticlePosition"
 (
-    "ArticlePosition_Id" uuid NOT NULL,
-    "Document_Id" uuid,
-    "Article_Id" uuid,
-    "Article_Quantity" double precision,
-    PRIMARY KEY ("ArticlePosition_Id")
+    "ArticlePosition_Id" SERIAL PRIMARY KEY,
+    "Document_Id" integer,
+    "Article_Id" integer,
+    "Article_Quantity" numeric
 );
 
-CREATE TABLE public."ArticleUnit"
+CREATE TABLE "ArticleUnit"
 (
-    "ArticleUnit_Id" uuid NOT NULL,
-    "ArticleUnit_Text" character varying,
-    PRIMARY KEY ("ArticleUnit_Id")
+    "ArticleUnit_Id" SERIAL PRIMARY KEY,
+    "ArticleUnit_Text" VARCHAR
 );
 
-CREATE TABLE public."Customer"
+CREATE TABLE "Customer"
 (
-    "Customer_Id" uuid NOT NULL,
-    "Customer_FirstName" character varying,
-    "Customer_LastName" character varying,
-    "Customer_Address1" character varying,
-    "Customer_Address2" character varying,
-    "Customer_Email" character varying,
-    "Customer_PlzId" uuid,
-    PRIMARY KEY ("Customer_Id")
+    "Customer_Id" SERIAL PRIMARY KEY,
+    "Customer_FirstName" VARCHAR,
+    "Customer_LastName" VARCHAR,
+    "Customer_Address1" VARCHAR,
+    "Customer_Address2" VARCHAR,
+    "Customer_Email" VARCHAR,
+    "Customer_PlzId" integer
 );
 
-CREATE TABLE public."Document"
+CREATE TABLE "Document"
 (
-    "Document_Id" uuid NOT NULL,
+    "Document_Id" SERIAL PRIMARY KEY,
     "Document_Number" integer NOT NULL,
-    "Document_TypeId" uuid,
-    "Document_CreatorId" uuid,
-    "Document_SendeeId" uuid,
-    "Document_StatusId" uuid,
-    "Document_ArticlePositionId" uuid,
-    PRIMARY KEY ("Document_Id")
+    "Document_TypeId" integer,
+    "Document_CreatorId" integer,
+    "Document_SendeeId" integer,
+    "Document_StatusId" integer,
+    "Document_ArticlePositionId" integer
 );
 
-CREATE TABLE public."DocumentType"
+CREATE TABLE "DocumentType"
 (
-    "DocumentType_Id" uuid NOT NULL,
-    "DocumentType_Title" character varying,
-    "DocumentType_Description" character varying,
-    PRIMARY KEY ("DocumentType_Id")
+    "DocumentType_Id" SERIAL PRIMARY KEY,
+    "DocumentType_Title" VARCHAR,
+    "DocumentType_Description" VARCHAR
 );
 
-CREATE TABLE public."Plz"
+CREATE TABLE "Plz"
 (
-    "Plz_Id" uuid NOT NULL,
-    "Plz_Number" integer,
-    "Plz_City" character varying,
-    PRIMARY KEY ("Plz_Id")
+    "Plz_Id" SERIAL PRIMARY KEY,
+    "Plz_Number" VARCHAR,
+    "Plz_City" VARCHAR
 );
 
-CREATE TABLE public."TaxRate"
+CREATE TABLE "TaxRate"
 (
-    "Taxrate_Id" uuid NOT NULL,
+    "Taxrate_Id" SERIAL PRIMARY KEY,
     "Taxrate_Percentage" numeric,
-    "Taxrate_Description" character varying,
-    PRIMARY KEY ("Taxrate_Id")
+    "Taxrate_Description" VARCHAR
 );
 
-CREATE TABLE public."User"
+CREATE TABLE "User"
 (
-    "User_Id" uuid NOT NULL,
-    "User_FirstName" character varying,
-    "User_LastName" character varying,
-    "User_Name" character varying,
-    "User_Mail" character varying,
-    "User_Salt" character varying,
-    "User_Password" character varying,
-    PRIMARY KEY ("User_Id")
+    "User_Id" SERIAL PRIMARY KEY,
+    "User_FirstName" VARCHAR,
+    "User_LastName" VARCHAR,
+    "User_DisplayName" VARCHAR,
+    "User_Mail" VARCHAR,
+    "User_Password" text NOT NULL
 );
 
-CREATE TABLE public."DocumentStatus"
+CREATE TABLE "DocumentStatus"
 (
-    "DocumentStatus_Id" uuid NOT NULL,
-    "DocumentStatus_Description" character varying,
-    PRIMARY KEY ("DocumentStatus_Id")
+    "DocumentStatus_Id" SERIAL PRIMARY KEY,
+    "DocumentStatus_Description" VARCHAR
 );
+	
+ALTER TABLE "Article"
+    ADD CONSTRAINT "FK_Article_TaxRate"
+    FOREIGN KEY ("Article_TaxRate") 
+    REFERENCES "TaxRate" ("Taxrate_Id");
 
-ALTER TABLE public."Article"
-    ADD FOREIGN KEY ("Article_TaxRate")
-    REFERENCES public."TaxRate" ("Taxrate_Id")
-    NOT VALID;
+ALTER TABLE "Article"
+    ADD CONSTRAINT "FK_Article_Unit"
+    FOREIGN KEY ("Article_Unit") 
+    REFERENCES "ArticleUnit" ("ArticleUnit_Id");
 
+ALTER TABLE "Customer"
+    ADD CONSTRAINT "FK_Customer_PlzId"
+    FOREIGN KEY ("Customer_PlzId") 
+    REFERENCES "Plz" ("Plz_Id");
 
-ALTER TABLE public."Article"
-    ADD FOREIGN KEY ("Article_Unit")
-    REFERENCES public."ArticleUnit" ("ArticleUnit_Id")
-    NOT VALID;
+ALTER TABLE "ArticlePosition"
+    ADD CONSTRAINT "FK_Document_Id"
+    FOREIGN KEY ("Document_Id") 
+    REFERENCES "Document" ("Document_Id");
+	
+ALTER TABLE "ArticlePosition"
+    ADD CONSTRAINT "FK_Article_Id"
+    FOREIGN KEY ("Article_Id") 
+    REFERENCES "Article" ("Article_Id");
+	
+ALTER TABLE "Document"
+    ADD CONSTRAINT "FK_Document_TypeId"
+    FOREIGN KEY ("Document_TypeId") 
+    REFERENCES "DocumentType" ("DocumentType_Id");
 
-
-ALTER TABLE public."Customer"
-    ADD FOREIGN KEY ("Customer_PlzId")
-    REFERENCES public."Plz" ("Plz_Id")
-    NOT VALID;
-
-ALTER TABLE public."ArticlePosition"
-    ADD FOREIGN KEY ("Document_Id")
-    REFERENCES public."Document" ("Document_Id")
-    NOT VALID;
-
-ALTER TABLE public."Document"
-    ADD FOREIGN KEY ("Document_ArticlePositionId")
-    REFERENCES public."ArticlePosition" ("ArticlePosition_Id")
-    NOT VALID;
-
-
-ALTER TABLE public."Document"
-    ADD FOREIGN KEY ("Document_CreatorId")
-    REFERENCES public."User" ("User_Id")
-    NOT VALID;
-
-
-ALTER TABLE public."Document"
-    ADD FOREIGN KEY ("Document_SendeeId")
-    REFERENCES public."Customer" ("Customer_Id")
-    NOT VALID;
-
-
-ALTER TABLE public."Document"
-    ADD FOREIGN KEY ("Document_StatusId")
-    REFERENCES public."DocumentStatus" ("DocumentStatus_Id")
-    NOT VALID;
-
-
-ALTER TABLE public."Document"
-    ADD FOREIGN KEY ("Document_TypeId")
-    REFERENCES public."DocumentType" ("DocumentType_Id")
-    NOT VALID;
-
+ALTER TABLE "Document"
+    ADD CONSTRAINT "FK_Document_CreatorId"
+    FOREIGN KEY ("Document_CreatorId") 
+    REFERENCES "User" ("User_Id");
+	
+ALTER TABLE "Document"
+    ADD CONSTRAINT "FK_Document_SendeeId"
+    FOREIGN KEY ("Document_SendeeId") 
+    REFERENCES "Customer" ("Customer_Id");
+	
+ALTER TABLE "Document"
+    ADD CONSTRAINT "FK_Document_StatusId"
+    FOREIGN KEY ("Document_StatusId") 
+    REFERENCES "DocumentStatus" ("DocumentStatus_Id");
+	
+ALTER TABLE "Document"
+    ADD CONSTRAINT "FK_Document_ArticlePositionId"
+    FOREIGN KEY ("Document_ArticlePositionId") 
+    REFERENCES "ArticlePosition" ("ArticlePosition_Id");
+	
 END;
