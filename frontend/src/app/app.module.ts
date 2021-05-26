@@ -5,8 +5,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { MenubarModule } from 'primeng/menubar';
 
+import {ButtonModule} from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
+import {CardModule} from 'primeng/card';
+import {InputTextModule} from 'primeng/inputtext';
 
 
 @NgModule({
@@ -18,7 +21,10 @@ import { MenubarModule } from 'primeng/menubar';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MenubarModule
+    MenubarModule,
+    CardModule,
+    ButtonModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent]
