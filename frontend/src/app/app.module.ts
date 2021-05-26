@@ -17,6 +17,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import { NavigationComponent } from './navigation/navigation.component';
 import {AvatarModule} from 'primeng/avatar';
 import {KnobModule} from 'primeng/knob';
+import { CustomerComponent } from './customer/customer.component';
 
 
 
@@ -26,7 +27,8 @@ import {KnobModule} from 'primeng/knob';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    NavigationComponent
+    NavigationComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,

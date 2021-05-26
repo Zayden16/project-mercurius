@@ -17,12 +17,13 @@ export class NavigationComponent implements OnInit {
       {
           label: 'Dashboard',
           icon: 'pi pi-home',
+          routerLink: '/dashboard'
       },
       {
         label: 'Customers',
         icon: 'pi pi-users',
         items: [
-          {label: 'Customers', icon: 'pi pi-user'},
+          {label: 'Customers', icon: 'pi pi-user', routerLink: '/customers'},
           {label: 'PLZ Codes', icon: 'pi pi-map-marker'},
       ]
       },
