@@ -5,17 +5,24 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 import {ButtonModule} from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
+import {PanelMenuModule} from 'primeng/panelmenu';
+import { NavigationComponent } from './navigation/navigation.component';
+import {AvatarModule} from 'primeng/avatar';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +31,9 @@ import {InputTextModule} from 'primeng/inputtext';
     MenubarModule,
     CardModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    PanelMenuModule,
+    AvatarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
