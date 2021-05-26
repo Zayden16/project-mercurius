@@ -45,6 +45,12 @@ CREATE TABLE "Document"
     "Document_ArticlePositionId" integer
 );
 
+CREATE TABLE "DocumentStatus"
+(
+    "DocumentStatus_Id" SERIAL PRIMARY KEY,
+    "DocumentStatus_Description" VARCHAR
+);
+
 CREATE TABLE "DocumentType"
 (
     "DocumentType_Id" SERIAL PRIMARY KEY,
@@ -74,12 +80,6 @@ CREATE TABLE "User"
     "User_DisplayName" VARCHAR,
     "User_Mail" VARCHAR,
     "User_Password" text NOT NULL
-);
-
-CREATE TABLE "DocumentStatus"
-(
-    "DocumentStatus_Id" SERIAL PRIMARY KEY,
-    "DocumentStatus_Description" VARCHAR
 );
 	
 ALTER TABLE "Article"

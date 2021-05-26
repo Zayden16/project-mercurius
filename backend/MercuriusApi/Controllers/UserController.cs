@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using MercuriusApi.DataAccess;
 using MercuriusApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace MercuriusApi.Controllers
 {
@@ -30,14 +27,12 @@ namespace MercuriusApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var obj = Guid.NewGuid();
-            patient.User_Id = obj.ToString();
             _dataAccessProvider.AddUserRecord(patient);
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public User Details(string id)
+        public User Details(int id)
         {
             return _dataAccessProvider.GetUserSingleRecord(id);
         }
@@ -54,7 +49,7 @@ namespace MercuriusApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(int id)
         {
             var data = _dataAccessProvider.GetUserSingleRecord(id);
             if (data == null)
