@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  umsatz: number = 0;
+  rechnungen: number = 0;
+  artikel: number = 0;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+    this.umsatz = 50;
+    this.rechnungen  = 420;
+    this.artikel = 1291;
   }
 
 }

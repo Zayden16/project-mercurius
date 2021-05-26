@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +16,8 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import { NavigationComponent } from './navigation/navigation.component';
 import {AvatarModule} from 'primeng/avatar';
+import {KnobModule} from 'primeng/knob';
+
 
 
 
@@ -28,12 +32,14 @@ import {AvatarModule} from 'primeng/avatar';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     MenubarModule,
     CardModule,
     ButtonModule,
     InputTextModule,
     PanelMenuModule,
     AvatarModule,
+    KnobModule
   ],
   providers: [],
   bootstrap: [AppComponent]

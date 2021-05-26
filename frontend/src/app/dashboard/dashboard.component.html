@@ -1,4 +1,14 @@
 <div class="content-wrapper">
     <app-navigation></app-navigation>
-    <p-card class="p-m-0"></p-card>
+    <div id="container" class="p-m-0" header="Dashboard">
+        <p-card class="gauge p-m-5 p-shadow-12" header="Umsatz">
+            <p-knob [(ngModel)]="umsatz" [size]="200" [min]="0" [max]="999" [readonly]="true"></p-knob>
+        </p-card>
+        <p-card class="gauge p-m-5 p-shadow-12" header="Offene Rechnungen">
+            <p-knob [(ngModel)]="rechnungen" [size]="200" [min]="0" [max]="999" [readonly]="true"></p-knob>
+        </p-card>
+        <p-card class="gauge p-m-5 p-shadow-12" header="Artikel">
+            <p-knob [(ngModel)]="artikel" [size]="200" [min]="0" [max]="1400" [readonly]="true"></p-knob>
+        </p-card>
+    </div>
 </div>
