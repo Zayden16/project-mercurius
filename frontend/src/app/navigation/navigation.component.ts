@@ -22,7 +22,7 @@ export class NavigationComponent implements OnInit {
         label: 'Customers',
         icon: 'pi pi-users',
         items: [
-          {label: 'Users', icon: 'pi pi-user'},
+          {label: 'Customers', icon: 'pi pi-user'},
           {label: 'PLZ Codes', icon: 'pi pi-map-marker'},
       ]
       },
@@ -41,7 +41,11 @@ export class NavigationComponent implements OnInit {
       },
       {
         label: 'Settings',
-        icon: 'pi pi-cog'
+        icon: 'pi pi-cog',
+        items: [
+          {label: 'Users', icon: 'pi pi-user'},
+          {label: 'Sign Out', icon: 'pi pi-sign-out'},
+      ]
       }
   ];
   }
