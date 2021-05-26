@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.19
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.ch
+      - PGADMIN_DEFAULT_PASSWORD=secret
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    volumes:
+       - pgadmin-data:/root/.pgadmin
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=m151
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres-db:
+  pgadmin-data:
