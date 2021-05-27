@@ -3,12 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-
 import {ButtonModule} from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import {CardModule} from 'primeng/card';
@@ -17,10 +11,14 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import { NavigationComponent } from './navigation/navigation.component';
 import {AvatarModule} from 'primeng/avatar';
 import {KnobModule} from 'primeng/knob';
+import {TableModule} from 'primeng/table';
+
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { CustomerComponent } from './customer/customer.component';
-
-
-
 
 @NgModule({
   declarations: [
@@ -41,7 +39,8 @@ import { CustomerComponent } from './customer/customer.component';
     InputTextModule,
     PanelMenuModule,
     AvatarModule,
-    KnobModule
+    KnobModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

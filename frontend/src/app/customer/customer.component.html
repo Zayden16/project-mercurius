@@ -1,4 +1,30 @@
 <div class="content-wrapper">
     <app-navigation></app-navigation>
-    <h1>Customer</h1>
+    <div class="p-m-0 container">
+        <h1>Customers</h1>
+        <p-table [value]="customers" class="p-shadow-12">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Address 1</th>
+                    <th>Addresse 2</th>
+                    <th>Email</th>
+                    <th>PLZ</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+                <tr>
+                    <td>{{customer.id}}</td>
+                    <td>{{customer.firstName}}</td>
+                    <td>{{customer.lastName}}</td>
+                    <td>{{customer.address1}}</td>
+                    <td>{{customer.address2}}</td>
+                    <td>{{customer.email}}</td>
+                    <td>{{customer.plz}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
