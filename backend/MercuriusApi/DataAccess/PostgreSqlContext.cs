@@ -3,19 +3,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MercuriusApi.DataAccess
 {
-    public class PostgreSqlContext: DbContext  
-    {  
-        public PostgreSqlContext(DbContextOptions<PostgreSqlContext> options) : base(options)  
-        {  
-        }  
-  
-        public DbSet<User> User { get; set; }  
-  
+    public class PostgreSqlContext : DbContext
+    {
+        public PostgreSqlContext(DbContextOptions<PostgreSqlContext> options) : base(options)
+        {
+        }
+
+        #region Properties
+
+        public DbSet<User> User { get; set; }
+
+        public DbSet<Customer> Customer { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Article>()
                 .HasKey(x => x.Article_Id);
-            
+
             builder.Entity<Article>()
                 .HasOne<TaxRate>()
                 .WithMany()
@@ -88,13 +94,13 @@ namespace MercuriusApi.DataAccess
             builder.Entity<User>()
                 .HasKey(x => x.User_Id);
 
-            base.OnModelCreating(builder);  
-        }  
-  
-        public override int SaveChanges()  
-        {  
-            ChangeTracker.DetectChanges();  
-            return base.SaveChanges();  
-        }  
-    }  
+            base.OnModelCreating(builder);
+        }
+
+        public override int SaveChanges()
+        {
+            ChangeTracker.DetectChanges();
+            return base.SaveChanges();
+        }
+    }
 }

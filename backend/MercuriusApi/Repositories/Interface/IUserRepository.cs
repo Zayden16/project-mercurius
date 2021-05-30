@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using MercuriusApi.Models;
 
-namespace MercuriusApi.DataAccess
+namespace MercuriusApi.Repositories.Interface
 {
-    public interface IDataAccessProvider  
+    public interface IUserRepository  
     {  
-        void AddUserRecord(User patient);  
+        void AddUserRecord(User user);  
 
-        void UpdateUserRecord(User patient);  
+        void UpdateUserRecord(User user);  
 
         void DeleteUserRecord(int id);  
 

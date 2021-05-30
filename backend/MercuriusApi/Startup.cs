@@ -1,4 +1,6 @@
 using MercuriusApi.DataAccess;
+using MercuriusApi.Repositories;
+using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +27,13 @@ namespace MercuriusApi
 
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
-            services.AddScoped<IDataAccessProvider, DataAccessProvider>(); 
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MercuriusApi", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MercuriusApi", Version = "v1" });
             });
         }
 

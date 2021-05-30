@@ -6,43 +6,43 @@ using Microsoft.AspNetCore.Mvc;
 namespace MercuriusApi.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        private readonly IUserRepository _dataAccessProvider;
+        private readonly ICustomerRepository _dataAccessProvider;
 
-        public UserController(IUserRepository dataAccessProvider)
+        public CustomerController(ICustomerRepository dataAccessProvider)
         {
             _dataAccessProvider = dataAccessProvider;
         }
 
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<Customer> Get()
         {
-            return _dataAccessProvider.GetUserRecords();
+            return _dataAccessProvider.GetCustomerRecords();
         }
 
         [HttpGet("{id}")]
-        public User Details(int id)
+        public Customer Details(int id)
         {
-            return _dataAccessProvider.GetUserSingleRecord(id);
+            return _dataAccessProvider.GetCustomerSingleRecord(id);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] User patient)
+        public IActionResult Create([FromBody] Customer patient)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            _dataAccessProvider.AddUserRecord(patient);
+            _dataAccessProvider.AddCustomerRecord(patient);
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult Edit([FromBody] User patient)
+        public IActionResult Edit([FromBody] Customer patient)
         {
             if (ModelState.IsValid)
             {
-                _dataAccessProvider.UpdateUserRecord(patient);
+                _dataAccessProvider.UpdateCustomerRecord(patient);
                 return Ok();
             }
             return BadRequest();
@@ -51,12 +51,12 @@ namespace MercuriusApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteConfirmed(int id)
         {
-            var data = _dataAccessProvider.GetUserSingleRecord(id);
+            var data = _dataAccessProvider.GetCustomerSingleRecord(id);
             if (data == null)
             {
                 return NotFound();
             }
-            _dataAccessProvider.DeleteUserRecord(id);
+            _dataAccessProvider.DeleteCustomerRecord(id);
             return Ok();
         }
     }
