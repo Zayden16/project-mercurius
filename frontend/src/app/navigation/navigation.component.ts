@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -24,12 +25,13 @@ export class NavigationComponent implements OnInit {
         icon: 'pi pi-users',
         items: [
           {label: 'Customers', icon: 'pi pi-user', routerLink: '/customers'},
-          {label: 'PLZ Codes', icon: 'pi pi-map-marker'},
+          {label: 'PLZ Codes', icon: 'pi pi-map-marker', routerLink: '/plz'},
       ]
       },
       {
         label: 'Documents',
-        icon: 'pi pi-file'
+        icon: 'pi pi-file',
+        routerLink: '/documents'
       },
       {
         label: 'Articles',
