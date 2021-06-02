@@ -40,22 +40,21 @@ namespace MercuriusApi.Controllers
         [HttpPut]
         public IActionResult Edit([FromBody] Customer patient)
         {
-            if (ModelState.IsValid)
-            {
-                _dataAccessProvider.UpdateCustomerRecord(patient);
-                return Ok();
-            }
-            return BadRequest();
+            if (!ModelState.IsValid) 
+                return BadRequest();
+
+            _dataAccessProvider.UpdateCustomerRecord(patient);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult Delete(int id)
         {
             var data = _dataAccessProvider.GetCustomerSingleRecord(id);
+
             if (data == null)
-            {
                 return NotFound();
-            }
+
             _dataAccessProvider.DeleteCustomerRecord(id);
             return Ok();
         }

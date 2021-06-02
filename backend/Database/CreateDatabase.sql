@@ -54,7 +54,6 @@ CREATE TABLE "DocumentStatus"
 CREATE TABLE "DocumentType"
 (
     "DocumentType_Id" SERIAL PRIMARY KEY,
-    "DocumentType_Title" VARCHAR,
     "DocumentType_Description" VARCHAR
 );
 

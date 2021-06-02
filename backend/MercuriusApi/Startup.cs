@@ -26,10 +26,18 @@ namespace MercuriusApi
             services.AddControllers();
 
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
+            
             services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IArticlePositionRepository, ArticlePositionRepository>();
+            services.AddScoped<IArticleUnitRepository, ArticleUnitRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IDocumentRepository, DocumentRepository>();
+            services.AddScoped<IDocumentStatusRepository, DocumentStatusRepository>();
+            services.AddScoped<IPlzRepository, PlzRepository>();
+            services.AddScoped<ITaxRateRepository, TaxRateRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddSwaggerGen(c =>
             {

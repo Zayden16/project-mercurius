@@ -10,6 +10,10 @@ namespace MercuriusApi.Controllers
     {
         private readonly IUserRepository _dataAccessProvider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="dataAccessProvider">The data access provider.</param>
         public UserController(IUserRepository dataAccessProvider)
         {
             _dataAccessProvider = dataAccessProvider;
@@ -40,23 +44,10 @@ namespace MercuriusApi.Controllers
         [HttpPut]
         public IActionResult Edit([FromBody] User patient)
         {
-            if (ModelState.IsValid)
-            {
-                _dataAccessProvider.UpdateUserRecord(patient);
-                return Ok();
-            }
-            return BadRequest();
-        }
+            if (!ModelState.IsValid) 
+                return BadRequest();
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var data = _dataAccessProvider.GetUserSingleRecord(id);
-            if (data == null)
-            {
-                return NotFound();
-            }
-            _dataAccessProvider.DeleteUserRecord(id);
+            _dataAccessProvider.UpdateUserRecord(patient);
             return Ok();
         }
     }

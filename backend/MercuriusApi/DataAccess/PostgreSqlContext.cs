@@ -11,9 +11,25 @@ namespace MercuriusApi.DataAccess
 
         #region Properties
 
+        public DbSet<Article> Article { get; set; }
+
+        public DbSet<ArticlePosition> ArticlePosition { get; set; }
+
+        public DbSet<ArticleUnit> ArticleUnit { get; set; }
+
+        public DbSet<TaxRate> TaxRate { get; set; }
+
+        public DbSet<Document> Document { get; set; }
+
+        public DbSet<DocumentStatus> DocumentStatus { get; set; }
+
+        public DbSet<DocumentType> DocumentType { get; set; }
+
         public DbSet<User> User { get; set; }
 
         public DbSet<Customer> Customer { get; set; }
+
+        public DbSet<Plz> Plz { get; set; }
 
         #endregion
 
