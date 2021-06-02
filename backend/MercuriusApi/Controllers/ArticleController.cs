@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercuriusApi.Controllers
@@ -45,30 +47,47 @@ namespace MercuriusApi.Controllers
             }
             catch (Exception exception)
             {
-                return BadRequest(exception);
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
             }
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] Article patient)
         {
-            if (!ModelState.IsValid) 
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.UpdateArticleRecord(patient);
-            return Ok();
+                _dataAccessProvider.UpdateArticleRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var data = _dataAccessProvider.GetArticleSingleRecord(id);
+            try
+            {
+                var data = _dataAccessProvider.GetArticleSingleRecord(id);
 
-            if (data == null)
-                return NotFound();
+                if (data == null)
+                    return NotFound($"Entity with {id} not found.");
 
-            _dataAccessProvider.DeleteArticleRecord(id);
-            return Ok();
+                _dataAccessProvider.DeleteArticleRecord(id);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
     }
 }

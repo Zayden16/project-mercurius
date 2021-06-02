@@ -29,7 +29,7 @@ namespace MercuriusApi.Repositories
             var entity = _context.Article.FirstOrDefault(x => x.Article_Id == article.Article_Id);
 
             if (entity != null)
-                throw new Exception($"Entity with {article.Article_Id} already exists.");
+                throw new Exception($"Entity with id: '{article.Article_Id}' already exists.");
 
             _context.Article.Add(article);
             _context.SaveChanges();
