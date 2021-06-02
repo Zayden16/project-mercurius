@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -34,23 +35,39 @@ namespace MercuriusApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Plz patient)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.AddPlzRecord(patient);
-            return Ok();
+                _dataAccessProvider.AddPlzRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var data = _dataAccessProvider.GetPlzSingleRecord(id);
+            try
+            {
+                var data = _dataAccessProvider.GetPlzSingleRecord(id);
 
-            if (data == null)
-                return NotFound();
+                if (data == null)
+                    return NotFound();
 
-            _dataAccessProvider.DeletePlzRecord(id);
-            return Ok();
+                _dataAccessProvider.DeletePlzRecord(id);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
     }
 }

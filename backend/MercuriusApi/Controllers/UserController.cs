@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -34,21 +35,37 @@ namespace MercuriusApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] User patient)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.AddUserRecord(patient);
-            return Ok();
+                _dataAccessProvider.AddUserRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] User patient)
         {
-            if (!ModelState.IsValid) 
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.UpdateUserRecord(patient);
-            return Ok();
+                _dataAccessProvider.UpdateUserRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
     }
 }

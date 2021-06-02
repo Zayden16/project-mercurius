@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -30,33 +31,57 @@ namespace MercuriusApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Customer patient)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.AddCustomerRecord(patient);
-            return Ok();
+                _dataAccessProvider.AddCustomerRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] Customer patient)
         {
-            if (!ModelState.IsValid) 
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.UpdateCustomerRecord(patient);
-            return Ok();
+                _dataAccessProvider.UpdateCustomerRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var data = _dataAccessProvider.GetCustomerSingleRecord(id);
+            try
+            {
+                var data = _dataAccessProvider.GetCustomerSingleRecord(id);
 
-            if (data == null)
-                return NotFound();
+                if (data == null)
+                    return NotFound();
 
-            _dataAccessProvider.DeleteCustomerRecord(id);
-            return Ok();
+                _dataAccessProvider.DeleteCustomerRecord(id);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
     }
 }
