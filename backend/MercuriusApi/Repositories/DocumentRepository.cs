@@ -26,6 +26,11 @@ namespace MercuriusApi.Repositories
         /// <param name="document">The document.</param>
         public void AddDocumentRecord(Document document)
         {
+            var entity = _context.Document.FirstOrDefault(x => x.Document_Id == document.Document_Id);
+
+            if (entity != null)
+                throw new Exception($"Entity with id: '{document.Document_Id}' already exists.");
+
             _context.Document.Add(document);
             _context.SaveChanges();
         }

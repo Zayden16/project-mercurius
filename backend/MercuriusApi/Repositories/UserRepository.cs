@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MercuriusApi.DataAccess;
 using MercuriusApi.Models;
@@ -25,6 +26,11 @@ namespace MercuriusApi.Repositories
         /// <param name="user">The user.</param>
         public void AddUserRecord(User user)
         {
+            var entity = _context.User.FirstOrDefault(x => x.User_Id == user.User_Id);
+
+            if (entity != null)
+                throw new Exception($"Entity with id: '{user.User_Id}' already exists.");
+
             _context.User.Add(user);
             _context.SaveChanges();
         }

@@ -26,6 +26,11 @@ namespace MercuriusApi.Repositories
         /// <param name="plz">The PLZ.</param>
         public void AddPlzRecord(Plz plz)
         {
+            var entity = _context.Plz.FirstOrDefault(x => x.Plz_Id == plz.Plz_Id);
+
+            if (entity != null)
+                throw new Exception($"Entity with id: '{plz.Plz_Id}' already exists.");
+
             _context.Plz.Add(plz);
             _context.SaveChanges();
         }

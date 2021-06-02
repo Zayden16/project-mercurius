@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -34,33 +35,57 @@ namespace MercuriusApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] ArticlePosition patient)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.AddArticlePositionRecord(patient);
-            return Ok();
+                _dataAccessProvider.AddArticlePositionRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] ArticlePosition patient)
         {
-            if (!ModelState.IsValid) 
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            _dataAccessProvider.UpdateArticlePositionRecord(patient);
-            return Ok();
+                _dataAccessProvider.UpdateArticlePositionRecord(patient);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var data = _dataAccessProvider.GetArticlePositionSingleRecord(id);
+            try
+            {
+                var data = _dataAccessProvider.GetArticlePositionSingleRecord(id);
 
-            if (data == null)
-                return NotFound();
+                if (data == null)
+                    return NotFound();
 
-            _dataAccessProvider.DeleteArticlePositionRecord(id);
-            return Ok();
+                _dataAccessProvider.DeleteArticlePositionRecord(id);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
         }
     }
 }

@@ -26,6 +26,11 @@ namespace MercuriusApi.Repositories
         /// <param name="customer">The customer.</param>
         public void AddCustomerRecord(Customer customer)
         {
+            var entity = _context.Customer.FirstOrDefault(x => x.Customer_Id == customer.Customer_Id);
+
+            if (entity != null)
+                throw new Exception($"Entity with id: '{customer.Customer_Id}' already exists.");
+
             _context.Customer.Add(customer);
             _context.SaveChanges();
         }

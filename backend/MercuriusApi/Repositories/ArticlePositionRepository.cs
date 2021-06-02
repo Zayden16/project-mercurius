@@ -26,6 +26,11 @@ namespace MercuriusApi.Repositories
         /// <param name="articlePosition">The article position.</param>
         public void AddArticlePositionRecord(ArticlePosition articlePosition)
         {
+            var entity = _context.ArticlePosition.FirstOrDefault(x => x.ArticlePosition_Id == articlePosition.ArticlePosition_Id);
+
+            if (entity != null)
+                throw new Exception($"Entity with id: '{articlePosition.ArticlePosition_Id}' already exists.");
+
             _context.ArticlePosition.Add(articlePosition);
             _context.SaveChanges();
         }

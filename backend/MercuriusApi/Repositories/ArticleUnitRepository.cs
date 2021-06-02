@@ -21,32 +21,6 @@ namespace MercuriusApi.Repositories
         }
 
         /// <summary>
-        /// Adds the article unit record.
-        /// </summary>
-        /// <param name="articleUnit">The article unit.</param>
-        public void AddArticleUnitRecord(ArticleUnit articleUnit)
-        {
-            _context.ArticleUnit.Add(articleUnit);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Deletes the article unit record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <exception cref="Exception">Entity with {id} not found.</exception>
-        public void DeleteArticleUnitRecord(int id)
-        {
-            var entity = _context.ArticleUnit.FirstOrDefault(t => t.ArticleUnit_Id == id);
-
-            if (entity == null)
-                throw new Exception($"Entity with {id} not found.");
-
-            _context.ArticleUnit.Remove(entity);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
         /// Gets the article unit single record.
         /// </summary>
         /// <param name="id">The identifier.</param>

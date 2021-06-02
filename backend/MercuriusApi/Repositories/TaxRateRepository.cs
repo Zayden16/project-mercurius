@@ -26,6 +26,11 @@ namespace MercuriusApi.Repositories
         /// <param name="taxRate">The tax rate.</param>
         public void AddTaxRateRecord(TaxRate taxRate)
         {
+            var entity = _context.TaxRate.FirstOrDefault(x => x.Taxrate_Id == taxRate.Taxrate_Id);
+
+            if (entity != null)
+                throw new Exception($"Entity with id: '{taxRate.Taxrate_Id}' already exists.");
+
             _context.TaxRate.Add(taxRate);
             _context.SaveChanges();
         }
