@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import {ButtonModule} from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
@@ -12,7 +14,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import {AvatarModule} from 'primeng/avatar';
 import {KnobModule} from 'primeng/knob';
 import {TableModule} from 'primeng/table';
-
+import {MessageService} from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +23,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CustomerComponent } from './customer/customer.component';
 import { PlzComponent } from './plz/plz.component';
 import { DocumentComponent } from './document/document.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import { DocumentComponent } from './document/document.component';
     CustomerComponent,
     PlzComponent,
     DocumentComponent,
+    UserComponent,
     
   ],
   imports: [
@@ -45,9 +49,11 @@ import { DocumentComponent } from './document/document.component';
     PanelMenuModule,
     AvatarModule,
     KnobModule,
-    TableModule
+    TableModule,
+    HttpClientModule,
+
   ],
-  providers: [],
+  providers: [HttpClientModule, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

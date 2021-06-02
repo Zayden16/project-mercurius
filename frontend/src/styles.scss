@@ -18,3 +18,37 @@ html, body {
   justify-content: space-evenly;
   width: 100%;
 }
+
+@media screen and (max-width: 40rem) {
+  :host ::ng-deep {
+      .p-datatable {
+          &.p-datatable-responsive-demo {
+              .p-datatable-thead > tr > th,
+              .p-datatable-tfoot > tr > td {
+                  display: none !important;
+              }
+
+              .p-datatable-tbody > tr > td {
+                  text-align: left;
+                  display: block;
+                  width: 100%;
+                  float: left;
+                  clear: left;
+                  border: 0 none;
+
+                  .p-column-title {
+                      padding: .4rem;
+                      min-width: 30%;
+                      display: inline-block;
+                      margin: -.4em 1em -.4em -.4rem;
+                      font-weight: bold;
+                  }
+
+                  &:last-child {
+                      border-bottom: 1px solid var(--surface-d);
+                  }
+              }
+          }
+      }
+  }
+}

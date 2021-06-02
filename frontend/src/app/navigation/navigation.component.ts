@@ -46,7 +46,7 @@ export class NavigationComponent implements OnInit {
         label: 'Settings',
         icon: 'pi pi-cog',
         items: [
-          {label: 'Users', icon: 'pi pi-user'},
+          {label: 'Users', icon: 'pi pi-user', routerLink: '/users'},
           {label: 'Sign Out', icon: 'pi pi-sign-out'},
       ]
       }
