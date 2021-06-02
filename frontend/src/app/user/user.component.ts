@@ -19,7 +19,6 @@ export class UserComponent implements OnInit {
     this.users = await this.userService.getUsers();
     console.log(this.users);
       this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-
   }
 
   onRowEditInit(user: User) {
