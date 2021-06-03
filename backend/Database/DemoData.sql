@@ -1,16 +1,3 @@
-SELECT * FROM "Article";
-SELECT * FROM "ArticlePosition";
-SELECT * FROM "ArticleUnit";
-SELECT * FROM "TaxRate";
-
-SELECT * FROM "Document";
-SELECT * FROM "DocumentStatus";
-SELECT * FROM "DocumentType";
-
-SELECT * FROM "User";
-SELECT * FROM "Customer";
-SELECT * FROM "Plz";
-
 BEGIN;
 
 INSERT INTO "User"("User_FirstName", "User_LastName", "User_DisplayName", "User_Mail", "User_Password")  
@@ -20,7 +7,25 @@ INSERT INTO "TaxRate"("Taxrate_Percentage", "Taxrate_Description")
 VALUES (5, 'Tax');
 
 INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
-VALUES ('Pieces');
+VALUES ('stk');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('kg');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('g');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('m');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('m3');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('cm');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('cm3');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('l');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('dl');
+INSERT INTO "ArticleUnit"("ArticleUnit_Text")  
+VALUES ('cl');
 
 INSERT INTO "Article"("Article_Title", "Article_Description", "Article_Price", "Article_TaxRate", "Article_Unit")  
 VALUES ('TestArticle', 'This is a test.', 15.99, 1, 1);
@@ -28,8 +33,8 @@ VALUES ('TestArticle', 'This is a test.', 15.99, 1, 1);
 INSERT INTO "ArticlePosition"("Article_Id", "Article_Quantity")  
 VALUES (1, 15);
 
-INSERT INTO "DocumentType"("DocumentType_Title", "DocumentType_Description")  
-VALUES ('Invoice', 'Invoice description');
+INSERT INTO "DocumentType"("DocumentType_Description")  
+VALUES ('Invoice');
 
 INSERT INTO "DocumentStatus"("DocumentStatus_Description")  
 VALUES ('Active');

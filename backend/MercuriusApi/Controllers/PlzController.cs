@@ -7,40 +7,40 @@ using Microsoft.AspNetCore.Mvc;
 namespace MercuriusApi.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class PlzController : ControllerBase
     {
-        private readonly IUserRepository _dataAccessProvider;
+        private readonly IPlzRepository _dataAccessProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// Initializes a new instance of the <see cref="PlzController"/> class.
         /// </summary>
         /// <param name="dataAccessProvider">The data access provider.</param>
-        public UserController(IUserRepository dataAccessProvider)
+        public PlzController(IPlzRepository dataAccessProvider)
         {
             _dataAccessProvider = dataAccessProvider;
         }
 
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<Plz> Get()
         {
-            return _dataAccessProvider.GetUserRecords();
+            return _dataAccessProvider.GetPlzRecords();
         }
 
         [HttpGet("{id}")]
-        public User Details(int id)
+        public Plz Details(int id)
         {
-            return _dataAccessProvider.GetUserSingleRecord(id);
+            return _dataAccessProvider.GetPlzSingleRecord(id);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] User patient)
+        public IActionResult Create([FromBody] Plz patient)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                _dataAccessProvider.AddUserRecord(patient);
+                _dataAccessProvider.AddPlzRecord(patient);
                 return Ok();
             }
             catch (Exception exception)
@@ -50,15 +50,17 @@ namespace MercuriusApi.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult Edit([FromBody] User patient)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest();
+                var data = _dataAccessProvider.GetPlzSingleRecord(id);
 
-                _dataAccessProvider.UpdateUserRecord(patient);
+                if (data == null)
+                    return NotFound();
+
+                _dataAccessProvider.DeletePlzRecord(id);
                 return Ok();
             }
             catch (Exception exception)

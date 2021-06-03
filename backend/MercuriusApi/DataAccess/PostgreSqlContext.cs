@@ -3,19 +3,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MercuriusApi.DataAccess
 {
-    public class PostgreSqlContext: DbContext  
-    {  
-        public PostgreSqlContext(DbContextOptions<PostgreSqlContext> options) : base(options)  
-        {  
-        }  
-  
-        public DbSet<User> User { get; set; }  
-  
+    public class PostgreSqlContext : DbContext
+    {
+        public PostgreSqlContext(DbContextOptions<PostgreSqlContext> options) : base(options)
+        {
+        }
+
+        #region Properties
+
+        public DbSet<Article> Article { get; set; }
+
+        public DbSet<ArticlePosition> ArticlePosition { get; set; }
+
+        public DbSet<ArticleUnit> ArticleUnit { get; set; }
+
+        public DbSet<TaxRate> TaxRate { get; set; }
+
+        public DbSet<Document> Document { get; set; }
+
+        public DbSet<DocumentStatus> DocumentStatus { get; set; }
+
+        public DbSet<DocumentType> DocumentType { get; set; }
+
+        public DbSet<User> User { get; set; }
+
+        public DbSet<Customer> Customer { get; set; }
+
+        public DbSet<Plz> Plz { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Article>()
                 .HasKey(x => x.Article_Id);
-            
+
             builder.Entity<Article>()
                 .HasOne<TaxRate>()
                 .WithMany()
@@ -88,13 +110,13 @@ namespace MercuriusApi.DataAccess
             builder.Entity<User>()
                 .HasKey(x => x.User_Id);
 
-            base.OnModelCreating(builder);  
-        }  
-  
-        public override int SaveChanges()  
-        {  
-            ChangeTracker.DetectChanges();  
-            return base.SaveChanges();  
-        }  
-    }  
+            base.OnModelCreating(builder);
+        }
+
+        public override int SaveChanges()
+        {
+            ChangeTracker.DetectChanges();
+            return base.SaveChanges();
+        }
+    }
 }
