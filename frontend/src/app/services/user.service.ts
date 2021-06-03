@@ -18,7 +18,7 @@ export class UserService {
 
   getUsers(): Promise<User[]>{
     try {
-      return this.httpClient.get<User[]>(AppSettings.BASE_URL + 'Users').toPromise();
+      return this.httpClient.get<User[]>(AppSettings.BASE_URL + 'User').toPromise();
     } catch (error) {
       this.log(error);
       return Promise.reject();
@@ -26,7 +26,7 @@ export class UserService {
   }
 
   createUser(user: User): void{
-    this.httpClient.post<User>(AppSettings.BASE_URL + 'Users',
+    this.httpClient.post<User>(AppSettings.BASE_URL + 'User',
     {
       "user_FirstName": user.User_FirstName,
       "user_LastName": user.User_LastName,

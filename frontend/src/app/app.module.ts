@@ -10,20 +10,22 @@ import { MenubarModule } from 'primeng/menubar';
 import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
 import {PanelMenuModule} from 'primeng/panelmenu';
-import { NavigationComponent } from './navigation/navigation.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 import {AvatarModule} from 'primeng/avatar';
 import {KnobModule} from 'primeng/knob';
 import {TableModule} from 'primeng/table';
 import {MessageService} from 'primeng/api';
+import {DialogModule} from 'primeng/dialog';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { CustomerComponent } from './customer/customer.component';
-import { PlzComponent } from './plz/plz.component';
-import { DocumentComponent } from './document/document.component';
-import { UserComponent } from './user/user.component';
+import { CustomerComponent } from './components/customer/customer.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DocumentComponent } from './components/document/document.component';
+import { LoginComponent } from './components/login/login.component';
+import { PlzComponent } from './components/plz/plz.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,7 @@ import { UserComponent } from './user/user.component';
     KnobModule,
     TableModule,
     HttpClientModule,
-
+    DialogModule,
   ],
   providers: [HttpClientModule, MessageService],
   bootstrap: [AppComponent]

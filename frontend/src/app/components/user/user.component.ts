@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { User } from 'src/model/User';
-import { UserService } from '../user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -12,6 +12,8 @@ export class UserComponent implements OnInit {
 
   users: User[] = [];
   clonedUsers: any;
+  displayDialog: boolean = false;
+
 
   constructor(private userService: UserService, private messageService: MessageService) { }
 
@@ -38,6 +40,14 @@ export class UserComponent implements OnInit {
   onRowEditCancel(user: User, index: number) {
     this.users[index] = this.clonedUsers[user.User_Id];
     delete this.clonedUsers[user.User_Id];
+  }
+
+  onRowDelete(user: User) {
+    delete this.users[user.User_Id];
+  }
+
+  showDialog(){
+    this.displayDialog = true;
   }
 
 }
