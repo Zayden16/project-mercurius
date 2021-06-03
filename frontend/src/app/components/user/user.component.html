@@ -1,6 +1,7 @@
 <div class="p-grid">
   <app-navigation class="p-col-fixed"></app-navigation>
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
+    <p-toast></p-toast>
     <h1 class="p-m-1">Users</h1>
     <p-table [value]="users" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="user_Id"
       editMode="row" styleClass="p-datatable-res">
@@ -96,31 +97,31 @@
       [(visible)]="displayDialog" [modal]=true>
       <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="username" pInputText>
+          <input type="text" id="username" [(ngModel)]="newUser.User_DisplayName" pInputText>
           <label for="username">Username</label>
         </span>
       </div>
       <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="firstname" pInputText>
+          <input type="text" id="firstname" [(ngModel)]="newUser.User_FirstName" pInputText>
           <label for="firstname">Firstname</label>
         </span>
       </div>
       <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="lastname" pInputText>
+          <input type="text" id="lastname" [(ngModel)]="newUser.User_LastName" pInputText>
           <label for="lastname">Lastname</label>
         </span>
       </div>
       <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="email" pInputText>
+          <input type="text" id="email" [(ngModel)]="newUser.User_Mail" pInputText>
           <label for="email">E-Mail</label>
         </span>
       </div>
       <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="password" id="password" pInputText>
+          <input type="password" id="password" [(ngModel)]="newUser.User_Password" pInputText>
           <label for="password">Password</label>
         </span>
       </div>
@@ -130,7 +131,7 @@
           <label for="confirmpassword">ConfirmPassword</label>
         </span>
       </div>
-      <p-button label="Add User" class="p-m-3 p-button-lg" icon="pi pi-plus"></p-button>
+      <button pButton label="Add User" (click)="createUser()" class="p-m-3" icon="pi pi-plus"></button>
     </p-dialog>
   </div>
 </div>

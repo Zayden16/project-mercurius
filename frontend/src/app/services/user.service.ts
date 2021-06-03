@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Message, MessageService } from 'primeng/api';
-import { Observable } from 'rxjs';
 import { AppSettings } from 'src/appsettings';
 import { User } from 'src/model/User';
 
@@ -12,27 +11,26 @@ export class UserService {
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) { }
 
-  private log(message: string) {
+  public log(message: string) {
     this.messageService.add({severity:'success', summary:'UserService', detail: message});
   }
-
+  
   getUsers(): Promise<User[]>{
     try {
       return this.httpClient.get<User[]>(AppSettings.BASE_URL + 'User').toPromise();
     } catch (error) {
-      this.log(error);
       return Promise.reject();
     }
   }
 
-  createUser(user: User): void{
-    this.httpClient.post<User>(AppSettings.BASE_URL + 'User',
-    {
-      "user_FirstName": user.User_FirstName,
-      "user_LastName": user.User_LastName,
-      "user_DisplayName": user.User_DisplayName,
-      "user_Mail": user.User_Mail,
-      "user_Password": user.User_Password
-    })
+  async createUser(user: User): Promise<any>{
+    return this.httpClient.post(AppSettings.BASE_URL + 'User',
+      {
+        "User_FirstName": user.User_FirstName,
+        "User_LastName": user.User_LastName,
+        "User_DisplayName": user.User_DisplayName,
+        "User_Mail": user.User_Mail,
+        "User_Password": user.User_Password
+      });
   }
 }

@@ -13,14 +13,12 @@ export class UserComponent implements OnInit {
   users: User[] = [];
   clonedUsers: any;
   displayDialog: boolean = false;
-
+  newUser = {} as User;
 
   constructor(private userService: UserService, private messageService: MessageService) { }
 
   async ngOnInit(): Promise<void> {
     this.users = await this.userService.getUsers();
-    console.log(this.users);
-      this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
   }
 
   onRowEditInit(user: User) {
@@ -28,13 +26,7 @@ export class UserComponent implements OnInit {
   }
 
   onRowEditSave(user: User) {
-    if (user.User_Id > 0) {
-        delete this.clonedUsers[user.User_Id];
-        this.messageService.add({severity:'success', summary: 'Success', detail:'User is updated'});
-    }  
-    else {
-        this.messageService.add({severity:'error', summary: 'Error', detail:'Invalid Price'});
-    }
+    
   }
 
   onRowEditCancel(user: User, index: number) {
@@ -46,8 +38,11 @@ export class UserComponent implements OnInit {
     delete this.users[user.User_Id];
   }
 
+  async createUser(){
+    console.log(await this.userService.createUser(this.newUser));
+  }
+
   showDialog(){
     this.displayDialog = true;
   }
-
 }

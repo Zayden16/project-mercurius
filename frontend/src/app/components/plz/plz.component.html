@@ -27,7 +27,7 @@
             <td>
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="plz.plz_Id">
+                  <input pInputText type="text" [(ngModel)]="plz.plz_Number">
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{plz.plz_Number}}
@@ -59,45 +59,21 @@
       </p-table>
       <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
         iconPos="left"></button>
-      <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New User"
+      <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New PLZ"
         [(visible)]="displayDialog" [modal]=true>
         <div class="p-md-4">
           <span class="p-float-label p-m-1">
-            <input type="text" id="username" pInputText>
-            <label for="username">Username</label>
+            <input type="text" id="plz" pInputText>
+            <label for="plz">PLZ</label>
           </span>
         </div>
         <div class="p-md-4">
           <span class="p-float-label p-m-1">
-            <input type="text" id="firstname" pInputText>
-            <label for="firstname">Firstname</label>
+            <input type="text" id="city" pInputText>
+            <label for="city">City</label>
           </span>
         </div>
-        <div class="p-md-4">
-          <span class="p-float-label p-m-1">
-            <input type="text" id="lastname" pInputText>
-            <label for="lastname">Lastname</label>
-          </span>
-        </div>
-        <div class="p-md-4">
-          <span class="p-float-label p-m-1">
-            <input type="text" id="email" pInputText>
-            <label for="email">E-Mail</label>
-          </span>
-        </div>
-        <div class="p-md-4">
-          <span class="p-float-label p-m-1">
-            <input type="password" id="password" pInputText>
-            <label for="password">Password</label>
-          </span>
-        </div>
-        <div class="p-md-4">
-          <span class="p-float-label p-m-1">
-            <input type="password" id="confirmpassword" pInputText>
-            <label for="confirmpassword">ConfirmPassword</label>
-          </span>
-        </div>
-        <p-button label="Add User" class="p-m-3 p-button-lg" icon="pi pi-plus"></p-button>
+        <p-button label="Add PLZ" class="p-m-3 p-button-lg" icon="pi pi-plus"></p-button>
       </p-dialog>
     </div>
   </div>
