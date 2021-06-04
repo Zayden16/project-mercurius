@@ -1,17 +1,5 @@
 <div class="content-wrapper">
   <app-navigation></app-navigation>
-  <!-- <div class="p-m-0 container" header="Dashboard">
-        <p-card class="gauge p-m-5 p-shadow-12" header="Users">
-            <p-knob [(ngModel)]="usersCount" [size]="200" [min]="0" [max]="25" [readonly]="true"></p-knob>
-        </p-card>
-        <p-card class="gauge p-m-5 p-shadow-12" header="Documents">
-            <p-knob [(ngModel)]="documentsCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
-        </p-card>
-        <p-card class="gauge p-m-5 p-shadow-12" header="Articles">
-            <p-knob [(ngModel)]="articlesCount" [size]="200" [min]="0" [max]="1400" [readonly]="true"></p-knob>
-        </p-card>
-    </div> -->
-
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
     <p-toast></p-toast>
     <h1 class="p-m-1">Dashboard</h1>
@@ -32,6 +20,10 @@
         <p-knob [(ngModel)]="articlesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
         <h2>Customers</h2>
       </div>
-      <p-chart pRipple class="p-shadow-12 p-m-4" type="pie" [data]="data" width="52vw" height="40vh"></p-chart>
+      <p-chart pRipple class="chart p-shadow-12 p-m-4" type="pie" [data]="data" width="52vw" height="31vh"></p-chart>
+      <div pRipple class="card p-shadow-12 p-m-4">
+        <p-knob [(ngModel)]="articlesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
+        <h2>SomeOtherStat</h2>
+      </div>
     </div>
   </div>

@@ -9,7 +9,7 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 
 export class AppComponent implements OnInit {
-    title = 'Frontend';
+    title = 'Mercurius';
     constructor(private primengConfig: PrimeNGConfig) {  }
   
     ngOnInit(): void{
