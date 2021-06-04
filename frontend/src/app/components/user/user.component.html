@@ -1,0 +1,137 @@
+<div class="p-grid">
+  <app-navigation class="p-col-fixed"></app-navigation>
+  <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
+    <p-toast></p-toast>
+    <h1 class="p-m-1">Users</h1>
+    <p-table [value]="users" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="user_Id"
+      editMode="row" styleClass="p-datatable-res">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>User ID</th>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>E-Mail</th>
+          <th>Password</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="user">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="user.User_Id">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{user.User_Id}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="user.User_DisplayName">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{user.User_DisplayName}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="user.User_FirstName" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{user.User_FirstName}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="user.User_LastName">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{user.User_LastName}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="user.User_Mail">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{user.User_Mail}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="password" [(ngModel)]="user.User_Password">
+              </ng-template>
+              <ng-template pTemplate="output">
+                ******
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td style="text-align:center">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+              (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+              (click)="onRowEditSave(user)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(user)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              (click)="onRowEditCancel(user, ri)" class="p-button-rounded p-button-text"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
+      iconPos="left"></button>
+    <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New User"
+      [(visible)]="displayDialog" [modal]=true>
+      <div class="p-md-4">
+        <span class="p-float-label p-m-1">
+          <input type="text" id="username" [(ngModel)]="newUser.User_DisplayName" pInputText>
+          <label for="username">Username</label>
+        </span>
+      </div>
+      <div class="p-md-4">
+        <span class="p-float-label p-m-1">
+          <input type="text" id="firstname" [(ngModel)]="newUser.User_FirstName" pInputText>
+          <label for="firstname">Firstname</label>
+        </span>
+      </div>
+      <div class="p-md-4">
+        <span class="p-float-label p-m-1">
+          <input type="text" id="lastname" [(ngModel)]="newUser.User_LastName" pInputText>
+          <label for="lastname">Lastname</label>
+        </span>
+      </div>
+      <div class="p-md-4">
+        <span class="p-float-label p-m-1">
+          <input type="text" id="email" [(ngModel)]="newUser.User_Mail" pInputText>
+          <label for="email">E-Mail</label>
+        </span>
+      </div>
+      <div class="p-md-4">
+        <span class="p-float-label p-m-1">
+          <input type="password" id="password" [(ngModel)]="newUser.User_Password" pInputText>
+          <label for="password">Password</label>
+        </span>
+      </div>
+      <div class="p-md-4">
+        <span class="p-float-label p-m-1">
+          <input type="password" id="confirmpassword" pInputText>
+          <label for="confirmpassword">ConfirmPassword</label>
+        </span>
+      </div>
+      <button pButton label="Add User" (click)="createUser()" class="p-m-3" icon="pi pi-plus"></button>
+    </p-dialog>
+  </div>
+</div>

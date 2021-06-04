@@ -24,7 +24,7 @@ namespace MercuriusApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            services.AddCors();
             var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
             
             services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
@@ -60,6 +60,12 @@ namespace MercuriusApi
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

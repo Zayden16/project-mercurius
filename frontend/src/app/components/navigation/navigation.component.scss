@@ -1,0 +1,20 @@
+.sidenav{
+    height: 100%;
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+}
+
+.user-card{
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.user-card p-avatar{
+    margin-left: 5%;
+}
+
+.user-card h3{
+    margin-left: 5%;
+}

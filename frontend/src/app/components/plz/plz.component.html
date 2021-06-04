@@ -1,0 +1,80 @@
+<div class="p-grid">
+    <app-navigation class="p-col-fixed"></app-navigation>
+    <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
+      <h1 class="p-m-1">PLZ</h1>
+      <p-table [value]="plzs" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="plz_Id"
+        editMode="row" styleClass="p-datatable-res">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ID</th>
+            <th>PLZ</th>
+            <th>City</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-plz let-editing="editing" let-ri="rowIndex">
+          <tr [pEditableRow]="plz">
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="plz.plz_Id">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{plz.plz_Id}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="plz.plz_Number">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{plz.plz_Number}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="plz.plz_City">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{plz.plz_City}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td style="text-align:center">
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                (click)="onRowEditInit(plz)" class="p-button-rounded p-button-text"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                (click)="onRowEditSave(plz)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+              <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(plz)"
+                class="p-button-rounded p-button-text p-button-danger"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                (click)="onRowEditCancel(plz, ri)" class="p-button-rounded p-button-text"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
+        iconPos="left"></button>
+      <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New PLZ"
+        [(visible)]="displayDialog" [modal]=true>
+        <div class="p-md-4">
+          <span class="p-float-label p-m-1">
+            <input type="text" id="plz" pInputText>
+            <label for="plz">PLZ</label>
+          </span>
+        </div>
+        <div class="p-md-4">
+          <span class="p-float-label p-m-1">
+            <input type="text" id="city" pInputText>
+            <label for="city">City</label>
+          </span>
+        </div>
+        <p-button label="Add PLZ" class="p-m-3 p-button-lg" icon="pi pi-plus"></p-button>
+      </p-dialog>
+    </div>
+  </div>
+  
