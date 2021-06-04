@@ -17,6 +17,10 @@ import {TableModule} from 'primeng/table';
 import {MessageService} from 'primeng/api';
 import {DialogModule} from 'primeng/dialog';
 import {ToastModule} from 'primeng/toast';
+import {ChartModule} from 'primeng/chart';
+import {RippleModule} from 'primeng/ripple';
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,6 +59,8 @@ import { UserComponent } from './components/user/user.component';
     HttpClientModule,
     DialogModule,
     ToastModule,
+    ChartModule,
+    RippleModule,
   ],
   providers: [HttpClientModule, MessageService],
   bootstrap: [AppComponent]

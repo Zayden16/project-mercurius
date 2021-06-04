@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Document } from 'src/model/Document';
 
 @Component({
   selector: 'app-document',
@@ -6,11 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
-  documents: any;
-  
+
+  documents: Document[] = [];
+  clonedDocuments: any;
+  newDocument =  {} as Document; 
+
+  displayDialog: boolean = false;
+
   constructor() { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+  }
+
+  showDialog(){
+    this.displayDialog = true;
   }
 
 }

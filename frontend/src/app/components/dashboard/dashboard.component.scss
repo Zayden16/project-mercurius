@@ -1,3 +1,8 @@
-.gauge{
-    max-height: 35vh;
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
 }
