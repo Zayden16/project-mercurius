@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MercuriusApi.Controllers
 {
+    [AuthorizationRequired]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -21,7 +22,6 @@ namespace MercuriusApi.Controllers
             _dataAccessProvider = dataAccessProvider;
         }
 
-        [AuthorizationRequired]
         [HttpGet]
         public IEnumerable<User> Get()
         {
