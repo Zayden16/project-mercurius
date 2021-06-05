@@ -1,4 +1,6 @@
-﻿namespace MercuriusApi.Models
+﻿using Newtonsoft.Json;
+
+namespace MercuriusApi.Models
 {
     public class User
     {
@@ -12,6 +14,7 @@
 
         public string User_Mail { get; set; }
 
+        [JsonIgnore]
         public string User_Password { get; set; }
     }
 }

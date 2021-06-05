@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MercuriusApi.Helpers;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace MercuriusApi.Controllers
             _dataAccessProvider = dataAccessProvider;
         }
 
+        [AuthorizationRequired]
         [HttpGet]
         public IEnumerable<User> Get()
         {
