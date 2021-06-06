@@ -40,8 +40,7 @@ import { UserComponent } from './components/user/user.component';
     CustomerComponent,
     PlzComponent,
     DocumentComponent,
-    UserComponent,
-    
+    UserComponent,  
   ],
   imports: [
     BrowserModule,
