@@ -27,9 +27,7 @@ export class AuthenticationService {
   login(Username: string, Password: string){
     return this.httpClient.post<any>(AppSettings.BASE_URL + 'Authentication', {Username, Password})
           .pipe(map(user => {
-            var newUser: User = user;   
-            console.log(newUser);
-                     
+            var newUser: User = user;
             localStorage.setItem('currentUser', JSON.stringify(newUser));
             return user;
           }));
