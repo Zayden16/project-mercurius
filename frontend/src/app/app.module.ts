@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -49,25 +49,26 @@ import { ArticleUnitComponent } from './components/article-unit/article-unit.com
     ArticleUnitComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MenubarModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    PanelMenuModule,
-    AvatarModule,
-    KnobModule,
-    TableModule,
-    HttpClientModule,
-    DialogModule,
-    ToastModule,
-    ChartModule,
-    RippleModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MenubarModule,
+        CardModule,
+        ButtonModule,
+        InputTextModule,
+        PanelMenuModule,
+        AvatarModule,
+        KnobModule,
+        TableModule,
+        HttpClientModule,
+        DialogModule,
+        ToastModule,
+        ChartModule,
+        RippleModule,
+        ReactiveFormsModule,
+    ],
   providers: [HttpClientModule, MessageService],
   bootstrap: [AppComponent]
 })
