@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using MercuriusApi.Helpers;
 using MercuriusApi.Models;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercuriusApi.Controllers
 {
+    [AuthorizationRequired]
     [Route("api/[controller]")]
     public class DocumentStatusController : ControllerBase
     {

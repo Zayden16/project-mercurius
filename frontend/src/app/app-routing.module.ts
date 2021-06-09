@@ -10,17 +10,19 @@ import { ArticleComponent } from './components/article/article.component';
 import { TaxRateComponent } from './components/tax-rate/tax-rate.component';
 import { ArticleUnitComponent } from './components/article-unit/article-unit.component';
 
+import { AuthGuard } from './guards/auth.guard';
+
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch:'full'},
+  { path: '', redirectTo: '/dashboard', pathMatch:'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'customers', component: CustomerComponent},
-  { path: 'plz', component: PlzComponent },
-  { path: 'documents', component: DocumentComponent },
-  { path: 'users', component: UserComponent },
-  { path: 'article', component: ArticleComponent },
-  { path: 'article-unit', component: ArticleUnitComponent },
-  { path: 'tax-rate', component: TaxRateComponent }
+  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  { path: 'customers', component: CustomerComponent, canActivate:[AuthGuard]},
+  { path: 'plz', component: PlzComponent, canActivate:[AuthGuard] },
+  { path: 'documents', component: DocumentComponent, canActivate:[AuthGuard]},
+  { path: 'users', component: UserComponent, canActivate:[AuthGuard]},
+  { path: 'article', component: ArticleComponent, canActivate:[AuthGuard]},
+  { path: 'article-unit', component: ArticleUnitComponent, canActivate:[AuthGuard]},
+  { path: 'tax-rate', component: TaxRateComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({

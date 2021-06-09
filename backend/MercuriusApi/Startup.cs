@@ -1,4 +1,5 @@
 using MercuriusApi.DataAccess;
+using MercuriusApi.Helpers;
 using MercuriusApi.Repositories;
 using MercuriusApi.Repositories.Interface;
 using Microsoft.AspNetCore.Builder;
@@ -67,6 +68,7 @@ namespace MercuriusApi
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
 
+            app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
