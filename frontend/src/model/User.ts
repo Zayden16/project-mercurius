@@ -5,4 +5,5 @@ export interface User{
     User_DisplayName: string
     User_Mail: string
     User_Password: string
-  }
+    User_Token?: string
+  } 

@@ -6,15 +6,16 @@ import { DocumentComponent } from './components/document/document.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlzComponent } from './components/plz/plz.component';
 import { UserComponent } from './components/user/user.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch:'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'customers', component: CustomerComponent},
-  { path: 'plz', component: PlzComponent },
-  { path: 'documents', component: DocumentComponent },
-  { path: 'users', component: UserComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  { path: 'customers', component: CustomerComponent, canActivate:[AuthGuard]},
+  { path: 'plz', component: PlzComponent, canActivate:[AuthGuard] },
+  { path: 'documents', component: DocumentComponent, canActivate:[AuthGuard]},
+  { path: 'users', component: UserComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({

@@ -22,8 +22,8 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string){
-    return this.httpClient.post<any>(AppSettings.BASE_URL + 'authenticate', {username, password})
+  login(Username: string, Password: string){
+    return this.httpClient.post<any>(AppSettings.BASE_URL + 'Authentication', {Username, Password})
           .pipe(map(user => {
             localStorage.setItem('currentUser', JSON.stringify(user));
             return user;
@@ -32,6 +32,5 @@ export class AuthenticationService {
 
   logout(){
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
   }
 }

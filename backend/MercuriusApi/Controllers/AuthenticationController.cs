@@ -28,7 +28,7 @@ namespace MercuriusApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authenticate(AuthenticateRequest requestModel)
+        public IActionResult Authenticate([FromBody]AuthenticateRequest requestModel)
         {
             var response = DoAuth(requestModel);
             if (response == null)
