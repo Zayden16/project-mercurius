@@ -6,6 +6,10 @@ import { DocumentComponent } from './components/document/document.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlzComponent } from './components/plz/plz.component';
 import { UserComponent } from './components/user/user.component';
+import { ArticleComponent } from './components/article/article.component';
+import { TaxRateComponent } from './components/tax-rate/tax-rate.component';
+import { ArticleUnitComponent } from './components/article-unit/article-unit.component';
+
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -16,6 +20,9 @@ const routes: Routes = [
   { path: 'plz', component: PlzComponent, canActivate:[AuthGuard] },
   { path: 'documents', component: DocumentComponent, canActivate:[AuthGuard]},
   { path: 'users', component: UserComponent, canActivate:[AuthGuard]},
+  { path: 'article', component: ArticleComponent, canActivate:[AuthGuard]},
+  { path: 'article-unit', component: ArticleUnitComponent, canActivate:[AuthGuard]},
+  { path: 'tax-rate', component: TaxRateComponent, canActivate:[AuthGuard]}
 ];
 
 @NgModule({

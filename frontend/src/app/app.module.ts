@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 
 import {ButtonModule} from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
@@ -20,8 +20,6 @@ import {ToastModule} from 'primeng/toast';
 import {ChartModule} from 'primeng/chart';
 import {RippleModule} from 'primeng/ripple';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CustomerComponent } from './components/customer/customer.component';
@@ -30,6 +28,10 @@ import { DocumentComponent } from './components/document/document.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlzComponent } from './components/plz/plz.component';
 import { UserComponent } from './components/user/user.component';
+import { ArticleComponent } from './components/article/article.component';
+import { TaxRateComponent } from './components/tax-rate/tax-rate.component';
+import { ArticleUnitComponent } from './components/article-unit/article-unit.component';
+
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 
@@ -43,6 +45,9 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     PlzComponent,
     DocumentComponent,
     UserComponent,  
+    ArticleComponent,
+    TaxRateComponent,
+    ArticleUnitComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +67,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     ToastModule,
     ChartModule,
     RippleModule,
+    ReactiveFormsModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
               {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
