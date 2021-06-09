@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { User } from 'src/model/User';
-import { UserService } from '../../services/user.service';
+import {Component, OnInit} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {User} from 'src/model/User';
+import {UserService} from '../../services/user.service';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -15,44 +16,22 @@ export class UserComponent implements OnInit {
   displayDialog: boolean = false;
   newUser = {} as User;
 
-  constructor(private userService: UserService, private messageService: MessageService) { }
+  newUserForm: FormGroup;
+  submitted = false;
+
+  constructor(private userService: UserService, private messageService: MessageService, private formBuilder: FormBuilder) {
+    this.newUserForm = this.formBuilder.group({
+      username: [null, Validators.required],
+      firstname: [null, Validators.required],
+      lastname: [null, Validators.required],
+      email: [null, Validators.required, Validators.email],
+      password: [null, Validators.required, Validators.minLength(6)],
+      confirmPassword: [null, Validators.required]
+    }, {validators: this.MustMatch('password', 'confirmPassword')});
+  }
 
   async ngOnInit(): Promise<void> {
-    // this.users = await this.userService.getUsers();
-    this.users = [
-      {
-        "User_Id": 1,
-        "User_FirstName": "Comic",
-        "User_LastName": "Sans MS",
-        "User_DisplayName": "csms",
-        "User_Mail": "csms@jk.ch",
-        "User_Password": "string"
-      },
-      {
-        "User_Id": 2,
-        "User_FirstName": "Gritty",
-        "User_LastName": "Benz",
-        "User_DisplayName": "benziner",
-        "User_Mail": "gas@bbzw.ch",
-        "User_Password": "string"
-      },
-      {
-        "User_Id": 3,
-        "User_FirstName": "Vladimir",
-        "User_LastName": "Putin",
-        "User_DisplayName": "Влади́мир",
-        "User_Mail": "gov@ru.ru",
-        "User_Password": "string"
-      },
-      {
-        "User_Id": 4,
-        "User_FirstName": "Elon",
-        "User_LastName": "Musk",
-        "User_DisplayName": "dogelover42069",
-        "User_Mail": "elon@tesla.com",
-        "User_Password": "string"
-      }
-    ]
+    this.users = await this.userService.getUsers();
   }
 
   onRowEditInit(user: User) {
@@ -60,7 +39,7 @@ export class UserComponent implements OnInit {
   }
 
   onRowEditSave(user: User) {
-    
+
   }
 
   onRowEditCancel(user: User, index: number) {
@@ -72,11 +51,38 @@ export class UserComponent implements OnInit {
     delete this.users[user.User_Id];
   }
 
-  async createUser(){
+  async createUser() {
+    this.submitted = true;
+
+    if (this.newUserForm.invalid) {
+      return;
+    }
+
     console.log(await this.userService.createUser(this.newUser));
   }
 
-  showDialog(){
+  showDialog() {
     this.displayDialog = true;
+  }
+
+  get f() { return this.newUserForm.controls; }
+
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+        // return if another validator has already found an error on the matchingControl
+        return;
+      }
+
+      // set error on matchingControl if validation fails
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
   }
 }

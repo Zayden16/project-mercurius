@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -30,6 +30,9 @@ import { DocumentComponent } from './components/document/document.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlzComponent } from './components/plz/plz.component';
 import { UserComponent } from './components/user/user.component';
+import { ArticleComponent } from './components/article/article.component';
+import { TaxRateComponent } from './components/tax-rate/tax-rate.component';
+import { ArticleUnitComponent } from './components/article-unit/article-unit.component';
 
 @NgModule({
   declarations: [
@@ -41,27 +44,31 @@ import { UserComponent } from './components/user/user.component';
     PlzComponent,
     DocumentComponent,
     UserComponent,
-    
+    ArticleComponent,
+    TaxRateComponent,
+    ArticleUnitComponent,
+
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MenubarModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    PanelMenuModule,
-    AvatarModule,
-    KnobModule,
-    TableModule,
-    HttpClientModule,
-    DialogModule,
-    ToastModule,
-    ChartModule,
-    RippleModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MenubarModule,
+        CardModule,
+        ButtonModule,
+        InputTextModule,
+        PanelMenuModule,
+        AvatarModule,
+        KnobModule,
+        TableModule,
+        HttpClientModule,
+        DialogModule,
+        ToastModule,
+        ChartModule,
+        RippleModule,
+        ReactiveFormsModule,
+    ],
   providers: [HttpClientModule, MessageService],
   bootstrap: [AppComponent]
 })
