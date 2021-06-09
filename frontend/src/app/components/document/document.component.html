@@ -3,7 +3,7 @@
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
     <p-toast></p-toast>
     <h1 class="p-m-1">Documents</h1>
-    <p-table [value]="documents" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="document_Id"
+    <p-table [value]="documents" [scrollable]="true" [rows]="5" scrollHeight="500px" [lazy]="true" dataKey="Document_Id"
       editMode="row" styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
@@ -13,6 +13,7 @@
           <th>Document Status</th>
           <th>Document Positions</th>
           <th></th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-document let-editing="editing" let-ri="rowIndex">
@@ -20,19 +21,50 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="document.document_Number">
+                <input pInputText type="text" [(ngModel)]="document.Document_Number">
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.document_Number}}
+                {{document.Document_Number}}
               </ng-template>
             </p-cellEditor>
+          </td>
+          <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="creators" [(ngModel)]="document.document_CreatorId">
-                </p-dropdown>
+                <p-dropdown [options]="creators" [(ngModel)]="document.Document_CreatorId"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.document_CreatorId}}
+                {{document.Document_CreatorId}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="document.Document_SendeeId">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{document.Document_SendeeId}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="document.Document_SendeeId">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{document.Document_SendeeId}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="document.Document_ArticlePositionId">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{document.Document_ArticlePositionId}}
               </ng-template>
             </p-cellEditor>
           </td>
@@ -44,6 +76,10 @@
             <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-trash"
               class="p-button-rounded p-button-text p-button-danger"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              class="p-button-rounded p-button-text"></button>
+          </td>
+          <td style="text-align:center">
+            <button pButton pRipple type="button" icon="pi pi-print"
               class="p-button-rounded p-button-text"></button>
           </td>
         </tr>
