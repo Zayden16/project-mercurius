@@ -37,9 +37,9 @@ export class NavigationComponent implements OnInit {
         label: 'Articles',
         icon: 'pi pi-briefcase',
         items: [
-          {label: 'Articles', icon: 'pi pi-briefcase'},
-          {label: 'Tax Rates', icon: 'pi pi-percentage'},
-          {label: 'Article Units', icon: 'pi pi-tags'}
+          {label: 'Articles', icon: 'pi pi-briefcase', routerLink: '/article'},
+          {label: 'Tax Rates', icon: 'pi pi-percentage', routerLink: '/tax-rate'},
+          {label: 'Article Units', icon: 'pi pi-tags', routerLink: '/article-unit'}
       ]
       },
       {
