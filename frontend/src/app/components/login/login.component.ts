@@ -1,6 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/model/User';
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   username: string = "";
   password: string = "";
   error: string = "";
-  constructor(private router: Router, private authService: AuthenticationService) {   }
+  constructor(private router: Router, private authService: AuthenticationService, private route: ActivatedRoute) {   }
 
   ngOnInit(): void {
   }
@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username, this.password)
       .pipe(first()).subscribe({
         next: () => {
-          this.router.navigateByUrl('/dashboard');
-        },
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigate([returnUrl]);        },
         error: error => {
           this.error = error;
         }

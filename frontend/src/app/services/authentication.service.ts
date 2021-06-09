@@ -10,27 +10,33 @@ import { map } from 'rxjs/operators';
 })
 export class AuthenticationService {
 
-  private currentUserSubject: BehaviorSubject<User>;
+  private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<User>;
 
   constructor(private httpClient: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser') || '{}'));
+    var newusr: string = localStorage.getItem('currentUser') || '{}';
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(newusr));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User{
+
     return this.currentUserSubject.value;
   }
 
   login(Username: string, Password: string){
     return this.httpClient.post<any>(AppSettings.BASE_URL + 'Authentication', {Username, Password})
           .pipe(map(user => {
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            var newUser: User = user;   
+            console.log(newUser);
+                     
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
             return user;
           }));
    }
 
   logout(){
     localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
   }
 }

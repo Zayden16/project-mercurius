@@ -7,6 +7,8 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
+import { AppSettings } from 'src/appsettings';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -14,11 +16,13 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: AuthenticationService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let currentUser = this.authService.currentUserValue;
-    if (currentUser && currentUser.token) {
+    const currentUser = this.authService.currentUserValue;
+    const isLoggedIn = currentUser && currentUser.User_Token;
+    const isApiUrl = request.url.startsWith(AppSettings.BASE_URL);   
+    if (isLoggedIn && isApiUrl) {
       request = request.clone({
-        setHeaders:{
-          Authorization: `Bearer ${currentUser.token}`
+        setHeaders: {
+          Authorization: `Bearer ${currentUser.User_Token}`
         }
       });
     }

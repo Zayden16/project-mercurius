@@ -18,41 +18,8 @@ export class UserComponent implements OnInit {
   constructor(private userService: UserService, private messageService: MessageService) { }
 
   async ngOnInit(): Promise<void> {
-    // this.users = await this.userService.getUsers();
-    this.users = [
-      {
-        "User_Id": 1,
-        "User_FirstName": "Comic",
-        "User_LastName": "Sans MS",
-        "User_DisplayName": "csms",
-        "User_Mail": "csms@jk.ch",
-        "User_Password": "string"
-      },
-      {
-        "User_Id": 2,
-        "User_FirstName": "Gritty",
-        "User_LastName": "Benz",
-        "User_DisplayName": "benziner",
-        "User_Mail": "gas@bbzw.ch",
-        "User_Password": "string"
-      },
-      {
-        "User_Id": 3,
-        "User_FirstName": "Vladimir",
-        "User_LastName": "Putin",
-        "User_DisplayName": "Влади́мир",
-        "User_Mail": "gov@ru.ru",
-        "User_Password": "string"
-      },
-      {
-        "User_Id": 4,
-        "User_FirstName": "Elon",
-        "User_LastName": "Musk",
-        "User_DisplayName": "dogelover42069",
-        "User_Mail": "elon@tesla.com",
-        "User_Password": "string"
-      }
-    ]
+    this.users = await this.userService.getUsers();
+    console.log(this.users);
   }
 
   onRowEditInit(user: User) {

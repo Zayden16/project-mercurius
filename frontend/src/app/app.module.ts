@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 import {ButtonModule} from 'primeng/button';
@@ -30,6 +30,8 @@ import { DocumentComponent } from './components/document/document.component';
 import { LoginComponent } from './components/login/login.component';
 import { PlzComponent } from './components/plz/plz.component';
 import { UserComponent } from './components/user/user.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,10 @@ import { UserComponent } from './components/user/user.component';
     ChartModule,
     RippleModule,
   ],
-  providers: [HttpClientModule, MessageService],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+              {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+               HttpClientModule,
+               MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
