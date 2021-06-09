@@ -15,3 +15,13 @@ Project for M151 &amp; M152
 ```
 Command to run
 ```
+### Database setup
+Switch to database folder
+```
+cd .\backend\Database
+```
+Start docker
+```
+docker compose up -d
+```
+Execute the following two scripts: "CreateDatabase.sql" and "DemoData.sql"
