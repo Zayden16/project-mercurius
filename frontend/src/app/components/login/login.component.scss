@@ -1,8 +1,28 @@
-#flex-wrapper{
-    min-height: 100vh;
-    align-items: center;
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
 }
 
-#card{
-    max-height: 35vh;
+.container {
+    color: white;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-image: url('/assets/Optimized-LoginBanner.png');
+    background-size: cover;
+}
+
+.dark {
+    margin:0;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: rgba(0, 0, 0, 0.5)
+}
+
+.logo{
+    height: 30vh;
+}
+
+.login{
+    width: 227px;
 }
