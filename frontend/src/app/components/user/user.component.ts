@@ -61,11 +61,19 @@ export class UserComponent implements OnInit {
     console.log(await this.userService.createUser(this.newUser));
   }
 
+  async updateUser() {
+     console.log(await this.userService.updateUser(this.newUser));
+  }
+
+  async deleteTaxRate() {
+    await this.userService.deleteTaxRate(3);
+  }
+
   showDialog() {
     this.displayDialog = true;
   }
 
-  get f() { return this.newUserForm.controls; }
+  get newUserFormControls() { return this.newUserForm.controls; }
 
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
