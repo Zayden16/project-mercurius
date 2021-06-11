@@ -6,7 +6,7 @@
 
     <p-table [value]="users" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="User_Id"
              editMode="row" styleClass="p-datatable-res">
-      
+
       <ng-template pTemplate="header">
         <tr>
           <th>User ID</th>
@@ -95,8 +95,10 @@
       </ng-template>
     </p-table>
 
-    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
-            iconPos="left"></button>
+    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus" iconPos="left"></button>
+
+    <button pButton (click)="updateUser()" class="p-m-1 p-button-raised" type="button" label="Update User" icon="pi pi-pencil" iconPos="left"></button>
+    <button pButton (click)="deleteTaxRate()" class="p-m-1 p-button-raised" type="button" label="Delete TaxRate" icon="pi pi-trash" iconPos="left"></button>
 
     <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New User"
               [(visible)]="displayDialog" [modal]=true>
@@ -105,69 +107,69 @@
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="text" id="username" formControlName="username" [(ngModel)]="newUser.User_DisplayName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.firstname.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="username">Username</label>
         </span>
-          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Username is required</div>
+          <div *ngIf="submitted && newUserFormControls.username.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.username.errors.required">Username is required</div>
           </div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="text" id="firstname" formControlName="firstname" [(ngModel)]="newUser.User_FirstName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.firstname.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="firstname">Firstname</label>
         </span>
-          <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
-            <div *ngIf="f.firstname.errors.required">Firstname is required</div>
+          <div *ngIf="submitted && newUserFormControls.firstname.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.firstname.errors.required">Firstname is required</div>
           </div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="text" id="lastname" formControlName="lastname" [(ngModel)]="newUser.User_LastName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.lastname.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.lastname.errors }" pInputText>
           <label for="lastname">Lastname</label>
         </span>
-          <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
-            <div *ngIf="f.lastname.errors.required">Lastname is required</div>
+          <div *ngIf="submitted && newUserFormControls.lastname.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.lastname.errors.required">Lastname is required</div>
           </div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="text" id="email" formControlName="email" [(ngModel)]="newUser.User_Mail"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.email.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.email.errors }" pInputText>
           <label for="email">Email</label>
         </span>
-          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.required">Email is required</div>
-            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+          <div *ngIf="submitted && newUserFormControls.email.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.email.errors.required">Email is required</div>
+            <div *ngIf="newUserFormControls.email.errors.email">Email must be a valid email address</div>
           </div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.User_Password"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.password.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.password.errors }" pInputText>
           <label for="password">Password</label>
         </span>
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+          <div *ngIf="submitted && newUserFormControls.password.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.password.errors.required">Password is required</div>
+            <div *ngIf="newUserFormControls.password.errors.minlength">Password must be at least 6 characters</div>
           </div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="password" id="confirmPassword" formControlName="confirmPassword"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.confirmPassword.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.confirmPassword.errors }" pInputText>
           <label for="confirmPassword">ConfirmPassword</label>
         </span>
-          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-            <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+          <div *ngIf="submitted && newUserFormControls.confirmPassword.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.confirmPassword.errors.required">Confirm Password is required</div>
+            <div *ngIf="newUserFormControls.confirmPassword.errors.mustMatch">Passwords must match</div>
           </div>
         </div>
 
