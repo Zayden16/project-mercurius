@@ -63,5 +63,17 @@ namespace MercuriusApi.Repositories
         {
             return _context.User.ToList();
         }
+
+        public void DeleteUserRecord(int id)
+        {
+            var entity = _context.User.FirstOrDefault(u => u.User_Id == id);
+            if (entity == null)
+            {
+                throw new Exception($"Entity with {id} not found");
+            }
+
+            _context.User.Remove(entity);
+            _context.SaveChanges();
+        }
     }
 }
