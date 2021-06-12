@@ -15,21 +15,25 @@ export class LoginComponent implements OnInit {
   username: string = "";
   password: string = "";
   error: string = "";
-  constructor(private router: Router, private authService: AuthenticationService, private route: ActivatedRoute) {   }
+  constructor(private router: Router, private authService: AuthenticationService, private route: ActivatedRoute) {
+    if (this.authService.currentUserValue) {
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngOnInit(): void {
   }
 
   login(){
     this.authService.login(this.username, this.password)
-      .pipe(first()).subscribe({
-        next: () => {
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigate([returnUrl]);        },
-        error: error => {
-          this.error = error;
-        }
-      })
+    .pipe(first()).subscribe({
+      next: () => {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
+        this.router.navigate([returnUrl]);
+      },
+      error: error => {
+        this.error = error;
+      }
+    })
   }
-
 }
