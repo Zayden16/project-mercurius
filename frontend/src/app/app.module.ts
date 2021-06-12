@@ -19,7 +19,8 @@ import {ToastModule} from 'primeng/toast';
 import {ChartModule} from 'primeng/chart';
 import {RippleModule} from 'primeng/ripple';
 import {DropdownModule} from 'primeng/dropdown';
-
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {ConfirmationService} from 'primeng/api';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -69,12 +70,14 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     RippleModule,
     ReactiveFormsModule,
     FormsModule,
-    DropdownModule
+    DropdownModule,
+    ConfirmPopupModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
               {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
                HttpClientModule,
-               MessageService],
+               MessageService,
+               ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
