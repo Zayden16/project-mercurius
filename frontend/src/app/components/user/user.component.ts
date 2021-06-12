@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService} from 'primeng/api';
 import {User} from 'src/model/User';
 import {UserService} from '../../services/user.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-user',
@@ -19,7 +21,7 @@ export class UserComponent implements OnInit {
   newUserForm: FormGroup;
   submitted = false;
 
-  constructor(private userService: UserService, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private userService: UserService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
     this.newUserForm = this.formBuilder.group({
       username: [null, Validators.required],
       firstname: [null, Validators.required],
@@ -34,12 +36,14 @@ export class UserComponent implements OnInit {
     this.users = await this.userService.getUsers();
   }
 
+  // Row Editor
+
   onRowEditInit(user: User) {
     this.clonedUsers[user.User_Id] = {...user};
   }
 
   onRowEditSave(user: User) {
-
+    this.userService.updateUser(user);
   }
 
   onRowEditCancel(user: User, index: number) {
@@ -47,32 +51,43 @@ export class UserComponent implements OnInit {
     delete this.clonedUsers[user.User_Id];
   }
 
-  onRowDelete(user: User) {
-    delete this.users[user.User_Id];
-  }
-
+  // CRUD
   async createUser() {
     this.submitted = true;
 
     if (this.newUserForm.invalid) {
       return;
     }
-
-    console.log(await this.userService.createUser(this.newUser));
+    await this.userService.createUser(this.newUser);
   }
 
-  async updateUser() {
-     console.log(await this.userService.updateUser(this.newUser));
+  async deleteUser(event: Event, user: User) {
+    this.confirmService.confirm({
+      target: event.target!,
+      message: 'Are you sure?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.deleteuser(user.User_Id);
+        delete this.users[user.User_Id];
+      },
+      reject: () => {
+
+      }
+    })
+   
   }
 
-  async deleteTaxRate() {
-    await this.userService.deleteTaxRate(3);
-  }
+  // Input Dialog
 
   showDialog() {
     this.displayDialog = true;
   }
 
+  hideDialog(){
+    this.displayDialog = false;
+  }
+
+  // Validation
   get newUserFormControls() { return this.newUserForm.controls; }
 
   MustMatch(controlName: string, matchingControlName: string) {
@@ -81,11 +96,9 @@ export class UserComponent implements OnInit {
       const matchingControl = formGroup.controls[matchingControlName];
 
       if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        // return if another validator has already found an error on the matchingControl
         return;
       }
 
-      // set error on matchingControl if validation fails
       if (control.value !== matchingControl.value) {
         matchingControl.setErrors({ mustMatch: true });
       } else {
