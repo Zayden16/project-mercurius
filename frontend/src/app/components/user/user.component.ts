@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.users = await this.userService.getUsers();
+    this.userService.getUsers().then(data => this.users = data);
   }
 
   // Row Editor
