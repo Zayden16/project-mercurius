@@ -46,6 +46,7 @@ export class UserService {
 
   async updateUser(user: User): Promise<any> {
     const body = {
+      User_Id: user.User_Id,
       User_FirstName: user.User_FirstName,
       User_LastName: user.User_LastName,
       User_DisplayName: user.User_DisplayName,
@@ -72,7 +73,7 @@ export class UserService {
     });
   }
 
-  async deleteuser(userId: number): Promise < any > {
+  async deleteUser(userId: number): Promise < any > {
     this.httpClient.delete(AppSettings.BASE_URL + `User/${userId}`)
     .subscribe({
       next: () => {
@@ -90,15 +91,5 @@ export class UserService {
         });
       }
     });
-  }
-
-  async deleteTaxRate(taxRateId: number): Promise<void> {
-    this.httpClient.delete(AppSettings.BASE_URL + `TaxRate/${taxRateId}`)
-      .subscribe({
-        error: error => {
-          //errorMessage = error.message;
-          console.error('There was an error!');
-        }
-      });
   }
 }

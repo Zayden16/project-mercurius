@@ -37,7 +37,6 @@ export class UserComponent implements OnInit {
   }
 
   // Row Editor
-
   onRowEditInit(user: User) {
     this.clonedUsers[user.User_Id] = {...user};
   }
@@ -58,6 +57,7 @@ export class UserComponent implements OnInit {
     if (this.newUserForm.invalid) {
       return;
     }
+    
     await this.userService.createUser(this.newUser);
   }
 
@@ -67,24 +67,20 @@ export class UserComponent implements OnInit {
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.userService.deleteuser(user.User_Id);
+        this.userService.deleteUser(user.User_Id);
         delete this.users[user.User_Id];
+        location.reload();
       },
       reject: () => {
 
       }
     })
-   
+
   }
 
   // Input Dialog
-
   showDialog() {
     this.displayDialog = true;
-  }
-
-  hideDialog(){
-    this.displayDialog = false;
   }
 
   // Validation
