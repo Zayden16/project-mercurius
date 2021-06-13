@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Message, MessageService} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {AppSettings} from 'src/appsettings';
 import {User} from 'src/model/User';
 

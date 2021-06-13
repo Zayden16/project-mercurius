@@ -4,15 +4,12 @@ import {User} from 'src/model/User';
 import {UserService} from '../../services/user.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
   users: User[] = [];
   clonedUsers: any;
   displayDialog: boolean = false;
@@ -57,7 +54,7 @@ export class UserComponent implements OnInit {
     if (this.newUserForm.invalid) {
       return;
     }
-    
+
     await this.userService.createUser(this.newUser);
   }
 
