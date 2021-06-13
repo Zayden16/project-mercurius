@@ -6,7 +6,7 @@
 
     <h1 class="p-m-1">TaxRates</h1>
 
-    <p-table [value]="taxRates" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="Taxrate_Id"
+    <p-table [value]="taxRates" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="Id"
              editMode="row" styleClass="p-datatable-res">
 
       <ng-template pTemplate="header">
@@ -24,30 +24,30 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="taxRate.taxrate_Id">
+                <input pInputText type="text" [(ngModel)]="taxRate.Id">
               </ng-template>
               <ng-template pTemplate="output">
-                {{taxRate.taxrate_Id}}
+                {{taxRate.Id}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="taxRate.Taxrate_Percentage" required>
+                <input pInputText type="text" [(ngModel)]="taxRate.Percentage" required>
               </ng-template>
               <ng-template pTemplate="output">
-                {{taxRate.Taxrate_Percentage}}
+                {{taxRate.Percentage}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="taxRate.Taxrate_Description">
+                <input pInputText type="text" [(ngModel)]="taxRate.Description">
               </ng-template>
               <ng-template pTemplate="output">
-                {{taxRate.Taxrate_Description}}
+                {{taxRate.Description}}
               </ng-template>
             </p-cellEditor>
           </td>
@@ -76,7 +76,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="percentage" formControlName="percentage" [(ngModel)]="newTaxRate.Taxrate_Percentage"
+          <input type="text" id="percentage" formControlName="percentage" [(ngModel)]="newTaxRate.Percentage"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newTaxRateFormControls.percentage.errors }" pInputText>
           <label for="percentage">Percentage</label>
         </span>
@@ -86,7 +86,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="description" formControlName="description" [(ngModel)]="newTaxRate.Taxrate_Description"
+          <input type="text" id="description" formControlName="description" [(ngModel)]="newTaxRate.Description"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newTaxRateFormControls.description.errors }" pInputText>
           <label for="description">Description</label>
         </span>

@@ -4,7 +4,7 @@
     <p-toast></p-toast>
     <p-confirmPopup></p-confirmPopup>
     <h1 class="p-m-1">Users</h1>
-    <p-table [value]="users" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="User_Id"
+    <p-table [value]="users" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="Id"
              editMode="row" styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
@@ -23,57 +23,57 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_Id">
+                <input pInputText type="text" [(ngModel)]="user.Id">
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_Id}}
+                {{user.Id}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_DisplayName">
+                <input pInputText type="text" [(ngModel)]="user.DisplayName">
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_DisplayName}}
+                {{user.DisplayName}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_FirstName" required>
+                <input pInputText type="text" [(ngModel)]="user.FirstName" required>
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_FirstName}}
+                {{user.FirstName}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_LastName">
+                <input pInputText type="text" [(ngModel)]="user.LastName">
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_LastName}}
+                {{user.LastName}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_Mail">
+                <input pInputText type="text" [(ngModel)]="user.Mail">
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_Mail}}
+                {{user.Mail}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="password" [(ngModel)]="user.User_Password">
+                <input pInputText type="password" [(ngModel)]="user.Password">
               </ng-template>
               <ng-template pTemplate="output">
                 ******
@@ -103,7 +103,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="username" formControlName="username" [(ngModel)]="newUser.User_DisplayName"
+          <input type="text" id="username" formControlName="username" [(ngModel)]="newUser.DisplayName"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="username">Username</label>
         </span>
@@ -113,7 +113,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="firstname" formControlName="firstname" [(ngModel)]="newUser.User_FirstName"
+          <input type="text" id="firstname" formControlName="firstname" [(ngModel)]="newUser.FirstName"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="firstname">Firstname</label>
         </span>
@@ -123,7 +123,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="lastname" formControlName="lastname" [(ngModel)]="newUser.User_LastName"
+          <input type="text" id="lastname" formControlName="lastname" [(ngModel)]="newUser.LastName"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.lastname.errors }" pInputText>
           <label for="lastname">Lastname</label>
         </span>
@@ -133,7 +133,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="email" formControlName="email" [(ngModel)]="newUser.User_Mail"
+          <input type="text" id="email" formControlName="email" [(ngModel)]="newUser.Mail"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.email.errors }" pInputText>
           <label for="email">Email</label>
         </span>
@@ -143,7 +143,7 @@
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.User_Password"
+          <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.Password"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.password.errors }" pInputText>
           <label for="password">Password</label>
         </span>

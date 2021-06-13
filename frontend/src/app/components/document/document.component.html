@@ -3,7 +3,7 @@
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
     <p-toast></p-toast>
     <h1 class="p-m-1">Documents</h1>
-    <p-table [value]="documents" [scrollable]="true" [rows]="5" scrollHeight="500px" [lazy]="true" dataKey="Document_Id"
+    <p-table [value]="documents" [scrollable]="true" [rows]="5" scrollHeight="500px" [lazy]="true" dataKey="Id"
       editMode="row" styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
@@ -21,50 +21,50 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="document.Document_Number">
+                <input pInputText type="text" [(ngModel)]="document.Number">
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.Document_Number}}
+                {{document.Number}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="creators" [(ngModel)]="document.Document_CreatorId"></p-dropdown>
+                <p-dropdown [options]="creators" [(ngModel)]="document.CreatorId"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.Document_CreatorId}}
+                {{document.CreatorId}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="document.Document_SendeeId">
+                <input pInputText type="text" [(ngModel)]="document.SendeeId">
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.Document_SendeeId}}
+                {{document.SendeeId}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="document.Document_SendeeId">
+                <input pInputText type="text" [(ngModel)]="document.SendeeId">
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.Document_SendeeId}}
+                {{document.SendeeId}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="document.Document_ArticlePositionId">
+                <input pInputText type="text" [(ngModel)]="document.ArticlePositionId">
               </ng-template>
               <ng-template pTemplate="output">
-                {{document.Document_ArticlePositionId}}
+                {{document.ArticlePositionId}}
               </ng-template>
             </p-cellEditor>
           </td>
@@ -91,7 +91,7 @@
       header="New Document" [(visible)]="displayDialog" [modal]=true>
       <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="number" [(ngModel)]="newDocument.Document_Number" pInputText>
+          <input type="text" id="number" [(ngModel)]="newDocument.Number" pInputText>
           <label for="number">DocumentNumber</label>
         </span>
       </div>
