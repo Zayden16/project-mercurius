@@ -21,9 +21,9 @@ export class TaxRateService {
 
   async createTaxRate(taxRate: TaxRate): Promise<any> {
     return this.httpClient.post(AppSettings.BASE_URL + 'TaxRate', {
-      TaxRate_Id: taxRate.Taxrate_Id,
-      TaxRate_Percentage: taxRate.Taxrate_Percentage,
-      TaxRate_Description: taxRate.Taxrate_Description
+      Id: taxRate.Id,
+      Percentage: taxRate.Percentage,
+      Description: taxRate.Description
     }).subscribe({
       next: () => {
         this.messageService.add({
@@ -44,9 +44,9 @@ export class TaxRateService {
 
   async updateTaxRate(taxRate: TaxRate): Promise<void> {
     const body = {
-      TaxRate_Id: taxRate.Taxrate_Id,
-      TaxRate_Percentage: taxRate.Taxrate_Percentage,
-      TaxRate_Description: taxRate.Taxrate_Description
+      Id: taxRate.Id,
+      Percentage: taxRate.Percentage,
+      Description: taxRate.Description
     };
 
     this.httpClient.put<TaxRate>(AppSettings.BASE_URL + 'TaxRate', body)

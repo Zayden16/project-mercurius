@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { PlzService } from 'src/app/services/plz.service';
-import { Plz } from 'src/model/Plz';
+import {Component, OnInit} from '@angular/core';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {PlzService} from 'src/app/services/plz.service';
+import {Plz} from 'src/model/Plz';
+import {TaxRate} from "../../../model/TaxRate";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-plz',
@@ -11,41 +13,60 @@ import { Plz } from 'src/model/Plz';
 export class PlzComponent implements OnInit {
 
   plzs: Plz[] = [];
-  clonedPlzs: any;
-  displayDialog: boolean = false;
+  newPlz = {} as Plz;
+  newPlzForm: FormGroup;
 
-  constructor(private plzService: PlzService, private messageService: MessageService) { }
+  displayDialog: boolean = false;
+  submitted = false;
+
+  constructor(private plzService: PlzService, private messageService: MessageService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
+    this.newPlzForm = this.formBuilder.group({
+      percentage: [null, Validators.required],
+      description: [null, Validators.required],
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.plzs = await this.plzService.getPlzs();
     console.log(this.plzs);
-      this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+    this.messageService.add({severity: 'success', summary: 'Service Message', detail: 'Via MessageService'});
   }
 
-  onRowEditInit(plz: Plz) {
-    this.clonedPlzs[plz.plz_Id] = {...plz};
-  }
+// CRUD
+  async createTaxRate() {
+    this.submitted = true;
 
-  onRowEditSave(plz: Plz) {
-    if (plz.plz_Id > 0) {
-        delete this.clonedPlzs[plz.plz_Id];
-        this.messageService.add({severity:'success', summary: 'Success', detail:'User is updated'});
-    }  
-    else {
-        this.messageService.add({severity:'error', summary: 'Error', detail:'Invalid Price'});
+    if (this.newPlzForm.invalid) {
+      return;
     }
+
+    //await this.plzService.createTaxRate(this.newPlz);
   }
 
-  onRowEditCancel(plz: Plz, index: number) {
-    this.plzs[index] = this.clonedPlzs[plz.plz_Id];
-    delete this.plzs[plz.plz_Id];
+  async deleteTaxRate(event: Event, taxRate: TaxRate) {
+    this.confirmService.confirm({
+      target: event.target!,
+      message: 'Are you sure?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //this.plzService.deleteTaxRate(taxRate.Id);
+        delete this.plzs[taxRate.Id];
+        location.reload();
+      },
+      reject: () => {
+
+      }
+    })
+
   }
 
-  onRowDelete(plz: Plz) {
-    delete this.plzs[plz.plz_Id];
-  }
-
-  showDialog(){
+  // Input Dialog
+  showDialog() {
     this.displayDialog = true;
+  }
+
+  // Validation
+  get newPlzFormControls() {
+    return this.newPlzForm.controls;
   }
 }

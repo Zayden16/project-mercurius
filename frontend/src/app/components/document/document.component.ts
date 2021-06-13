@@ -16,7 +16,7 @@ export class DocumentComponent implements OnInit {
   users: User[] = [];
   creators: SelectItem[] = [];
   clonedDocuments: any;
-  newDocument =  {} as Document; 
+  newDocument =  {} as Document;
   displayDialog: boolean = false;
 
   constructor(private docService: DocumentService, private userService: UserService) { }
@@ -25,7 +25,7 @@ export class DocumentComponent implements OnInit {
     this.documents = await this.docService.getDocuments();
     this.users = await this.userService.getUsers();
     this.users.forEach(user => {
-      this.creators.push({label: user.User_FirstName + user.User_LastName, value: user.User_Id});
+      this.creators.push({label: user.FirstName + user.LastName, value: user.Id});
     });
   }
 

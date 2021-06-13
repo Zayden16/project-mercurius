@@ -21,11 +21,11 @@ export class UserService {
 
   async createUser(user: User): Promise<any> {
     return this.httpClient.post(AppSettings.BASE_URL + 'User',{
-      User_FirstName: user.User_FirstName,
-      User_LastName: user.User_LastName,
-      User_DisplayName: user.User_DisplayName,
-      User_Mail: user.User_Mail,
-      User_Password: user.User_Password
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      DisplayName: user.DisplayName,
+      Mail: user.Mail,
+      Password: user.Password
     }).subscribe({
       next: () => {
         this.messageService.add({
@@ -46,12 +46,12 @@ export class UserService {
 
   async updateUser(user: User): Promise<any> {
     const body = {
-      User_Id: user.User_Id,
-      User_FirstName: user.User_FirstName,
-      User_LastName: user.User_LastName,
-      User_DisplayName: user.User_DisplayName,
-      User_Mail: user.User_Mail,
-      User_Password: user.User_Password
+      Id: user.Id,
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      DisplayName: user.DisplayName,
+      Mail: user.Mail,
+      Password: user.Password
     };
 
     return this.httpClient.put<User>(AppSettings.BASE_URL + 'User', body)

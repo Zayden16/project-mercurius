@@ -2,8 +2,10 @@
     <app-navigation class="p-col-fixed"></app-navigation>
     <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
       <h1 class="p-m-1">PLZ</h1>
-      <p-table [value]="plzs" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="plz_Id"
+
+      <p-table [value]="plzs" [scrollable]="true" [rows]="4" scrollHeight="550px" [lazy]="true" dataKey="Id"
         editMode="row" styleClass="p-datatable-res">
+
         <ng-template pTemplate="header">
           <tr>
             <th>ID</th>
@@ -12,47 +14,42 @@
             <th></th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-plz let-editing="editing" let-ri="rowIndex">
+
+        <ng-template pTemplate="body" let-plz let-ri="rowIndex">
           <tr [pEditableRow]="plz">
             <td>
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="plz.plz_Id">
+                  <input pInputText type="text" [(ngModel)]="plz.Id">
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{plz.plz_Id}}
+                  {{plz.Id}}
                 </ng-template>
               </p-cellEditor>
             </td>
             <td>
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="plz.plz_Number">
+                  <input pInputText type="text" [(ngModel)]="plz.Number">
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{plz.plz_Number}}
+                  {{plz.Number}}
                 </ng-template>
               </p-cellEditor>
             </td>
             <td>
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="plz.plz_City">
+                  <input pInputText type="text" [(ngModel)]="plz.City">
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{plz.plz_City}}
+                  {{plz.City}}
                 </ng-template>
               </p-cellEditor>
             </td>
-            <td style="text-align:center">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                (click)="onRowEditInit(plz)" class="p-button-rounded p-button-text"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                (click)="onRowEditSave(plz)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
-              <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(plz)"
-                class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                (click)="onRowEditCancel(plz, ri)" class="p-button-rounded p-button-text"></button>
+            <td>
+              <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteTaxRate($event, plz)"
+                      class="p-button-rounded p-button-text p-button-danger"></button>
             </td>
           </tr>
         </ng-template>
@@ -77,4 +74,3 @@
       </p-dialog>
     </div>
   </div>
-  

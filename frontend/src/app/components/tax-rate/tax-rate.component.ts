@@ -35,7 +35,7 @@ export class TaxRateComponent implements OnInit {
 
   // Row Editor
   onRowEditInit(taxRate: TaxRate) {
-    this.clonedTaxRates[taxRate.Taxrate_Id] = {...taxRate};
+    this.clonedTaxRates[taxRate.Id] = {...taxRate};
   }
 
   onRowEditSave(taxRate: TaxRate) {
@@ -43,8 +43,8 @@ export class TaxRateComponent implements OnInit {
   }
 
   onRowEditCancel(taxRate: TaxRate, index: number) {
-    this.taxRates[index] = this.clonedTaxRates[taxRate.Taxrate_Id];
-    delete this.clonedTaxRates[taxRate.Taxrate_Id];
+    this.taxRates[index] = this.clonedTaxRates[taxRate.Id];
+    delete this.clonedTaxRates[taxRate.Id];
   }
 
   // CRUD
@@ -56,6 +56,7 @@ export class TaxRateComponent implements OnInit {
     }
 
     await this.taxRateService.createTaxRate(this.newTaxRate);
+    this.hideDialog()
   }
 
   async deleteTaxRate(event: Event, taxRate: TaxRate) {
@@ -64,8 +65,8 @@ export class TaxRateComponent implements OnInit {
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.taxRateService.deleteTaxRate(taxRate.Taxrate_Id);
-        delete this.taxRates[taxRate.Taxrate_Id];
+        this.taxRateService.deleteTaxRate(taxRate.Id);
+        delete this.taxRates[taxRate.Id];
         location.reload();
       },
       reject: () => {
@@ -78,6 +79,10 @@ export class TaxRateComponent implements OnInit {
   // Input Dialog
   showDialog() {
     this.displayDialog = true;
+  }
+
+  hideDialog() {
+    this.displayDialog = false;
   }
 
   // Validation

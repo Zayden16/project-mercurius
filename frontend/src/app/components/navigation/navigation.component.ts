@@ -27,7 +27,7 @@ export class NavigationComponent implements OnInit {
 
   items: MenuItem[] = [];
   user: User = this.authService.currentUserValue;
-  userInitals: string = this.user.User_FirstName[0] + this.user.User_LastName[0] 
+  userInitals: string = this.user.FirstName[0] + this.user.LastName[0]
   ngOnInit(): void {
     this.items = [{
         label: 'Dashboard',

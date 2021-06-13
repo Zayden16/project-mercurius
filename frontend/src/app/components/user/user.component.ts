@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
 
   // Row Editor
   onRowEditInit(user: User) {
-    this.clonedUsers[user.User_Id] = {...user};
+    this.clonedUsers[user.Id] = {...user};
   }
 
   onRowEditSave(user: User) {
@@ -43,8 +43,8 @@ export class UserComponent implements OnInit {
   }
 
   onRowEditCancel(user: User, index: number) {
-    this.users[index] = this.clonedUsers[user.User_Id];
-    delete this.clonedUsers[user.User_Id];
+    this.users[index] = this.clonedUsers[user.Id];
+    delete this.clonedUsers[user.Id];
   }
 
   // CRUD
@@ -56,6 +56,7 @@ export class UserComponent implements OnInit {
     }
 
     await this.userService.createUser(this.newUser);
+    this.hideDialog()
   }
 
   async deleteUser(event: Event, user: User) {
@@ -64,8 +65,8 @@ export class UserComponent implements OnInit {
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.userService.deleteUser(user.User_Id);
-        delete this.users[user.User_Id];
+        this.userService.deleteUser(user.Id);
+        delete this.users[user.Id];
         location.reload();
       },
       reject: () => {
@@ -78,6 +79,10 @@ export class UserComponent implements OnInit {
   // Input Dialog
   showDialog() {
     this.displayDialog = true;
+  }
+
+  hideDialog() {
+    this.displayDialog = false;
   }
 
   // Validation
