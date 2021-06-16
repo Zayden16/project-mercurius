@@ -1,30 +1,172 @@
-<div class="content-wrapper">
-    <app-navigation></app-navigation>
-    <div class="p-m-0 container">
-        <h1>Customers</h1>
-        <p-table [value]="customers" class="p-shadow-12">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Address 1</th>
-                    <th>Addresse 2</th>
-                    <th>Email</th>
-                    <th>PLZ</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-customer>
-                <tr>
-                    <td>{{customer.id}}</td>
-                    <td>{{customer.firstName}}</td>
-                    <td>{{customer.lastName}}</td>
-                    <td>{{customer.address1}}</td>
-                    <td>{{customer.address2}}</td>
-                    <td>{{customer.email}}</td>
-                    <td>{{customer.plz}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
+<div class="p-grid">
+  <app-navigation class="p-col-fixed"></app-navigation>
+  <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
+    <p-toast></p-toast>
+    <p-confirmPopup></p-confirmPopup>
+
+    <h1 class="p-m-1">Customers</h1>
+
+    <p-table [value]="customers" [scrollable]="true" [rows]="9" scrollHeight="550px" [lazy]="true" dataKey="Id"
+             editMode="row" styleClass="p-datatable-res">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>FirstName</th>
+          <th>LastName</th>
+          <th>Address1</th>
+          <th>Address2</th>
+          <th>Email</th>
+          <th>PlzId</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-customer let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="customer">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="customer.Id" readonly>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.Id}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="customer.FirstName" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.FirstName}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="customer.LastName" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.LastName}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="customer.Address1" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.Address1}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="customer.Address2">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.Address2}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="email" [(ngModel)]="customer.Email" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.Email}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="customer.PlzId" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{customer.PlzId}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td style="text-align:center">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                    (click)="onRowEditInit(customer)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="updateUser(customer)"
+                    class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(customer, ri)" class="p-button-rounded p-button-text"></button>
+          </td>
+          <td>
+            <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteCustomer($event, customer)"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
+            iconPos="left"></button>
+
+    <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center"
+              header="New Customer" [(visible)]="displayDialog" [modal]=true>
+      <form [formGroup]="newCustomerForm" (ngSubmit)="createCustomer()">
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="firstName" formControlName="firstName" [(ngModel)]="newCustomer.FirstName"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.firstName.errors }"
+                 pInputText>
+          <label for="firstName">FirstName</label>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="lastName" formControlName="lastName" [(ngModel)]="newCustomer.LastName"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.lastName.errors }"
+                 pInputText>
+          <label for="lastName">LastName</label>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="address1" formControlName="address1" [(ngModel)]="newCustomer.Address1"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.address1.errors }"
+                 pInputText>
+          <label for="address1">Address1</label>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="address2" formControlName="address2" [(ngModel)]="newCustomer.Address2"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.address2.errors }"
+                 pInputText>
+          <label for="address2">Address2</label>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="email" id="email" formControlName="email" [(ngModel)]="newCustomer.Email"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.email.errors }"
+                 pInputText>
+          <label for="email">Email</label>
+          <div *ngIf="submitted && newCustomerFormControls.email.errors" class="invalid-feedback">
+            <div *ngIf="newCustomerFormControls.email.errors?.email">
+              This is not a valid email.
+            </div>
+          </div>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="number" id="plzId" formControlName="plzId" [(ngModel)]="newCustomer.PlzId"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.plzId.errors }"
+                 pInputText>
+          <label for="plzId">PlzId</label>
+        </div>
+
+        <button pButton type="submit" label="Add Customer" class="p-m-3" icon="pi pi-plus"></button>
+      </form>
+    </p-dialog>
+  </div>
 </div>

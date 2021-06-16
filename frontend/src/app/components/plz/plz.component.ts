@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ConfirmationService, MessageService} from 'primeng/api';
-import {PlzService} from 'src/app/services/plz.service';
+import {ConfirmationService} from 'primeng/api';
 import {Plz} from 'src/model/Plz';
-import {TaxRate} from "../../../model/TaxRate";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {PlzService} from '../../services/plz.service';
+import {FormGroup, FormBuilder, Validators, AbstractControlOptions} from '@angular/forms';
 
 @Component({
   selector: 'app-plz',
@@ -11,50 +10,46 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./plz.component.scss']
 })
 export class PlzComponent implements OnInit {
-
-  plzs: Plz[] = [];
+  postalCodes: Plz[] = [];
   newPlz = {} as Plz;
   newPlzForm: FormGroup;
 
   displayDialog: boolean = false;
   submitted = false;
 
-  constructor(private plzService: PlzService, private messageService: MessageService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
+  constructor(private plzService: PlzService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
     this.newPlzForm = this.formBuilder.group({
-      percentage: [null, Validators.required],
-      description: [null, Validators.required],
+      number: [null, Validators.required],
+      city: [null, Validators.required]
     });
   }
 
   async ngOnInit(): Promise<void> {
-    this.plzs = await this.plzService.getPlzs();
-    console.log(this.plzs);
-    this.messageService.add({severity: 'success', summary: 'Service Message', detail: 'Via MessageService'});
+    this.plzService.getPostalCodes().then(data => this.postalCodes = data);
   }
 
-// CRUD
-  async createTaxRate() {
+  // CRUD
+  async createPlz() {
     this.submitted = true;
 
     if (this.newPlzForm.invalid) {
       return;
     }
 
-    //await this.plzService.createTaxRate(this.newPlz);
+    await this.plzService.createPlz(this.newPlz);
+    this.hideDialog()
   }
 
-  async deleteTaxRate(event: Event, taxRate: TaxRate) {
+  async deletePlz(event: Event, plz: Plz) {
     this.confirmService.confirm({
       target: event.target!,
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        //this.plzService.deleteTaxRate(taxRate.Id);
-        delete this.plzs[taxRate.Id];
-        location.reload();
+      accept: async () => {
+        await this.plzService.deletePlz(plz.Id);
+        delete this.postalCodes[plz.Id];
       },
       reject: () => {
-
       }
     })
 
@@ -65,7 +60,11 @@ export class PlzComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  // Validation
+  hideDialog() {
+    this.displayDialog = false;
+  }
+
+  // Form
   get newPlzFormControls() {
     return this.newPlzForm.controls;
   }

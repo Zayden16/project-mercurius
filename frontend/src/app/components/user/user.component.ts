@@ -85,12 +85,11 @@ export class UserComponent implements OnInit {
     this.displayDialog = false;
   }
 
-  //Form
+  // Form
   get newUserFormControls() {
     return this.newUserForm.controls;
   }
 
-  // Validation
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
