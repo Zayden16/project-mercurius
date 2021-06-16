@@ -65,20 +65,20 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="number" [(ngModel)]="article.TaxRate" required>
+                <p-dropdown [options]="taxRates" [(ngModel)]="article.TaxRate" [style]="{'width':'100%'}"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
-                {{article.TaxRate}}
+                <p-dropdown [options]="taxRates" [(ngModel)]="article.TaxRate" [style]="{'width':'100%'}" [readonly]="true"></p-dropdown>
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="number" [(ngModel)]="article.Unit" required>
+                <p-dropdown [options]="articleUnits" [(ngModel)]="article.Unit" [style]="{'width':'100%'}"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
-                {{article.Unit}}
+                <p-dropdown [options]="articleUnits" [(ngModel)]="article.Unit" [style]="{'width':'100%'}" [readonly]="true"></p-dropdown>
               </ng-template>
             </p-cellEditor>
           </td>
