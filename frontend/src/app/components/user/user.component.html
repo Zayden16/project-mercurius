@@ -23,7 +23,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.Id">
+                <input pInputText type="text" [(ngModel)]="user.Id" readonly>
               </ng-template>
               <ng-template pTemplate="output">
                 {{user.Id}}
@@ -33,7 +33,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.DisplayName">
+                <input pInputText type="text" [(ngModel)]="user.DisplayName" required>
               </ng-template>
               <ng-template pTemplate="output">
                 {{user.DisplayName}}
@@ -53,7 +53,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.LastName">
+                <input pInputText type="text" [(ngModel)]="user.LastName" required>
               </ng-template>
               <ng-template pTemplate="output">
                 {{user.LastName}}
@@ -63,7 +63,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.Mail">
+                <input pInputText type="text" [(ngModel)]="user.Mail" required>
               </ng-template>
               <ng-template pTemplate="output">
                 {{user.Mail}}
@@ -73,7 +73,7 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="password" [(ngModel)]="user.Password">
+                <input pInputText type="password" [(ngModel)]="user.Password" required>
               </ng-template>
               <ng-template pTemplate="output">
                 ******
@@ -84,19 +84,20 @@
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
                     (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                    (click)="onRowEditSave(user)"
+                    (click)="updateUser(user)"
                     class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
                     (click)="onRowEditCancel(user, ri)" class="p-button-rounded p-button-text"></button>
           </td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteUser($event, user)"
-            class="p-button-rounded p-button-text p-button-danger"></button>
+                    class="p-button-rounded p-button-text p-button-danger"></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
-    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus" iconPos="left"></button>
+    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
+            iconPos="left"></button>
     <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New User"
               [(visible)]="displayDialog" [modal]=true>
       <form [formGroup]="newUserForm" (ngSubmit)="createUser()">
@@ -107,8 +108,7 @@
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="username">Username</label>
         </span>
-          <div *ngIf="submitted && newUserFormControls.username.errors" class="invalid-feedback">
-          </div>
+          <div *ngIf="submitted && newUserFormControls.username.errors" class="invalid-feedback"></div>
         </div>
 
         <div class="p-md-4">
@@ -117,8 +117,7 @@
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="firstname">Firstname</label>
         </span>
-          <div *ngIf="submitted && newUserFormControls.firstname.errors" class="invalid-feedback">
-          </div>
+          <div *ngIf="submitted && newUserFormControls.firstname.errors" class="invalid-feedback"></div>
         </div>
 
         <div class="p-md-4">
@@ -127,38 +126,35 @@
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.lastname.errors }" pInputText>
           <label for="lastname">Lastname</label>
         </span>
-          <div *ngIf="submitted && newUserFormControls.lastname.errors" class="invalid-feedback">
-          </div>
+          <div *ngIf="submitted && newUserFormControls.lastname.errors" class="invalid-feedback"></div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
-          <input type="text" id="email" formControlName="email" [(ngModel)]="newUser.Mail"
+          <input type="email" id="email" formControlName="email" [(ngModel)]="newUser.Mail"
                  [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.email.errors }" pInputText>
           <label for="email">Email</label>
         </span>
-          <div *ngIf="submitted && newUserFormControls.email.errors" class="invalid-feedback">
-          </div>
+          <div *ngIf="submitted && newUserFormControls.email.errors" class="invalid-feedback"></div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.Password"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.password.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserForm.get('password')?.errors }" pInputText>
           <label for="password">Password</label>
         </span>
-          <div *ngIf="submitted && newUserFormControls.password.errors" class="invalid-feedback">
-          </div>
+          <div *ngIf="submitted && newUserForm.get('password')?.errors" class="invalid-feedback"></div>
         </div>
 
         <div class="p-md-4">
         <span class="p-float-label p-m-1">
           <input type="password" id="confirmPassword" formControlName="confirmPassword"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.confirmPassword.errors }" pInputText>
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.confirmPassword.errors }"
+                 pInputText>
           <label for="confirmPassword">ConfirmPassword</label>
         </span>
-          <div *ngIf="submitted && newUserFormControls.confirmPassword.errors" class="invalid-feedback">
-          </div>
+          <div *ngIf="submitted && newUserFormControls.confirmPassword.errors" class="invalid-feedback"></div>
         </div>
 
         <button pButton type="submit" label="Add User" (click)="createUser()" class="p-m-3" icon="pi pi-plus"></button>

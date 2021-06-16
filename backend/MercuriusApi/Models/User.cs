@@ -18,8 +18,9 @@ namespace MercuriusApi.Models
 
         [JsonPropertyName("Mail")]
         public string User_Mail { get; set; }
-
+        
         [Newtonsoft.Json.JsonIgnore]
+        [JsonPropertyName("Password")]
         public string User_Password { get; set; }
     }
 }
