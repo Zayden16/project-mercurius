@@ -19,32 +19,36 @@ export class UserService {
     }
   }
 
-  async createUser(user: User): Promise<any> {
-    return this.httpClient.post(AppSettings.BASE_URL + 'User',{
+  async createUser(user: User): Promise<void> {
+    const body = {
       FirstName: user.FirstName,
       LastName: user.LastName,
       DisplayName: user.DisplayName,
       Mail: user.Mail,
       Password: user.Password
-    }).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successfully created User',
-          detail: `Success`
-        });
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed to create User',
-          detail: `Please check Input`
-        });
-      }
-    });
+    };
+
+    await this.httpClient.post(AppSettings.BASE_URL + 'User', body)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully created User',
+            detail: `Success`
+          });
+          location.reload();
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to create User',
+            detail: `Please check Input`
+          });
+        }
+      });
   }
 
-  async updateUser(user: User): Promise<any> {
+  async updateUser(user: User): Promise<void> {
     const body = {
       Id: user.Id,
       FirstName: user.FirstName,
@@ -54,42 +58,43 @@ export class UserService {
       Password: user.Password
     };
 
-    return this.httpClient.put<User>(AppSettings.BASE_URL + 'User', body)
-    .subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successfully modified User',
-          detail: `Success`
-        });
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed to modify User',
-          detail: `Please check Input`
-        });
-      }
-    });
+    await this.httpClient.put<User>(AppSettings.BASE_URL + 'User', body)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully modified User',
+            detail: `Success`
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to modify User',
+            detail: `Please check Input`
+          });
+        }
+      });
   }
 
-  async deleteUser(userId: number): Promise < any > {
-    this.httpClient.delete(AppSettings.BASE_URL + `User/${userId}`)
-    .subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successfully Deleted User',
-          detail: `Success`
-        });
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed to Delete User',
-          detail: `Please check Input`
-        });
-      }
-    });
+  async deleteUser(userId: number): Promise<void> {
+    await this.httpClient.delete(AppSettings.BASE_URL + `User/${userId}`)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully Deleted User',
+            detail: `Success`
+          });
+          location.reload();
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to Delete User',
+            detail: `Please check Input`
+          });
+        }
+      });
   }
 }

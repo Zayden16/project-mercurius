@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ConfirmationService} from 'primeng/api';
 import {User} from 'src/model/User';
 import {UserService} from '../../services/user.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, AbstractControlOptions} from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -12,10 +12,10 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 export class UserComponent implements OnInit {
   users: User[] = [];
   clonedUsers: any;
-  displayDialog: boolean = false;
   newUser = {} as User;
-
   newUserForm: FormGroup;
+
+  displayDialog: boolean = false;
   submitted = false;
 
   constructor(private userService: UserService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
@@ -23,10 +23,10 @@ export class UserComponent implements OnInit {
       username: [null, Validators.required],
       firstname: [null, Validators.required],
       lastname: [null, Validators.required],
-      email: [null, Validators.required, Validators.email],
-      password: [null, Validators.required, Validators.minLength(6)],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, Validators.required]
-    }, {validators: this.MustMatch('password', 'confirmPassword')});
+    }, {validators: this.MustMatch('password', 'confirmPassword')} as AbstractControlOptions);
   }
 
   async ngOnInit(): Promise<void> {
@@ -36,10 +36,6 @@ export class UserComponent implements OnInit {
   // Row Editor
   onRowEditInit(user: User) {
     this.clonedUsers[user.Id] = {...user};
-  }
-
-  onRowEditSave(user: User) {
-    this.userService.updateUser(user);
   }
 
   onRowEditCancel(user: User, index: number) {
@@ -59,18 +55,20 @@ export class UserComponent implements OnInit {
     this.hideDialog()
   }
 
+  async updateUser(user: User) {
+    await this.userService.updateUser(user);
+  }
+
   async deleteUser(event: Event, user: User) {
     this.confirmService.confirm({
       target: event.target!,
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.userService.deleteUser(user.Id);
+      accept: async () => {
+        await this.userService.deleteUser(user.Id);
         delete this.users[user.Id];
-        location.reload();
       },
       reject: () => {
-
       }
     })
 
@@ -85,9 +83,12 @@ export class UserComponent implements OnInit {
     this.displayDialog = false;
   }
 
-  // Validation
-  get newUserFormControls() { return this.newUserForm.controls; }
+  //Form
+  get newUserFormControls() {
+    return this.newUserForm.controls;
+  }
 
+  // Validation
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
@@ -98,7 +99,7 @@ export class UserComponent implements OnInit {
       }
 
       if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
+        matchingControl.setErrors({mustMatch: true});
       } else {
         matchingControl.setErrors(null);
       }
