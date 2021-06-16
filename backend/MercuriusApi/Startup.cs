@@ -39,6 +39,7 @@ namespace MercuriusApi
             services.AddScoped<IPlzRepository, PlzRepository>();
             services.AddScoped<ITaxRateRepository, TaxRateRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<QrCodeGenerator>();
 
             services.AddSwaggerGen(c =>
             {

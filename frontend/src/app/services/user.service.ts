@@ -11,7 +11,7 @@ export class UserService {
   constructor(private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  getUsers(): Promise<User[]> {
+  async getUsers(): Promise<User[]> {
     try {
       return this.httpClient.get<User[]>(AppSettings.BASE_URL + 'User').toPromise();
     } catch (error) {
