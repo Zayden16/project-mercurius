@@ -12,34 +12,26 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 export class TaxRateComponent implements OnInit {
   taxRates: TaxRate[] = [];
   clonedTaxRates: any;
-  displayDialog: boolean = false;
   newTaxRate = {} as TaxRate;
-
   newTaxRateForm: FormGroup;
+
+  displayDialog: boolean = false;
   submitted = false;
 
   constructor(private taxRateService: TaxRateService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
     this.newTaxRateForm = this.formBuilder.group({
       percentage: [null, Validators.required],
-      description: [null, Validators.required],
+      description: [null, Validators.required]
     });
   }
 
   async ngOnInit(): Promise<void> {
-
-    //this.taxRateService.getTaxRates().then(data => this.taxRates = data);
-
-    this.taxRates = await this.taxRateService.getTaxRates();
-    console.log(this.taxRates);
+    this.taxRateService.getTaxRates().then(data => this.taxRates = data);
   }
 
   // Row Editor
   onRowEditInit(taxRate: TaxRate) {
     this.clonedTaxRates[taxRate.Id] = {...taxRate};
-  }
-
-  onRowEditSave(taxRate: TaxRate) {
-    this.taxRateService.updateTaxRate(taxRate);
   }
 
   onRowEditCancel(taxRate: TaxRate, index: number) {
@@ -59,18 +51,20 @@ export class TaxRateComponent implements OnInit {
     this.hideDialog()
   }
 
+  async updateTaxRate(taxRate: TaxRate) {
+    await this.taxRateService.updateTaxRate(taxRate);
+  }
+
   async deleteTaxRate(event: Event, taxRate: TaxRate) {
     this.confirmService.confirm({
       target: event.target!,
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.taxRateService.deleteTaxRate(taxRate.Id);
+      accept: async () => {
+        await this.taxRateService.deleteTaxRate(taxRate.Id);
         delete this.taxRates[taxRate.Id];
-        location.reload();
       },
       reject: () => {
-
       }
     })
 
@@ -85,7 +79,7 @@ export class TaxRateComponent implements OnInit {
     this.displayDialog = false;
   }
 
-  // Validation
+  // Form
   get newTaxRateFormControls() {
     return this.newTaxRateForm.controls;
   }
