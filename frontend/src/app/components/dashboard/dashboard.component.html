@@ -3,27 +3,39 @@
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
     <p-toast></p-toast>
     <h1 class="p-m-1">Dashboard</h1>
+
     <div class="p-d-flex p-flex-wrap">
       <div pRipple class="card p-shadow-12 p-m-4">
         <p-knob [(ngModel)]="usersCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
         <h2>Users</h2>
       </div>
+
       <div pRipple class="card p-shadow-12 p-m-4">
         <p-knob [(ngModel)]="documentsCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
         <h2>Documents</h2>
       </div>
+
       <div pRipple class="card p-shadow-12 p-m-4">
         <p-knob [(ngModel)]="articlesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
         <h2>Articles</h2>
       </div>
+
       <div pRipple class="card p-shadow-12 p-m-4">
-        <p-knob [(ngModel)]="articlesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
+        <p-knob [(ngModel)]="customerCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
         <h2>Customers</h2>
       </div>
-      <p-chart pRipple class="chart p-shadow-12 p-m-4" type="pie" [data]="data" width="52vw" height="31vh"></p-chart>
+
       <div pRipple class="card p-shadow-12 p-m-4">
-        <p-knob [(ngModel)]="articlesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
-        <h2>SomeOtherStat</h2>
+        <p-knob [(ngModel)]="taxRatesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
+        <h2>TaxRates</h2>
+      </div>
+
+      <p-chart pRipple class="chart p-shadow-12 p-m-4" type="pie" [data]="data" width="34vw" height="31vh"></p-chart>
+
+      <div pRipple class="card p-shadow-12 p-m-4">
+        <p-knob [(ngModel)]="postalCodesCount" [size]="200" [min]="0" [max]="50" [readonly]="true"></p-knob>
+        <h2>Postal Codes</h2>
       </div>
     </div>
   </div>
+</div>
