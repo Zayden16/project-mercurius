@@ -17,7 +17,7 @@
           <th>Address1</th>
           <th>Address2</th>
           <th>Email</th>
-          <th>PlzId</th>
+          <th>Postal Code</th>
           <th></th>
           <th></th>
         </tr>
@@ -88,10 +88,10 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="number" [(ngModel)]="customer.PlzId" required>
+                <p-dropdown [options]="postalCodes" [(ngModel)]="customer.PlzId" [style]="{'width':'100%'}"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
-                {{customer.PlzId}}
+                <p-dropdown [options]="postalCodes" [(ngModel)]="customer.PlzId" [style]="{'width':'100%'}" [readonly]="true"></p-dropdown>
               </ng-template>
             </p-cellEditor>
           </td>

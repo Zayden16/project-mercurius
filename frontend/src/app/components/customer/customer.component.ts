@@ -3,6 +3,9 @@ import {ConfirmationService} from 'primeng/api';
 import {Customer} from 'src/model/Customer';
 import {CustomerService} from '../../services/customer.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {Plz} from "../../../model/Plz";
+import {PlzService} from "../../services/plz.service";
+import {SelectItem} from 'primeng/api';
 
 @Component({
   selector: 'app-customer',
@@ -14,11 +17,13 @@ export class CustomerComponent implements OnInit {
   clonedCustomers: any;
   newCustomer = {} as Customer;
   newCustomerForm: FormGroup;
+  postalCodes: SelectItem[] = [];
 
   displayDialog: boolean = false;
   submitted = false;
 
-  constructor(private customerService: CustomerService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
+  constructor(private customerService: CustomerService, private confirmService: ConfirmationService, private formBuilder: FormBuilder,
+              private plzService: PlzService) {
     this.newCustomerForm = this.formBuilder.group({
       firstName: [null, Validators.required],
       lastName: [null, Validators.required],
@@ -31,6 +36,11 @@ export class CustomerComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.customerService.getCustomers().then(data => this.customers = data);
+    this.plzService.getPostalCodes().then(data => {
+      data.forEach((plz: Plz) => {
+        this.postalCodes.push({label: plz.City, value: plz.Id});
+      });
+    });
   }
 
   // Row Editor
