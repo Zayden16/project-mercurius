@@ -19,27 +19,30 @@ export class TaxRateService {
     }
   }
 
-  async createTaxRate(taxRate: TaxRate): Promise<any> {
-    return this.httpClient.post(AppSettings.BASE_URL + 'TaxRate', {
-      Id: taxRate.Id,
+  async createTaxRate(taxRate: TaxRate): Promise<void> {
+    const body = {
       Percentage: taxRate.Percentage,
       Description: taxRate.Description
-    }).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successfully created TaxRate',
-          detail: `Success`
-        });
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed to create TaxRate',
-          detail: `Please check Input`
-        });
-      }
-    });
+    };
+
+    await this.httpClient.post(AppSettings.BASE_URL + 'TaxRate', body)
+      .subscribe({
+        next: () => {
+          location.reload();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully created TaxRate',
+            detail: `Success`
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to create TaxRate',
+            detail: `Please check Input`
+          });
+        }
+      });
   }
 
   async updateTaxRate(taxRate: TaxRate): Promise<void> {
@@ -49,7 +52,7 @@ export class TaxRateService {
       Description: taxRate.Description
     };
 
-    this.httpClient.put<TaxRate>(AppSettings.BASE_URL + 'TaxRate', body)
+    await this.httpClient.put<TaxRate>(AppSettings.BASE_URL + 'TaxRate', body)
       .subscribe({
         next: () => {
           this.messageService.add({
@@ -69,19 +72,20 @@ export class TaxRateService {
   }
 
   async deleteTaxRate(taxRateId: number): Promise<void> {
-    this.httpClient.delete(AppSettings.BASE_URL + `TaxRate/${taxRateId}`)
+    await this.httpClient.delete(AppSettings.BASE_URL + `TaxRate/${taxRateId}`)
       .subscribe({
         next: () => {
+          location.reload();
           this.messageService.add({
             severity: 'success',
-            summary: 'Successfully Deleted TaxRate',
+            summary: 'Successfully deleted TaxRate',
             detail: `Success`
           });
         },
         error: () => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Failed to Delete TaxRate',
+            summary: 'Failed to delete TaxRate',
             detail: `Please check Input`
           });
         }
