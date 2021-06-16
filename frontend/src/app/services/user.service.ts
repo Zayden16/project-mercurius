@@ -31,12 +31,12 @@ export class UserService {
     await this.httpClient.post(AppSettings.BASE_URL + 'User', body)
       .subscribe({
         next: () => {
+          location.reload();
           this.messageService.add({
             severity: 'success',
             summary: 'Successfully created User',
             detail: `Success`
           });
-          location.reload();
         },
         error: () => {
           this.messageService.add({
@@ -81,17 +81,17 @@ export class UserService {
     await this.httpClient.delete(AppSettings.BASE_URL + `User/${userId}`)
       .subscribe({
         next: () => {
+          location.reload();
           this.messageService.add({
             severity: 'success',
-            summary: 'Successfully Deleted User',
+            summary: 'Successfully deleted User',
             detail: `Success`
           });
-          location.reload();
         },
         error: () => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Failed to Delete User',
+            summary: 'Failed to delete User',
             detail: `Please check Input`
           });
         }
