@@ -46,7 +46,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     CustomerComponent,
     PlzComponent,
     DocumentComponent,
-    UserComponent,  
+    UserComponent,
     ArticleComponent,
     TaxRateComponent,
     ArticleUnitComponent,
