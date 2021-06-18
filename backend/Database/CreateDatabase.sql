@@ -128,4 +128,60 @@ ALTER TABLE "ArticlePosition"
     FOREIGN KEY ("Document_Id") 
     REFERENCES "Document" ("Document_Id");
 
+DROP FUNCTION GetDocumentView;
+
+CREATE OR REPLACE FUNCTION GetDocumentView (
+	documentId integer
+)
+	RETURNS TABLE (
+		Document_Number 	INT,
+		User_IBAN 			VARCHAR,
+		User_RefNumber 		VARCHAR,
+		User_FirstName 		VARCHAR,
+		User_LastName 		VARCHAR,
+		User_Mail 			VARCHAR,
+		Customer_FirstName 	VARCHAR,
+		Customer_LastName 	VARCHAR,
+		Customer_Address1 	VARCHAR,
+		Customer_PlzNumber  VARCHAR,
+		Customer_PlzCity    VARCHAR,
+		ArtPos_Quantity     NUMERIC,
+		Art_Title			VARCHAR,
+		Art_Description		VARCHAR,
+		Art_Price			NUMERIC,
+		TaxRate_Percentage	NUMERIC,
+		ArtUnit_Text        VARCHAR
+	)
+	LANGUAGE PLPGSQL
+	AS $$
+	BEGIN 
+		RETURN QUERY
+				SELECT 
+				"Document"."Document_Number", 
+        		"User"."User_IBAN",
+				"User"."User_ReferenceNumber",
+				"User"."User_FirstName",
+				"User"."User_LastName",
+				"User"."User_Mail",
+        		"Customer"."Customer_FirstName",
+				"Customer"."Customer_LastName",
+				"Customer"."Customer_Address1",
+        		"CustomerPlz"."Plz_Number",
+				"CustomerPlz"."Plz_City",
+        		"ArticlePosition"."Article_Quantity",
+        		"Article"."Article_Title",
+				"Article"."Article_Description",
+				"Article"."Article_Price",
+        		"TaxRate"."Taxrate_Percentage",
+        		"ArticleUnit"."ArticleUnit_Text"
+				FROM "Document"
+					JOIN "User" on "User"."User_Id" = "Document"."Document_CreatorId"
+        			JOIN "Customer" on "Customer"."Customer_Id" = "Document"."Document_SendeeId"
+        			JOIN "Plz" as "CustomerPlz" on "CustomerPlz"."Plz_Id" = "Customer"."Customer_PlzId"
+        			JOIN "ArticlePosition" on "ArticlePosition"."Document_Id" = "Document"."Document_Id"
+        			JOIN "Article" on "Article"."Article_Id" = "ArticlePosition"."Article_Id"
+        			JOIN "TaxRate" on "TaxRate"."Taxrate_Id" = "Article"."Article_TaxRate"
+        			JOIN "ArticleUnit" on "ArticleUnit"."ArticleUnit_Id" = "Article"."Article_Unit"
+				WHERE "Document"."Document_Id" = documentId;
+	END;$$
 END;
