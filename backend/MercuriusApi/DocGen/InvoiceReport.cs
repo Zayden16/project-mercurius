@@ -9,19 +9,19 @@ using Microsoft.EntityFrameworkCore;
 namespace MercuriusApi.DocGen
 {
     public class InvoiceReport
-    {        
-      private readonly PostgreSqlContext _context;
+    {
+        private readonly PostgreSqlContext _context;
 
-      public InvoiceReport(PostgreSqlContext context)
-      {
-        _context = context;
-      }
+        public InvoiceReport(PostgreSqlContext context)
+        {
+            _context = context;
+        }
 
-      public string GetReport(int documentId)
-      {
-        var positions = GetDocumentView(documentId).ToList();
-        var sb = new StringBuilder();
-        sb.Append($@"
+        public string GetReport(int documentId)
+        {
+            var positions = GetDocumentView(documentId).ToList();
+            var sb = new StringBuilder();
+            sb.Append($@"
               <html lang='en'>
               <head>
                 <meta charset='UTF-8'>
@@ -64,9 +64,9 @@ namespace MercuriusApi.DocGen
                     <th>Price</th
                   </tr>
             ");
-        foreach (var position in positions)
-        {
-          sb.Append($@"
+            foreach (var position in positions)
+            {
+                sb.Append($@"
               <tr>
                 <td>{position.Art_Title}</td>
                 <td>{position.ArtUnit_Text}</td>
@@ -74,61 +74,68 @@ namespace MercuriusApi.DocGen
                 <td>{position.Art_Price}</td>
               <tr>
           ");
-        }
+            }
 
-        sb.Append($"</table>");
-        sb.Append($"<div class='svg'>");
-        sb.Append(GenerateQrSvg(positions));
-        sb.Append($"</div>");
-        sb.Append(@"
+            sb.Append($"</table>");
+            sb.Append($"<div class='svg'>");
+            sb.Append(GenerateQrSvg(positions));
+            sb.Append($"</div>");
+            sb.Append(@"
                  </body>
                </html>
             ");
             return sb.ToString();
         }
-        
-      private string GenerateQrSvg(List<DocumentDetail> positions)
+
+        private string GenerateQrSvg(List<DocumentDetail> positions)
         {
-          var bill = new Bill
-          {
-            Account = positions.FirstOrDefault().User_IBAN,
-            Creditor = new Address
+            var context = positions.FirstOrDefault();
+
+            if (context == null)
+                return string.Empty;
+
+            var bill = new Bill
             {
-              Name = positions.FirstOrDefault().User_FirstName + positions.FirstOrDefault().User_LastName,
-              AddressLine1 = positions.FirstOrDefault().User_Mail,
-              AddressLine2 = "6004 Luzern",
-              CountryCode = "CH"
-            },
-            Amount = CalculateSum(positions),
-            Currency = "CHF",
-            Debtor = new Address
-            {
-              Name = positions.FirstOrDefault().Customer_FirstName + positions.FirstOrDefault().Customer_LastName,
-              AddressLine1 = positions.FirstOrDefault().Customer_Address1,
-              AddressLine2 = positions.FirstOrDefault().Customer_PlzNumber + positions.FirstOrDefault().Customer_PlzCity,
-              CountryCode = "CH"
-            },
-            UnstructuredMessage = "Generated in Project Mercurius"
-          };
-          var svg = QRBill.Generate(bill);
-          var result = Encoding.UTF8.GetString(svg);
-          return result;
+                Account = context.User_IBAN,
+                Creditor = new Address
+                {
+                    Name = context.User_FirstName + context.User_LastName,
+                    AddressLine1 = context.User_Mail,
+                    AddressLine2 = "6004 Luzern",
+                    CountryCode = "CH"
+                },
+                Amount = CalculateSum(positions),
+                Currency = "CHF",
+                Debtor = new Address
+                {
+                    Name = context.Customer_FirstName + context.Customer_LastName,
+                    AddressLine1 = context.Customer_Address1,
+                    AddressLine2 = context.Customer_PlzNumber + " " + context.Customer_PlzCity,
+                    CountryCode = "CH"
+                },
+                UnstructuredMessage = "Generated in Project Mercurius"
+            };
+
+            var svg = QRBill.Generate(bill);
+            var result = Encoding.UTF8.GetString(svg);
+
+            return result;
         }
 
-      private IEnumerable<DocumentDetail> GetDocumentView(int documentId)
-      {
-        return _context.DocumentDetail.FromSqlInterpolated($"SELECT * FROM GetDocumentView({documentId})");
-      }
-
-      private decimal CalculateSum(List<DocumentDetail> positions)
-      {
-        var total = 0m;
-        foreach (var position in positions)
+        private IEnumerable<DocumentDetail> GetDocumentView(int documentId)
         {
-          var positionTotal = position.Art_Price * position.ArtPos_Quantity;
-          total += positionTotal;
+            return _context.DocumentDetail.FromSqlInterpolated($"SELECT * FROM GetDocumentView({documentId})");
         }
-        return total;
-      }
+
+        private decimal CalculateSum(List<DocumentDetail> positions)
+        {
+            var total = 0m;
+            foreach (var position in positions)
+            {
+                var positionTotal = position.Art_Price * position.ArtPos_Quantity;
+                total += positionTotal;
+            }
+            return total;
+        }
     }
 }
