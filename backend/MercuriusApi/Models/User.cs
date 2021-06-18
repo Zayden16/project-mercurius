@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MercuriusApi.Models
 {
@@ -6,6 +7,14 @@ namespace MercuriusApi.Models
     {
         [JsonPropertyName("Id")]
         public int User_Id { get; set; }
+
+        [MaxLength(34)]
+        [JsonPropertyName("IBAN")]
+        public string User_IBAN { get; set; }
+
+        [MaxLength(27)]
+        [JsonPropertyName("ReferenceNumber")]
+        public string User_ReferenceNumber { get; set; }
 
         [JsonPropertyName("FirstName")]
         public string User_FirstName { get; set; }

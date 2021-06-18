@@ -4,6 +4,5 @@ export interface Document {
     TypeId: number,
     CreatorId: number,
     SendeeId: number,
-    StatusId: number,
-    ArticlePositionId: number
+    StatusId: number
   }

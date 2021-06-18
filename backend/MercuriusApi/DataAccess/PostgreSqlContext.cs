@@ -54,6 +54,11 @@ namespace MercuriusApi.DataAccess
                 .WithMany()
                 .HasForeignKey(x => x.Article_Id);
 
+            builder.Entity<ArticlePosition>()
+                .HasOne<Document>()
+                .WithMany()
+                .HasForeignKey(x => x.Document_Id);
+
             builder.Entity<ArticleUnit>()
                 .HasKey(x => x.ArticleUnit_Id);
 
@@ -87,11 +92,6 @@ namespace MercuriusApi.DataAccess
                 .HasOne<DocumentStatus>()
                 .WithMany()
                 .HasForeignKey(x => x.Document_StatusId);
-
-            builder.Entity<Document>()
-                .HasOne<ArticlePosition>()
-                .WithMany()
-                .HasForeignKey(x => x.Document_ArticlePositionId);
 
             builder.Entity<DocumentStatus>()
                 .HasKey(x => x.DocumentStatus_Id);
