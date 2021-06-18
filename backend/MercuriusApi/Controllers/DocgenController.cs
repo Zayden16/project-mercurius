@@ -1,5 +1,6 @@
 using System;
 using DinkToPdf.Contracts;
+using MercuriusApi.DataAccess;
 using MercuriusApi.DocGen;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,13 @@ namespace MercuriusApi.Controllers
     {
         private readonly IConverter _converter;
         private readonly IReportService _reportService;
-        public DocgenController(IConverter converter)
+        private readonly PostgreSqlContext _context;
+        
+        public DocgenController(IConverter converter, PostgreSqlContext context)
         {
             _converter = converter;
-            _reportService = new ReportService(_converter);
+            _context = context;
+            _reportService = new ReportService(_converter, _context);
         }
         
         [HttpGet("{id}")]

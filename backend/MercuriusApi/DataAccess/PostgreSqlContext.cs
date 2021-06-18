@@ -29,6 +29,8 @@ namespace MercuriusApi.DataAccess
 
         public DbSet<Plz> Plz { get; set; }
 
+        public DbSet<DocumentDetail> DocumentDetail { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -108,6 +110,9 @@ namespace MercuriusApi.DataAccess
             builder.Entity<User>()
                 .HasKey(x => x.User_Id);
 
+            builder.Entity<DocumentDetail>()
+                .HasNoKey();
+            
             base.OnModelCreating(builder);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Codecrete.SwissQRBill.Generator;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using MercuriusApi.DataAccess;
 
 namespace MercuriusApi.DocGen
 {
@@ -8,22 +9,24 @@ namespace MercuriusApi.DocGen
     {
         private readonly IConverter _converter;
         private readonly InvoiceReport _report;
+        private readonly PostgreSqlContext _context;
 
-        public ReportService(IConverter converter)
+        public ReportService(IConverter converter, PostgreSqlContext context)
         {
             _converter = converter;
-            _report = new InvoiceReport();
+            _context = context;
+            _report = new InvoiceReport(context);
         }
 
         public byte[] GeneratePdf(int documentId)
         {
-            var html = _report.GetReport();
+            var html = _report.GetReport(documentId);
             var globalSettings = new GlobalSettings()
             {
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
-                Margins = new MarginSettings {Top = 25, Bottom = 25}
+                Margins = new MarginSettings {Top = 25, Bottom = 0}
             };
             var objectSettings = new ObjectSettings()
             {

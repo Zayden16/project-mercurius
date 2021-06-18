@@ -1,14 +1,27 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Codecrete.SwissQRBill.Generator;
+using MercuriusApi.DataAccess;
+using MercuriusApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MercuriusApi.DocGen
 {
     public class InvoiceReport
-    {
-        public string GetReport()
-        {
-            var sb = new StringBuilder();
-            sb.Append(@"
+    {        
+      private readonly PostgreSqlContext _context;
+
+      public InvoiceReport(PostgreSqlContext context)
+      {
+        _context = context;
+      }
+
+      public string GetReport(int documentId)
+      {
+        var positions = GetDocumentView(documentId).ToList();
+        var sb = new StringBuilder();
+        sb.Append($@"
               <html lang='en'>
               <head>
                 <meta charset='UTF-8'>
@@ -16,28 +29,33 @@ namespace MercuriusApi.DocGen
               <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap' rel='stylesheet'>
                 <title>Invoice</title>
                 <style>
-                  *{
+                  *{{
                     font-family: 'Roboto', sans-serif;
-                  }
-                  table{
+                  }}
+                  table{{
                     border: 1px solid;
                     width: 95%;
-                  }
-                  th, td{
+                  }}
+                  th, td{{
                     padding: 5px;
                     text-align: left;
-                  }
-                  th{
+                  }}
+                  th{{
                     color: white;
                     background-color: #212226;
-                  }
+                  }}
+                  .svg{{
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                  }}
                 </style>
               </head>
               <body>
-                <h1>Invoice Number {documentNr}</h1>
-                <p>{customerName}</p>
-                <p>{customerAddress1}</p>
-                <p>{customerAddress2}</p>
+                <h1>Invoice Number {documentId}</h1>
+                <p>{positions[0].Customer_FirstName} {positions[0].Customer_LastName}</p>
+                <p>{positions[0].Customer_Address1}</p>
+                <p>{positions[0].Customer_PlzNumber} {positions[0].Customer_PlzCity}</p>
                 <table>
                   <tr>
                     <th>Article</th>
@@ -46,41 +64,71 @@ namespace MercuriusApi.DocGen
                     <th>Price</th
                   </tr>
             ");
-            sb.Append(GenerateQrSvg(1));
-            sb.Append(@"
-                    </body>
-                </html>
+        foreach (var position in positions)
+        {
+          sb.Append($@"
+              <tr>
+                <td>{position.Art_Title}</td>
+                <td>{position.ArtUnit_Text}</td>
+                <td>{position.ArtPos_Quantity}</td>
+                <td>{position.Art_Price}</td>
+              <tr>
+          ");
+        }
+
+        sb.Append($"</table>");
+        sb.Append($"<div class='svg'>");
+        sb.Append(GenerateQrSvg(positions));
+        sb.Append($"</div>");
+        sb.Append(@"
+                 </body>
+               </html>
             ");
             return sb.ToString();
         }
         
-        private string GenerateQrSvg(int documentId)
+      private string GenerateQrSvg(List<DocumentDetail> positions)
         {
           var bill = new Bill
           {
-            Account = "CH4431999123000889012",
+            Account = positions.FirstOrDefault().User_IBAN,
             Creditor = new Address
             {
-              Name = "Robert Schneider AG",
-              AddressLine1 = "Rue du Lac 1268/2/22",
-              AddressLine2 = "2501 Biel",
+              Name = positions.FirstOrDefault().User_FirstName + positions.FirstOrDefault().User_LastName,
+              AddressLine1 = positions.FirstOrDefault().User_Mail,
+              AddressLine2 = "6004 Luzern",
               CountryCode = "CH"
             },
-            Amount = 199.95m,
+            Amount = CalculateSum(positions),
             Currency = "CHF",
             Debtor = new Address
             {
-              Name = "Pia-Maria Rutschmann-Schnyder",
-              AddressLine1 = "Grosse Marktgasse 28",
-              AddressLine2 = "9400 Rorschach",
+              Name = positions.FirstOrDefault().Customer_FirstName + positions.FirstOrDefault().Customer_LastName,
+              AddressLine1 = positions.FirstOrDefault().Customer_Address1,
+              AddressLine2 = positions.FirstOrDefault().Customer_PlzNumber + positions.FirstOrDefault().Customer_PlzCity,
               CountryCode = "CH"
             },
-            Reference = "210000000003139471430009017",
-            UnstructuredMessage = "Abonnement für 2020"
+            UnstructuredMessage = "Generated in Project Mercurius"
           };
           var svg = QRBill.Generate(bill);
           var result = Encoding.UTF8.GetString(svg);
           return result;
         }
+
+      private IEnumerable<DocumentDetail> GetDocumentView(int documentId)
+      {
+        return _context.DocumentDetail.FromSqlInterpolated($"SELECT * FROM GetDocumentView({documentId})");
+      }
+
+      private decimal CalculateSum(List<DocumentDetail> positions)
+      {
+        var total = 0m;
+        foreach (var position in positions)
+        {
+          var positionTotal = position.Art_Price * position.ArtPos_Quantity;
+          total += positionTotal;
+        }
+        return total;
+      }
     }
 }
