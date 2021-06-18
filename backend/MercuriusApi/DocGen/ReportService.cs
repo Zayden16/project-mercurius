@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using Codecrete.SwissQRBill.Generator;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 
@@ -15,17 +15,17 @@ namespace MercuriusApi.DocGen
             _report = new InvoiceReport();
         }
 
-        public byte[] GeneratePdf()
+        public byte[] GeneratePdf(int documentId)
         {
             var html = _report.GetReport();
-            GlobalSettings globalSettings = new GlobalSettings()
+            var globalSettings = new GlobalSettings()
             {
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings {Top = 25, Bottom = 25}
             };
-            ObjectSettings objectSettings = new ObjectSettings()
+            var objectSettings = new ObjectSettings()
             {
                 PagesCount = true,
                 HtmlContent = html,

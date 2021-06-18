@@ -2,6 +2,6 @@
 {
     public interface IReportService
     {
-        public byte[] GeneratePdf();
+        public byte[] GeneratePdf(int documentId);
     }
 }

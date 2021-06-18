@@ -21,7 +21,7 @@ namespace MercuriusApi.Controllers
         {
             try
             {
-                var pdf = _reportService.GeneratePdf();
+                var pdf = _reportService.GeneratePdf(id);
                 return File(pdf, "application/octet-stream", $"Invoice-{id}.pdf");
             }
             catch (Exception exception)
