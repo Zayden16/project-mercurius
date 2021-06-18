@@ -58,15 +58,8 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="document.ArticlePositionId">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{document.ArticlePositionId}}
-              </ng-template>
-            </p-cellEditor>
+          <td style="text-align: center;">
+           <button pButton icon="pi pi-eye" label="View" (click)="showArtPosDialog()"></button>
           </td>
           <td style="text-align:center">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"

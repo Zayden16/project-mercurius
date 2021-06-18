@@ -8,8 +8,8 @@ namespace MercuriusApi.Controllers
     [Route("api/[controller]")]
     public class DocgenController : ControllerBase
     {
-        private IConverter _converter;
-        private IReportService _reportService;
+        private readonly IConverter _converter;
+        private readonly IReportService _reportService;
         public DocgenController(IConverter converter)
         {
             _converter = converter;
@@ -22,7 +22,7 @@ namespace MercuriusApi.Controllers
             try
             {
                 var pdf = _reportService.GeneratePdf(id);
-                return File(pdf, "application/octet-stream", $"Invoice-{id}.pdf");
+                return File(pdf, "application/pdf", $"Invoice-{id}.pdf");
             }
             catch (Exception exception)
             {
