@@ -13,6 +13,7 @@ import { ArticleUnitComponent } from './components/article-unit/article-unit.com
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'login'},
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'customers', component: CustomerComponent, canActivate:[AuthGuard]},

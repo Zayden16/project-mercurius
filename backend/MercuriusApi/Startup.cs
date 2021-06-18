@@ -1,4 +1,7 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using MercuriusApi.DataAccess;
+using MercuriusApi.DocGen;
 using MercuriusApi.Helpers;
 using MercuriusApi.Repositories;
 using MercuriusApi.Repositories.Interface;
@@ -39,8 +42,8 @@ namespace MercuriusApi
             services.AddScoped<IPlzRepository, PlzRepository>();
             services.AddScoped<ITaxRateRepository, TaxRateRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<QrCodeGenerator>();
-
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddScoped<IReportService, ReportService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MercuriusApi", Version = "v1" });

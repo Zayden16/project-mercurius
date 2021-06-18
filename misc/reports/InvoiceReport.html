@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <link rel='preconnect' href='https://fonts.gstatic.com'>
+<link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap' rel='stylesheet'>
+  <title>Invoice</title>
+  <style>
+    *{
+      font-family: 'Roboto', sans-serif;
+    }
+    table{
+      border: 1px solid;
+      width: 95%;
+    }
+    th, td{
+      padding: 5px;
+      text-align: left;
+    }
+    th{
+      background-color: #212226;
+    }
+  </style>
+</head>
+<body>
+  <h1>Invoice Number {documentNr}</h1>
+  <p>{customerName}</p>
+  <p>{cusomterAddress1}</p>
+  <p>{customerAddress2}</p>
+  <table>
+    <tr>
+      <th>Article</th>
+      <th>Quantity</th>
+      <th>Unit</th>
+      <th>Price</th>
+    </tr>
+    <tr>
+      <td></td>
+    </tr>
+  </table>
+
+  <br>
+  <h3>Total Amount: {totalPrice}</h3>
+</body>
+</html>
+
+
+primary - ArtPosId
+foreign - DocumentId
+foreign - ArticleId
+
+select * from artpositions where documentid = id

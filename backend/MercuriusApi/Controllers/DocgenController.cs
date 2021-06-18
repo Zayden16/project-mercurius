@@ -1,32 +1,28 @@
 using System;
-using System.Net;
-using System.Net.Http;
-using MercuriusApi.Helpers;
-using MercuriusApi.Repositories.Interface;
+using DinkToPdf.Contracts;
+using MercuriusApi.DocGen;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using ContentDispositionHeaderValue = System.Net.Http.Headers.ContentDispositionHeaderValue;
 
 namespace MercuriusApi.Controllers
 {
     [Route("api/[controller]")]
     public class DocgenController : ControllerBase
     {
-        private readonly QrCodeGenerator _generator;
-        
-        public DocgenController(QrCodeGenerator generator)
+        private IConverter _converter;
+        private IReportService _reportService;
+        public DocgenController(IConverter converter)
         {
-            _generator = generator;
+            _converter = converter;
+            _reportService = new ReportService(_converter);
         }
         
-        //[HttpGet("{id}")]
         [HttpGet("{id}")]
         public IActionResult GetPdf(int id)
         {
             try
             {
-                var stream = _generator.GeneratePdf(id);
-                return new FileStreamResult(stream, "application/pdf");
+                var pdf = _reportService.GeneratePdf();
+                return File(pdf, "application/octet-stream", $"Invoice-{id}.pdf");
             }
             catch (Exception exception)
             {
