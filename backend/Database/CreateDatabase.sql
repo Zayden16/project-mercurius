@@ -14,6 +14,7 @@ CREATE TABLE "ArticlePosition"
 (
     "ArticlePosition_Id" SERIAL PRIMARY KEY,
     "Article_Id" integer,
+	"Document_Id" integer,
     "Article_Quantity" numeric
 );
 
@@ -41,8 +42,7 @@ CREATE TABLE "Document"
     "Document_TypeId" integer,
     "Document_CreatorId" integer,
     "Document_SendeeId" integer,
-    "Document_StatusId" integer,
-    "Document_ArticlePositionId" integer
+    "Document_StatusId" integer
 );
 
 CREATE TABLE "DocumentStatus"
@@ -74,6 +74,8 @@ CREATE TABLE "TaxRate"
 CREATE TABLE "User"
 (
     "User_Id" SERIAL PRIMARY KEY,
+	"User_IBAN" VARCHAR(34),
+	"User_ReferenceNumber" VARCHAR(27),
     "User_FirstName" VARCHAR,
     "User_LastName" VARCHAR,
     "User_DisplayName" VARCHAR,
@@ -96,11 +98,6 @@ ALTER TABLE "Customer"
     FOREIGN KEY ("Customer_PlzId") 
     REFERENCES "Plz" ("Plz_Id");
 	
-ALTER TABLE "ArticlePosition"
-    ADD CONSTRAINT "FK_Article_Id"
-    FOREIGN KEY ("Article_Id") 
-    REFERENCES "Article" ("Article_Id");
-	
 ALTER TABLE "Document"
     ADD CONSTRAINT "FK_Document_TypeId"
     FOREIGN KEY ("Document_TypeId") 
@@ -121,9 +118,14 @@ ALTER TABLE "Document"
     FOREIGN KEY ("Document_StatusId") 
     REFERENCES "DocumentStatus" ("DocumentStatus_Id");
 	
-ALTER TABLE "Document"
-    ADD CONSTRAINT "FK_Document_ArticlePositionId"
-    FOREIGN KEY ("Document_ArticlePositionId") 
-    REFERENCES "ArticlePosition" ("ArticlePosition_Id");
+ALTER TABLE "ArticlePosition"
+    ADD CONSTRAINT "FK_Article_Id"
+    FOREIGN KEY ("Article_Id") 
+    REFERENCES "Article" ("Article_Id");
 	
+ALTER TABLE "ArticlePosition"
+    ADD CONSTRAINT "FK_Document_Id"
+    FOREIGN KEY ("Document_Id") 
+    REFERENCES "Document" ("Document_Id");
+
 END;

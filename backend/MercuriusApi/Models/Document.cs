@@ -21,8 +21,5 @@ namespace MercuriusApi.Models
 
         [JsonPropertyName("StatusId")]
         public int Document_StatusId { get; set; }
-
-        [JsonPropertyName("ArticlePositionId")]
-        public int Document_ArticlePositionId { get; set; }
     }
 }
