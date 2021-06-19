@@ -5,11 +5,14 @@ import { DocumentService } from "../../services/document.service";
 import { ArticleService } from "../../services/article.service";
 import { TaxRateService } from "../../services/tax-rate.service";
 import { PlzService } from "../../services/plz.service";
+import { EasterEggComponent } from 'src/app/easter-egg/easter-egg.component';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  providers: [DynamicDialogModule]
 })
 export class DashboardComponent implements OnInit {
   usersCount: number = 0;
@@ -22,7 +25,7 @@ export class DashboardComponent implements OnInit {
   data: any;
 
   constructor(private userService: UserService, private customerService: CustomerService, private documentService: DocumentService,
-    private articleService: ArticleService, private taxRateService: TaxRateService, private plzService: PlzService) {
+    private articleService: ArticleService, private dialogService: DialogService, private taxRateService: TaxRateService, private plzService: PlzService) {
   }
 
   async ngOnInit(): Promise<any> {
@@ -41,5 +44,11 @@ export class DashboardComponent implements OnInit {
           backgroundColor: ['#ff0000', '#4287f5', '#FFFF00', '#FFC0CB', '#7f00ff', '#42f581']
         }]
     };
+  }
+  
+  showEasterEgg():void{
+    this.dialogService.open(EasterEggComponent, {
+      width: '85%'
+    });
   }
 }

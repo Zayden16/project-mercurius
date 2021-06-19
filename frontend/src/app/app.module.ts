@@ -38,6 +38,7 @@ import { ArticlePositionComponent } from './components/article-position/article-
 
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { EasterEggComponent } from './easter-egg/easter-egg.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     TaxRateComponent,
     ArticleUnitComponent,
     ArticlePositionComponent,
+    EasterEggComponent,
   ],
   imports: [
     BrowserModule,
