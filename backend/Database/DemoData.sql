@@ -1,7 +1,10 @@
 BEGIN;
 
 INSERT INTO "User"("User_IBAN", "User_ReferenceNumber", "User_FirstName", "User_LastName", "User_DisplayName", "User_Mail", "User_Password")  
-VALUES ('CH9300762011623852957', '21000000003139471430009017', 'Thomas', 'Shelby','Tom', 'tom@gmail.com', 'password');
+VALUES ('CH9300762011623852957', '21000000003139471430009017', 'Thomas', 'Shelby', 'Tom', 'tom@gmail.com', 'password');
+							
+INSERT INTO "User"("User_IBAN", "User_ReferenceNumber", "User_FirstName", "User_LastName", "User_DisplayName", "User_Mail", "User_Password")  
+VALUES ('CH6904205123987375128', '53200001105000312897842002', 'Arthur', 'Shelby', 'Arthur', 'arthur@gmail.com', 'password');
 
 INSERT INTO "TaxRate"("Taxrate_Percentage", "Taxrate_Description")  
 VALUES (5, 'Tax');
