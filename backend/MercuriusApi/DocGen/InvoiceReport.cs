@@ -118,7 +118,7 @@ namespace MercuriusApi.DocGen
                     CountryCode = "CH"
                 },
                 UnstructuredMessage = "Generated in Project Mercurius",
-                Format = new BillFormat()
+                Format = new BillFormat
                 {
                     OutputSize = OutputSize.QrBillOnly
                 }

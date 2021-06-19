@@ -82,5 +82,10 @@ namespace MercuriusApi.Repositories
         {
             return _context.ArticlePosition.ToList();
         }
+
+        public List<ArticlePosition> GetArticlePositionsByDocumentId(int documentId)
+        {
+            return _context.ArticlePosition.Where(x => x.Document_Id == documentId).ToList();
+        }
     }
 }

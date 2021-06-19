@@ -25,7 +25,7 @@ export class DocumentService {
       CreatorId: document.CreatorId,
       SendeeId: document.SendeeId,
       StatusId: 1,
-      TypeId: document.TypeId
+      TypeId: 1
     };
 
     await this.httpClient.post(AppSettings.BASE_URL + 'Document', body)
@@ -58,7 +58,7 @@ export class DocumentService {
       CreatorId: document.CreatorId,
       SendeeId: document.SendeeId,
       StatusId: 1,
-      TypeId: document.TypeId
+      TypeId: 1
     };
 
     await this.httpClient.put<Document>(AppSettings.BASE_URL + 'Document', body)

@@ -125,14 +125,14 @@
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
-          <input type="number" id="taxRate" formControlName="taxRate" [(ngModel)]="newArticle.TaxRate"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticleFormControls.taxRate.errors }" pInputText>
+          <p-dropdown id="taxRate" formControlName="taxRate" [options]="taxRates" [(ngModel)]="newArticle.TaxRate"
+                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticleFormControls.taxRate.errors }"></p-dropdown>
           <label for="taxRate">TaxRate</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
-          <input type="number" id="unit" formControlName="unit" [(ngModel)]="newArticle.Unit"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticleFormControls.unit.errors }" pInputText>
+          <p-dropdown id="unit" formControlName="unit" [options]="articleUnits" [(ngModel)]="newArticle.Unit"
+                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticleFormControls.unit.errors }"></p-dropdown>
           <label for="unit">Unit</label>
         </div>
 

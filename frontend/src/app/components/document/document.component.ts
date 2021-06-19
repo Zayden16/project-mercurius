@@ -33,8 +33,7 @@ export class DocumentComponent implements OnInit {
     this.newDocumentForm = this.formBuilder.group({
       number: [null, Validators.required],
       creatorId: [null, Validators.required],
-      sendeeId: [null, Validators.required],
-      typeId: [null, Validators.required]
+      sendeeId: [null, Validators.required]
     });
   }
 
@@ -108,9 +107,12 @@ export class DocumentComponent implements OnInit {
     this.displayDialog = false;
   }
 
-  showArtPosDialog() {
-    const ref = this.dialogService.open(ArticlePositionComponent, {
-      header: 'Edit Article Positions',
+  showArticlePositionDialog(documentId: number) {
+    this.dialogService.open(ArticlePositionComponent, {
+      data: {
+        documentId: documentId
+      },
+      header: 'Article Positions',
       width: '70%'
     });
   }

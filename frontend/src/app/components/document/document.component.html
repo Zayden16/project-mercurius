@@ -49,7 +49,7 @@
             </p-cellEditor>
           </td>
           <td>
-            <button pButton icon="pi pi-eye" label="View" (click)="showArtPosDialog()" [style]="{'width':'100%'}"></button>
+            <button pButton icon="pi pi-eye" label="View" (click)="showArticlePositionDialog(document.Id)" [style]="{'width':'100%'}"></button>
           </td>
           <td style="text-align:center">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
@@ -86,15 +86,14 @@
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
-          <!--<p-dropdown id="creatorId" [options]="creators" [(ngModel)]="newDocument.CreatorId"></p-dropdown>-->
-          <input type="number" id="creatorId" formControlName="creatorId" [(ngModel)]="newDocument.CreatorId" min="1"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.creatorId.errors }" pInputText>
+          <p-dropdown id="creatorId" formControlName="creatorId" [options]="creators" [(ngModel)]="newDocument.CreatorId"
+                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.creatorId.errors }"></p-dropdown>
           <label for="creatorId">CreatorId</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
-          <input type="number" id="sendeeId" formControlName="sendeeId" [(ngModel)]="newDocument.SendeeId" min="1"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.sendeeId.errors }" pInputText>
+          <p-dropdown id="sendeeId" formControlName="sendeeId" [options]="sendees" [(ngModel)]="newDocument.SendeeId"
+                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.sendeeId.errors }"></p-dropdown>
           <label for="sendeeId">SendeeId</label>
         </div>
 
