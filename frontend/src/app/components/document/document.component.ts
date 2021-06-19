@@ -80,6 +80,10 @@ export class DocumentComponent implements OnInit {
     await this.documentService.updateDocument(document);
   }
 
+  async downloadDocument(document: Document){
+    await this.documentService.downloadDocument(document.Id);
+  }
+
   async deleteDocument(event: Event, document: Document) {
     this.confirmService.confirm({
       target: event.target!,
