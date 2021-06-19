@@ -11,70 +11,71 @@ namespace MercuriusApi.Repositories
     {
         private readonly PostgreSqlContext _context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DocumentRepository"/> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
         public DocumentRepository(PostgreSqlContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// Adds the document record.
-        /// </summary>
-        /// <param name="document">The document.</param>
         public void AddDocumentRecord(Document document)
         {
-            var entity = _context.Document.FirstOrDefault(x => x.Document_Id == document.Document_Id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.Document.FirstOrDefault(x => x.Document_Id == document.Document_Id);
 
-            if (entity != null)
-                throw new Exception($"Entity with id: '{document.Document_Id}' already exists.");
+                if (entity != null)
+                    throw new Exception($"Entity with id: '{document.Document_Id}' already exists.");
 
-            _context.Document.Add(document);
-            _context.SaveChanges();
+                _context.Document.Add(document);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Updates the document record.
-        /// </summary>
-        /// <param name="document">The document.</param>
         public void UpdateDocumentRecord(Document document)
         {
-            _context.Document.Update(document);
-            _context.SaveChanges();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Document.Update(document);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Deletes the document record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <exception cref="Exception">Entity with {id} not found.</exception>
         public void DeleteDocumentRecord(int id)
         {
-            var entity = _context.Document.FirstOrDefault(t => t.Document_Id == id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.Document.FirstOrDefault(t => t.Document_Id == id);
 
-            if (entity == null)
-                throw new Exception($"Entity with {id} not found.");
+                if (entity == null)
+                    throw new Exception($"Entity with {id} not found.");
 
-            _context.Document.Remove(entity);
-            _context.SaveChanges();
+                _context.Document.Remove(entity);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Gets the document single record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>The document.</returns>
         public Document GetDocumentSingleRecord(int id)
         {
             return _context.Document.FirstOrDefault(t => t.Document_Id == id);
         }
 
-        /// <summary>
-        /// Gets the document records.
-        /// </summary>
-        /// <returns>The documents.</returns>
         public List<Document> GetDocumentRecords()
         {
             return _context.Document.ToList();

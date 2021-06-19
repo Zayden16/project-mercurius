@@ -26,7 +26,6 @@ namespace MercuriusApi.DocGen
               <head>
                 <meta charset='UTF-8'>
                 <link rel='preconnect' href='https://fonts.gstatic.com'>
-                <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x' crossorigin='anonymous'>
                 <link href='https://fonts.googleapis.com/css2?family=Roboto&display=swap' rel='stylesheet'>
                 <title>Invoice</title>
                 <style>
@@ -35,7 +34,7 @@ namespace MercuriusApi.DocGen
                   }}
                   table{{
                     border: 1px solid;
-                    width: 95%;
+                    width: 100%;
                   }}
                   th, td{{
                     padding: 5px;
@@ -50,13 +49,18 @@ namespace MercuriusApi.DocGen
                     bottom: 0;
                     left: 0;
                   }}
+                  .total{{
+                    text-align: right;
+                  }}
                 </style>
               </head>
               <body>
                 <h1>Invoice Number {documentId}</h1>
-                <p>{positions[0].Customer_FirstName} {positions[0].Customer_LastName}</p>
-                <p>{positions[0].Customer_Address1}</p>
-                <p>{positions[0].Customer_PlzNumber} {positions[0].Customer_PlzCity}</p>
+                <br><br><br>
+                <p>{positions[0].Customer_FirstName} {positions[0].Customer_LastName}<br>
+                {positions[0].Customer_Address1}<br>
+                {positions[0].Customer_PlzNumber} {positions[0].Customer_PlzCity}</p>
+                <br><br><br>
                 <table>
                   <tr>
                     <th>Article</th>
@@ -73,11 +77,10 @@ namespace MercuriusApi.DocGen
                 <td>{position.ArtUnit_Text}</td>
                 <td>{position.ArtPos_Quantity}</td>
                 <td>{position.Art_Price}</td>
-              <tr>
-          ");
+              <tr>");
             }
-
             sb.Append($"</table>");
+            sb.Append($"<br><br><br> <h3 class='total'>Total: {CalculateSum(positions)}</h3>");
             sb.Append($"<div class='svg'>");
             sb.Append(GenerateQrSvg(positions));
             sb.Append($"</div>");
@@ -109,14 +112,17 @@ namespace MercuriusApi.DocGen
                 Currency = "CHF",
                 Debtor = new Address
                 {
-                    Name = context.Customer_FirstName + context.Customer_LastName,
+                    Name = $"{context.Customer_FirstName + context.Customer_LastName}",
                     AddressLine1 = context.Customer_Address1,
-                    AddressLine2 = context.Customer_PlzNumber + " " + context.Customer_PlzCity,
+                    AddressLine2 = $"{context.Customer_PlzNumber} {context.Customer_PlzCity}",
                     CountryCode = "CH"
                 },
-                UnstructuredMessage = "Generated in Project Mercurius"
+                UnstructuredMessage = "Generated in Project Mercurius",
+                Format = new BillFormat()
+                {
+                    OutputSize = OutputSize.QrBillOnly
+                }
             };
-
             var svg = QRBill.Generate(bill);
             var result = Encoding.UTF8.GetString(svg);
 

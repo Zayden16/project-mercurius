@@ -11,60 +11,56 @@ namespace MercuriusApi.Repositories
     {
         private readonly PostgreSqlContext _context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlzRepository"/> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
         public PlzRepository(PostgreSqlContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// Adds the PLZ record.
-        /// </summary>
-        /// <param name="plz">The PLZ.</param>
         public void AddPlzRecord(Plz plz)
         {
-            var entity = _context.Plz.FirstOrDefault(x => x.Plz_Id == plz.Plz_Id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.Plz.FirstOrDefault(x => x.Plz_Id == plz.Plz_Id);
 
-            if (entity != null)
-                throw new Exception($"Entity with id: '{plz.Plz_Id}' already exists.");
+                if (entity != null)
+                    throw new Exception($"Entity with id: '{plz.Plz_Id}' already exists.");
 
-            _context.Plz.Add(plz);
-            _context.SaveChanges();
+                _context.Plz.Add(plz);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Deletes the PLZ record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <exception cref="Exception">Entity with {id} not found.</exception>
         public void DeletePlzRecord(int id)
         {
-            var entity = _context.Plz.FirstOrDefault(t => t.Plz_Id == id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.Plz.FirstOrDefault(t => t.Plz_Id == id);
 
-            if (entity == null)
-                throw new Exception($"Entity with {id} not found.");
+                if (entity == null)
+                    throw new Exception($"Entity with {id} not found.");
 
-            _context.Plz.Remove(entity);
-            _context.SaveChanges();
+                _context.Plz.Remove(entity);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Gets the PLZ single record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>The postal code.</returns>
         public Plz GetPlzSingleRecord(int id)
         {
             return _context.Plz.FirstOrDefault(t => t.Plz_Id == id);
         }
 
-        /// <summary>
-        /// Gets the PLZ records.
-        /// </summary>
-        /// <returns>The postal codes.</returns>
         public List<Plz> GetPlzRecords()
         {
             return _context.Plz.ToList();
