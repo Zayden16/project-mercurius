@@ -7,7 +7,7 @@
     <h1 class="p-m-1">Users</h1>
 
     <p-table [value]="users" [scrollable]="true" [rows]="8" scrollHeight="550px" [lazy]="true" dataKey="Id"
-             editMode="row" styleClass="p-datatable-res">
+      editMode="row" styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
           <th>Id</th>
@@ -84,49 +84,48 @@
           </td>
           <td style="text-align:center">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                    (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
+              (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                    (click)="updateUser(user)"
-                    class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+              (click)="updateUser(user)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                    (click)="onRowEditCancel(user, ri)" class="p-button-rounded p-button-text"></button>
+              (click)="onRowEditCancel(user, ri)" class="p-button-rounded p-button-text"></button>
           </td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteUser($event, user)"
-                    class="p-button-rounded p-button-text p-button-danger"></button>
+              class="p-button-rounded p-button-text p-button-danger"></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
 
     <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
-            iconPos="left"></button>
+      iconPos="left"></button>
 
     <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New User"
-              [(visible)]="displayDialog" [modal]=true>
+      [(visible)]="displayDialog" [modal]=true>
       <form [formGroup]="newUserForm" (ngSubmit)="createUser()">
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="text" id="username" formControlName="username" [(ngModel)]="newUser.DisplayName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="username">Username</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="text" id="firstname" formControlName="firstname" [(ngModel)]="newUser.FirstName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="firstname">Firstname</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="text" id="lastname" formControlName="lastname" [(ngModel)]="newUser.LastName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.lastname.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.lastname.errors }" pInputText>
           <label for="lastname">Lastname</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="email" id="email" formControlName="email" [(ngModel)]="newUser.Mail"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.email.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.email.errors }" pInputText>
           <label for="email">Email</label>
           <div *ngIf="submitted && newUserFormControls.email.errors" class="invalid-feedback">
             <div *ngIf="newUserFormControls.email.errors?.email">
@@ -137,7 +136,7 @@
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.Password"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.password.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.password.errors }" pInputText>
           <label for="password">Password</label>
           <div *ngIf="submitted && newUserFormControls.password.errors" class="invalid-feedback">
             <div *ngIf="newUserFormControls.password.errors?.minlength">
@@ -148,8 +147,7 @@
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="password" id="confirmPassword" formControlName="confirmPassword"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.confirmPassword.errors }"
-                 pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.confirmPassword.errors }" pInputText>
           <label for="confirmPassword">ConfirmPassword</label>
         </div>
 

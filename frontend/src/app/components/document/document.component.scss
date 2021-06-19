@@ -3,6 +3,10 @@
     display: none;
   }
 }
+:host ::ng-deep .p-cell-editing {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 
 @media screen and (max-width: 40rem) {
   :host ::ng-deep {
@@ -38,3 +42,4 @@
     }
   }
 }
+

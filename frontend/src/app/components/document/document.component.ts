@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService, SelectItem} from 'primeng/api';
-import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
-import {DocumentService} from 'src/app/services/document.service';
-import {UserService} from 'src/app/services/user.service';
-import {Document} from 'src/model/Document';
-import {User} from 'src/model/User';
-import {ArticlePositionComponent} from '../article-position/article-position.component';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CustomerService} from "../../services/customer.service";
-import {Customer} from "../../../model/Customer";
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, SelectItem } from 'primeng/api';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DocumentService } from 'src/app/services/document.service';
+import { UserService } from 'src/app/services/user.service';
+import { Document } from 'src/model/Document';
+import { User } from 'src/model/User';
+import { ArticlePositionComponent } from '../article-position/article-position.component';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CustomerService } from "../../services/customer.service";
+import { Customer } from "../../../model/Customer";
 
 @Component({
   selector: 'app-document',
@@ -29,7 +29,7 @@ export class DocumentComponent implements OnInit {
   submitted = false;
 
   constructor(private documentService: DocumentService, private userService: UserService, private customerService: CustomerService,
-              private dialogService: DialogService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
+    private dialogService: DialogService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
     this.newDocumentForm = this.formBuilder.group({
       number: [null, Validators.required],
       creatorId: [null, Validators.required],
@@ -42,20 +42,20 @@ export class DocumentComponent implements OnInit {
 
     this.userService.getUsers().then(data => {
       data.forEach((user: User) => {
-        this.creators.push({label: user.FirstName + user.LastName, value: user.Id});
+        this.creators.push({ label: user.FirstName + user.LastName, value: user.Id });
       });
     });
 
     this.customerService.getCustomers().then(data => {
       data.forEach((customer: Customer) => {
-        this.sendees.push({label: customer.FirstName + customer.LastName, value: customer.Id});
+        this.sendees.push({ label: customer.FirstName + customer.LastName, value: customer.Id });
       });
     });
   }
 
   // Row Editor
   onRowEditInit(document: Document) {
-    this.clonedDocuments[document.Id] = {...document};
+    this.clonedDocuments[document.Id] = { ...document };
   }
 
   onRowEditCancel(document: Document, index: number) {
@@ -93,7 +93,7 @@ export class DocumentComponent implements OnInit {
     });
   }
 
-  async downloadDocument(document: Document){
+  async downloadDocument(document: Document) {
     await this.documentService.downloadDocument(document.Id);
   }
 

@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
-import {CardModule} from 'primeng/card';
-import {InputTextModule} from 'primeng/inputtext';
-import {PanelMenuModule} from 'primeng/panelmenu';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { PanelMenuModule } from 'primeng/panelmenu';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import {AvatarModule} from 'primeng/avatar';
-import {KnobModule} from 'primeng/knob';
-import {TableModule} from 'primeng/table';
-import {ConfirmationService, MessageService} from 'primeng/api';
-import {DialogModule} from 'primeng/dialog';
-import {ToastModule} from 'primeng/toast';
-import {ChartModule} from 'primeng/chart';
-import {RippleModule} from 'primeng/ripple';
-import {DropdownModule} from 'primeng/dropdown';
-import {ConfirmPopupModule} from 'primeng/confirmpopup';
-import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
+import { AvatarModule } from 'primeng/avatar';
+import { KnobModule } from 'primeng/knob';
+import { TableModule } from 'primeng/table';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { ChartModule } from 'primeng/chart';
+import { RippleModule } from 'primeng/ripple';
+import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -77,12 +77,12 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     ConfirmPopupModule,
     DynamicDialogModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-              {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-               HttpClientModule,
-               MessageService,
-               ConfirmationService,
-               DialogService],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    HttpClientModule,
+    MessageService,
+    ConfirmationService,
+    DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

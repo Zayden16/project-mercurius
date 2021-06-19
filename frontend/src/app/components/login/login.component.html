@@ -1,17 +1,18 @@
 <div class="container p-d-flex">
-    <div>
-        <div class="dark p-d-flex p-flex-column p-jc-center p-ai-center">
-            <img class="logo" src="/assets/Logo.png">
-            <h1>Welcome to Mercurius</h1>
-            <span class="p-float-label p-m-2">
-                <input pInputText [(ngModel)]="username" id="username" type="text" (ng-model)="username" pInputText> 
-                <label for="username">Username</label>
-            </span>
-            <span class="p-float-label p-m-2">
-                <input pInputText [(ngModel)]="password" id="password" type="password" pInputText> 
-                <label for="password">Password</label>
-            </span>
-            <button pButton (click)="login()" class="login p-button-danger p-button-outlined p-m-2" type="button" label="Login" icon="pi pi-chevron-right" ></button>
-        </div>
+  <div>
+    <div class="dark p-d-flex p-flex-column p-jc-center p-ai-center">
+      <img class="logo" src="/assets/Logo.png">
+      <h1>Welcome to Mercurius</h1>
+      <span class="p-float-label p-m-2">
+        <input pInputText [(ngModel)]="username" id="username" type="text" (ng-model)="username" pInputText>
+        <label for="username">Username</label>
+      </span>
+      <span class="p-float-label p-m-2">
+        <input pInputText [(ngModel)]="password" id="password" type="password" pInputText>
+        <label for="password">Password</label>
+      </span>
+      <button pButton (click)="login()" class="login p-button-danger p-button-outlined p-m-2" type="button"
+        label="Login" icon="pi pi-chevron-right"></button>
     </div>
+  </div>
 </div>

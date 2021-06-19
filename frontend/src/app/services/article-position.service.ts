@@ -1,8 +1,8 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {MessageService} from 'primeng/api';
-import {AppSettings} from 'src/appsettings';
-import {ArticlePosition} from 'src/model/ArticlePosition';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { AppSettings } from 'src/appsettings';
+import { ArticlePosition } from 'src/model/ArticlePosition';
 
 @Injectable({
   providedIn: 'root'

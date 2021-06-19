@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from 'src/app/services/user.service';
-import {CustomerService} from "../../services/customer.service";
-import {DocumentService} from "../../services/document.service";
-import {ArticleService} from "../../services/article.service";
-import {TaxRateService} from "../../services/tax-rate.service";
-import {PlzService} from "../../services/plz.service";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
+import { CustomerService } from "../../services/customer.service";
+import { DocumentService } from "../../services/document.service";
+import { ArticleService } from "../../services/article.service";
+import { TaxRateService } from "../../services/tax-rate.service";
+import { PlzService } from "../../services/plz.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   data: any;
 
   constructor(private userService: UserService, private customerService: CustomerService, private documentService: DocumentService,
-              private articleService: ArticleService, private taxRateService: TaxRateService, private plzService: PlzService) {
+    private articleService: ArticleService, private taxRateService: TaxRateService, private plzService: PlzService) {
   }
 
   async ngOnInit(): Promise<any> {

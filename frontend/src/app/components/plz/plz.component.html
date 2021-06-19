@@ -6,8 +6,7 @@
 
     <h1 class="p-m-1">Postal Codes</h1>
 
-    <p-table [value]="postalCodes" [scrollable]="true" [rows]="4" scrollHeight="550px" [lazy]="true" dataKey="Id"
-             editMode="row" styleClass="p-datatable-res">
+    <p-table [value]="postalCodes" [rows]="4" [lazy]="true" dataKey="Id" editMode="row" styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
           <th>Id</th>
@@ -50,28 +49,28 @@
           </td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-trash" (click)="deletePlz($event, plz)"
-                    class="p-button-rounded p-button-text p-button-danger"></button>
+              class="p-button-rounded p-button-text p-button-danger"></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
 
     <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
-            iconPos="left"></button>
+      iconPos="left"></button>
 
     <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New Plz"
-              [(visible)]="displayDialog" [modal]=true>
+      [(visible)]="displayDialog" [modal]=true>
       <form [formGroup]="newPlzForm" (ngSubmit)="createPlz()">
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="text" id="number" formControlName="number" [(ngModel)]="newPlz.Number"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newPlzFormControls.number.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newPlzFormControls.number.errors }" pInputText>
           <label for="number">Number</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="text" id="city" formControlName="city" [(ngModel)]="newPlz.City"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newPlzFormControls.city.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newPlzFormControls.city.errors }" pInputText>
           <label for="city">City</label>
         </div>
 

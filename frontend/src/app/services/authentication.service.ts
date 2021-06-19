@@ -19,21 +19,21 @@ export class AuthenticationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User{
+  public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
-  login(Username: string, Password: string){
-    return this.httpClient.post<any>(AppSettings.BASE_URL + 'Authentication', {Username, Password})
-          .pipe(map(user => {
-            let newUser: User = user;
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-            this.currentUserSubject.next(user);
-            return user;
-          }));
-   }
+  login(Username: string, Password: string) {
+    return this.httpClient.post<any>(AppSettings.BASE_URL + 'Authentication', { Username, Password })
+      .pipe(map(user => {
+        let newUser: User = user;
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        this.currentUserSubject.next(user);
+        return user;
+      }));
+  }
 
-  logout(){
+  logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }

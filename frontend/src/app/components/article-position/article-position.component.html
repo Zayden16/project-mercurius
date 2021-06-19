@@ -3,8 +3,8 @@
     <p-toast></p-toast>
     <p-confirmPopup></p-confirmPopup>
 
-    <p-table [value]="articlePositions" [scrollable]="true" [rows]="8" scrollHeight="550px" [lazy]="true" dataKey="Id"
-             editMode="row" styleClass="p-datatable-res">
+    <p-table [value]="articlePositions" [rows]="8" [lazy]="true" dataKey="Id" editMode="row"
+      styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
           <th>Article</th>
@@ -18,12 +18,12 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="articles" [(ngModel)]="articlePosition.ArticleId"
-                            [style]="{'width':'100%'}"></p-dropdown>
+                <p-dropdown [options]="articles" [(ngModel)]="articlePosition.ArticleId" [style]="{'width':'100%'}">
+                </p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
                 <p-dropdown [options]="articles" [(ngModel)]="articlePosition.ArticleId" [style]="{'width':'100%'}"
-                            [readonly]="true"></p-dropdown>
+                  [readonly]="true"></p-dropdown>
               </ng-template>
             </p-cellEditor>
           </td>
@@ -39,42 +39,42 @@
           </td>
           <td style="text-align:center">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                    (click)="onRowEditInit(articlePosition)" class="p-button-rounded p-button-text"></button>
+              (click)="onRowEditInit(articlePosition)" class="p-button-rounded p-button-text"></button>
             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                    (click)="updateArticlePosition(articlePosition)"
-                    class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+              (click)="updateArticlePosition(articlePosition)"
+              class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                    (click)="onRowEditCancel(articlePosition, ri)" class="p-button-rounded p-button-text"></button>
+              (click)="onRowEditCancel(articlePosition, ri)" class="p-button-rounded p-button-text"></button>
           </td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-trash"
-                    (click)="deleteArticlePosition($event, articlePosition)"
-                    class="p-button-rounded p-button-text p-button-danger"></button>
+              (click)="deleteArticlePosition($event, articlePosition)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
 
     <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
-            iconPos="left"></button>
+      iconPos="left"></button>
 
     <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center"
-              header="New ArticlePosition"
-              [(visible)]="displayDialog" [modal]=true>
+      header="New ArticlePosition" [(visible)]="displayDialog" [modal]=true>
       <form [formGroup]="newArticlePositionForm" (ngSubmit)="createArticlePosition()">
 
         <div class="p-md-4 p-float-label p-m-1">
           <p-dropdown id="articleId" formControlName="articleId" [options]="articles"
-                      [(ngModel)]="newArticlePosition.ArticleId"
-                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticlePositionFormControls.articleId.errors }"></p-dropdown>
+            [(ngModel)]="newArticlePosition.ArticleId"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticlePositionFormControls.articleId.errors }">
+          </p-dropdown>
           <label for="articleId">ArticleId</label>
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
           <input type="number" id="articleQuantity" formControlName="articleQuantity"
-                 [(ngModel)]="newArticlePosition.Quantity"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticlePositionFormControls.articleQuantity.errors }"
-                 pInputText>
+            [(ngModel)]="newArticlePosition.Quantity"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newArticlePositionFormControls.articleQuantity.errors }"
+            pInputText>
           <label for="articleQuantity">ArticleQuantity</label>
         </div>
 

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService} from 'primeng/api';
-import {TaxRate} from 'src/model/TaxRate';
-import {TaxRateService} from '../../services/tax-rate.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { TaxRate } from 'src/model/TaxRate';
+import { TaxRateService } from '../../services/tax-rate.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tax-rate',
@@ -31,7 +31,7 @@ export class TaxRateComponent implements OnInit {
 
   // Row Editor
   onRowEditInit(taxRate: TaxRate) {
-    this.clonedTaxRates[taxRate.Id] = {...taxRate};
+    this.clonedTaxRates[taxRate.Id] = { ...taxRate };
   }
 
   onRowEditCancel(taxRate: TaxRate, index: number) {

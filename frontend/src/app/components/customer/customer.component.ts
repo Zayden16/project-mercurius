@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService} from 'primeng/api';
-import {Customer} from 'src/model/Customer';
-import {CustomerService} from '../../services/customer.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {Plz} from "../../../model/Plz";
-import {PlzService} from "../../services/plz.service";
-import {SelectItem} from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { Customer } from 'src/model/Customer';
+import { CustomerService } from '../../services/customer.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Plz } from "../../../model/Plz";
+import { PlzService } from "../../services/plz.service";
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-customer',
@@ -23,7 +23,7 @@ export class CustomerComponent implements OnInit {
   submitted = false;
 
   constructor(private customerService: CustomerService, private confirmService: ConfirmationService, private formBuilder: FormBuilder,
-              private plzService: PlzService) {
+    private plzService: PlzService) {
     this.newCustomerForm = this.formBuilder.group({
       firstName: [null, Validators.required],
       lastName: [null, Validators.required],
@@ -38,14 +38,14 @@ export class CustomerComponent implements OnInit {
     this.customerService.getCustomers().then(data => this.customers = data);
     this.plzService.getPostalCodes().then(data => {
       data.forEach((plz: Plz) => {
-        this.postalCodes.push({label: plz.City, value: plz.Id});
+        this.postalCodes.push({ label: plz.City, value: plz.Id });
       });
     });
   }
 
   // Row Editor
   onRowEditInit(customer: Customer) {
-    this.clonedCustomers[customer.Id] = {...customer};
+    this.clonedCustomers[customer.Id] = { ...customer };
   }
 
   onRowEditCancel(customer: Customer, index: number) {

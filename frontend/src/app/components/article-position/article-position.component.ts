@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {ConfirmationService, SelectItem} from 'primeng/api';
-import {ArticlePositionService} from 'src/app/services/article-position.service';
-import {ArticlePosition} from 'src/model/ArticlePosition';
-import {DynamicDialogConfig} from 'primeng/dynamicdialog';
-import {User} from "../../../model/User";
-import {ArticleService} from "../../services/article.service";
-import {Article} from "../../../model/Article";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ConfirmationService, SelectItem } from 'primeng/api';
+import { ArticlePositionService } from 'src/app/services/article-position.service';
+import { ArticlePosition } from 'src/model/ArticlePosition';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { User } from "../../../model/User";
+import { ArticleService } from "../../services/article.service";
+import { Article } from "../../../model/Article";
 
 @Component({
   selector: 'app-article-position',
@@ -26,7 +26,7 @@ export class ArticlePositionComponent implements OnInit {
   submitted = false;
 
   constructor(private articlePositionService: ArticlePositionService, private articleService: ArticleService,
-              private confirmService: ConfirmationService, private formBuilder: FormBuilder, public config: DynamicDialogConfig) {
+    private confirmService: ConfirmationService, private formBuilder: FormBuilder, public config: DynamicDialogConfig) {
     this.newArticlePositionForm = this.formBuilder.group({
       articleId: [null, Validators.required],
       articleQuantity: [null, Validators.required]
@@ -39,14 +39,14 @@ export class ArticlePositionComponent implements OnInit {
 
     this.articleService.getArticles().then(data => {
       data.forEach((article: Article) => {
-        this.articles.push({label: article.Title, value: article.Id});
+        this.articles.push({ label: article.Title, value: article.Id });
       });
     });
   }
 
   // Row Editor
   onRowEditInit(articlePosition: ArticlePosition) {
-    this.clonedArticlePositions[articlePosition.Id] = {...articlePosition};
+    this.clonedArticlePositions[articlePosition.Id] = { ...articlePosition };
   }
 
   onRowEditCancel(articlePosition: ArticlePosition, index: number) {

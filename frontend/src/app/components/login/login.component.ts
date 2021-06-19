@@ -23,16 +23,16 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(){
+  login() {
     this.authService.login(this.username, this.password)
-    .pipe(first()).subscribe({
-      next: () => {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
-        this.router.navigate([returnUrl]);
-      },
-      error: error => {
-        this.error = error;
-      }
-    })
+      .pipe(first()).subscribe({
+        next: () => {
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
+          this.router.navigate([returnUrl]);
+        },
+        error: error => {
+          this.error = error;
+        }
+      })
   }
 }

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService} from 'primeng/api';
-import {Plz} from 'src/model/Plz';
-import {PlzService} from '../../services/plz.service';
-import {FormGroup, FormBuilder, Validators, AbstractControlOptions} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { Plz } from 'src/model/Plz';
+import { PlzService } from '../../services/plz.service';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
 
 @Component({
   selector: 'app-plz',

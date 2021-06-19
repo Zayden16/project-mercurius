@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService} from 'primeng/api';
-import {User} from 'src/model/User';
-import {UserService} from '../../services/user.service';
-import {FormGroup, FormBuilder, Validators, AbstractControlOptions} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { User } from 'src/model/User';
+import { UserService } from '../../services/user.service';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -26,7 +26,7 @@ export class UserComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, Validators.required]
-    }, {validators: this.MustMatch('password', 'confirmPassword')} as AbstractControlOptions);
+    }, { validators: this.MustMatch('password', 'confirmPassword') } as AbstractControlOptions);
   }
 
   async ngOnInit(): Promise<void> {
@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
 
   // Row Editor
   onRowEditInit(user: User) {
-    this.clonedUsers[user.Id] = {...user};
+    this.clonedUsers[user.Id] = { ...user };
   }
 
   onRowEditCancel(user: User, index: number) {
@@ -97,7 +97,7 @@ export class UserComponent implements OnInit {
       }
 
       if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({mustMatch: true});
+        matchingControl.setErrors({ mustMatch: true });
       } else {
         matchingControl.setErrors(null);
       }

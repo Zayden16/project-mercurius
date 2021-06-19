@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ConfirmationService, SelectItem} from 'primeng/api';
-import {Article} from 'src/model/Article';
-import {ArticleService} from '../../services/article.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {Plz} from "../../../model/Plz";
-import {TaxRateService} from "../../services/tax-rate.service";
-import {ArticleUnitService} from "../../services/article-unit.service";
-import {TaxRate} from "../../../model/TaxRate";
-import {ArticleUnit} from "../../../model/ArticleUnit";
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, SelectItem } from 'primeng/api';
+import { Article } from 'src/model/Article';
+import { ArticleService } from '../../services/article.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Plz } from "../../../model/Plz";
+import { TaxRateService } from "../../services/tax-rate.service";
+import { ArticleUnitService } from "../../services/article-unit.service";
+import { TaxRate } from "../../../model/TaxRate";
+import { ArticleUnit } from "../../../model/ArticleUnit";
 
 @Component({
   selector: 'app-article',
@@ -19,15 +19,13 @@ export class ArticleComponent implements OnInit {
   clonedArticles: any;
   newArticle = {} as Article;
   newArticleForm: FormGroup;
-
   taxRates: SelectItem[] = [];
   articleUnits: SelectItem[] = [];
-
   displayDialog: boolean = false;
   submitted = false;
 
   constructor(private articleService: ArticleService, private confirmService: ConfirmationService, private formBuilder: FormBuilder,
-              private taxRateService: TaxRateService, private articleUnitService: ArticleUnitService) {
+    private taxRateService: TaxRateService, private articleUnitService: ArticleUnitService) {
     this.newArticleForm = this.formBuilder.group({
       title: [null, Validators.required],
       description: [null, Validators.required],
@@ -41,19 +39,19 @@ export class ArticleComponent implements OnInit {
     this.articleService.getArticles().then(data => this.articles = data);
     this.taxRateService.getTaxRates().then(data => {
       data.forEach((taxRate: TaxRate) => {
-        this.taxRates.push({label: `${taxRate.Percentage}%`, value: taxRate.Id});
+        this.taxRates.push({ label: `${taxRate.Percentage}%`, value: taxRate.Id });
       });
     });
     this.articleUnitService.getArticleUnits().then(data => {
       data.forEach((articleUnit: ArticleUnit) => {
-        this.articleUnits.push({label: articleUnit.Text, value: articleUnit.Id});
+        this.articleUnits.push({ label: articleUnit.Text, value: articleUnit.Id });
       });
     });
   }
 
   // Row Editor
   onRowEditInit(article: Article) {
-    this.clonedArticles[article.Id] = {...article};
+    this.clonedArticles[article.Id] = { ...article };
   }
 
   onRowEditCancel(article: Article, index: number) {
