@@ -4,6 +4,10 @@
   }
 }
 
+td{
+  word-break:break-all
+}
+
 @media screen and (max-width: 40rem) {
   :host ::ng-deep {
     .p-datatable {
