@@ -11,54 +11,50 @@ namespace MercuriusApi.Repositories
     {
         private readonly PostgreSqlContext _context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserRepository"/> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
         public UserRepository(PostgreSqlContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// Adds the user record.
-        /// </summary>
-        /// <param name="user">The user.</param>
         public void AddUserRecord(User user)
         {
-            var entity = _context.User.FirstOrDefault(x => x.User_Id == user.User_Id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.User.FirstOrDefault(x => x.User_Id == user.User_Id);
+                if (entity != null)
+                    throw new Exception($"Entity with id: '{user.User_Id}' already exists.");
 
-            if (entity != null)
-                throw new Exception($"Entity with id: '{user.User_Id}' already exists.");
-
-            _context.User.Add(user);
-            _context.SaveChanges();
+                _context.User.Add(user);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Updates the user record.
-        /// </summary>
-        /// <param name="user">The user.</param>
         public void UpdateUserRecord(User user)
         {
-            _context.User.Update(user);
-            _context.SaveChanges();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.User.Update(user);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Gets the user single record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>The user.</returns>
         public User GetUserSingleRecord(int id)
         {
             return _context.User.FirstOrDefault(t => t.User_Id == id);
         }
 
-        /// <summary>
-        /// Gets the user records.
-        /// </summary>
-        /// <returns>The users.</returns>
         public List<User> GetUserRecords()
         {
             return _context.User.ToList();
@@ -66,14 +62,18 @@ namespace MercuriusApi.Repositories
 
         public void DeleteUserRecord(int id)
         {
-            var entity = _context.User.FirstOrDefault(u => u.User_Id == id);
-            if (entity == null)
+            using var transaction = _context.Database.BeginTransaction();
+            try
             {
-                throw new Exception($"Entity with {id} not found");
+                var entity = _context.User.FirstOrDefault(u => u.User_Id == id);
+                _context.User.Remove(entity);
+                _context.SaveChanges();
+                transaction.Commit();
             }
-
-            _context.User.Remove(entity);
-            _context.SaveChanges();
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
     }
 }

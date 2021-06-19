@@ -2,11 +2,13 @@ using System;
 using DinkToPdf.Contracts;
 using MercuriusApi.DataAccess;
 using MercuriusApi.DocGen;
+using MercuriusApi.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercuriusApi.Controllers
 {
     [Route("api/[controller]")]
+    [AuthorizationRequired]
     public class DocgenController : ControllerBase
     {
         private readonly IConverter _converter;

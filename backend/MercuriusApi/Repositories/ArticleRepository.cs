@@ -11,70 +11,72 @@ namespace MercuriusApi.Repositories
     {
         private readonly PostgreSqlContext _context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ArticleRepository"/> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
         public ArticleRepository(PostgreSqlContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// Adds the article record.
-        /// </summary>
-        /// <param name="article">The article.</param>
+
         public void AddArticleRecord(Article article)
         {
-            var entity = _context.Article.FirstOrDefault(x => x.Article_Id == article.Article_Id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.Article.FirstOrDefault(x => x.Article_Id == article.Article_Id);
 
-            if (entity != null)
-                throw new Exception($"Entity with id: '{article.Article_Id}' already exists.");
+                if (entity != null)
+                    throw new Exception($"Entity with id: '{article.Article_Id}' already exists.");
 
-            _context.Article.Add(article);
-            _context.SaveChanges();
+                _context.Article.Add(article);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Updates the article record.
-        /// </summary>
-        /// <param name="article">The article.</param>
         public void UpdateArticleRecord(Article article)
         {
-            _context.Article.Update(article);
-            _context.SaveChanges();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Article.Update(article);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Deletes the article record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <exception cref="Exception">Entity with {id} not found.</exception>
         public void DeleteArticleRecord(int id)
         {
-            var entity = _context.Article.FirstOrDefault(t => t.Article_Id == id);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var entity = _context.Article.FirstOrDefault(t => t.Article_Id == id);
 
-            if (entity == null)
-                throw new Exception($"Entity with {id} not found.");
+                if (entity == null)
+                    throw new Exception($"Entity with {id} not found.");
 
-            _context.Article.Remove(entity);
-            _context.SaveChanges();
+                _context.Article.Remove(entity);
+                _context.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message, e);
+            }
         }
 
-        /// <summary>
-        /// Gets the article single record.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>The article.</returns>
         public Article GetArticleSingleRecord(int id)
         {
             return _context.Article.FirstOrDefault(t => t.Article_Id == id);
         }
 
-        /// <summary>
-        /// Gets the article records.
-        /// </summary>
-        /// <returns>The articles.</returns>
         public List<Article> GetArticleRecords()
         {
             return _context.Article.ToList();
