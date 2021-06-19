@@ -21,6 +21,8 @@ export class UserService {
 
   async createUser(user: User): Promise<void> {
     const body = {
+      IBAN: user.IBAN,
+      ReferenceNumber: user.ReferenceNumber,
       FirstName: user.FirstName,
       LastName: user.LastName,
       DisplayName: user.DisplayName,
@@ -51,6 +53,8 @@ export class UserService {
   async updateUser(user: User): Promise<void> {
     const body = {
       Id: user.Id,
+      IBAN: user.IBAN,
+      ReferenceNumber: user.ReferenceNumber,
       FirstName: user.FirstName,
       LastName: user.LastName,
       DisplayName: user.DisplayName,

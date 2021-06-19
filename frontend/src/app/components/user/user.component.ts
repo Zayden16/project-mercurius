@@ -20,6 +20,7 @@ export class UserComponent implements OnInit {
 
   constructor(private userService: UserService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
     this.newUserForm = this.formBuilder.group({
+      iban: [null, Validators.required],
       username: [null, Validators.required],
       firstname: [null, Validators.required],
       lastname: [null, Validators.required],

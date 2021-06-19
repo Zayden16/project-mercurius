@@ -2,8 +2,11 @@
   <app-navigation class="p-col-fixed"></app-navigation>
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
     <p-toast></p-toast>
+
     <h1 class="p-m-1">Documents</h1>
-    <p-table [value]="documents" [lazy]="true" dataKey="Id" editMode="row" styleClass="p-datatable-res">
+
+    <p-table [value]="documents" [scrollable]="true" [rows]="7" scrollHeight="500px" [lazy]="true" dataKey="Id"
+             editMode="row" styleClass="p-datatable-res">
       <ng-template pTemplate="header">
         <tr>
           <th>Document Number</th>

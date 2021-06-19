@@ -1,18 +1,24 @@
 <div class="container p-d-flex">
   <div>
     <div class="dark p-d-flex p-flex-column p-jc-center p-ai-center">
+      <p-toast></p-toast>
+
       <img class="logo" src="/assets/Logo.png">
       <h1>Welcome to Mercurius</h1>
-      <span class="p-float-label p-m-2">
-        <input pInputText [(ngModel)]="username" id="username" type="text" (ng-model)="username" pInputText>
-        <label for="username">Username</label>
-      </span>
-      <span class="p-float-label p-m-2">
-        <input pInputText [(ngModel)]="password" id="password" type="password" pInputText>
-        <label for="password">Password</label>
-      </span>
-      <button pButton (click)="login()" class="login p-button-danger p-button-outlined p-m-2" type="button"
-        label="Login" icon="pi pi-chevron-right"></button>
+
+      <form [formGroup]="userForm" (ngSubmit)="login()">
+        <div class="mb-3 p-m-2 p-float-label">
+          <input type="text" id="username" formControlName="username" pInputText [(ngModel)]="username" pInputText>
+          <label for="username">Username</label>
+        </div>
+
+        <div class="mb-3 p-m-2 p-float-label">
+          <input type="password" id="password" formControlName="password" pInputText [(ngModel)]="password" pInputText>
+          <label for="password">Password</label>
+        </div>
+
+        <button type="submit" class="login p-button-danger p-button-outlined p-m-2" label="Login" icon="pi pi-chevron-right" pButton></button>
+      </form>
     </div>
   </div>
 </div>
