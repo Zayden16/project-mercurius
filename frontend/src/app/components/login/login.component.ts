@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   username: string = "";
   password: string = "";
   error: string = "";
+
   constructor(private router: Router, private authService: AuthenticationService, private route: ActivatedRoute) {
     if (this.authService.currentUserValue) {
       this.router.navigateByUrl('/login');

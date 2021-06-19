@@ -80,8 +80,7 @@ export class CustomerComponent implements OnInit {
       },
       reject: () => {
       }
-    })
-
+    });
   }
 
   // Input Dialog

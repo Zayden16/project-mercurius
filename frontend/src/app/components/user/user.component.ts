@@ -70,8 +70,7 @@ export class UserComponent implements OnInit {
       },
       reject: () => {
       }
-    })
-
+    });
   }
 
   // Input Dialog

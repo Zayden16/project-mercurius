@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {AppSettings} from 'src/appsettings';
 import {Document} from 'src/model/Document';
+import {throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -46,9 +47,6 @@ export class DocumentService {
           });
         }
       });
-  }
-  async downloadDocument(documentId: number): Promise<void>{
-  
   }
 
   async updateDocument(document: Document): Promise<void> {
@@ -101,12 +99,19 @@ export class DocumentService {
       });
   }
 
+  async downloadDocument(documentId: number): Promise<void> {
+    this.httpClient.get(AppSettings.BASE_URL + `Docgen/${documentId}`, {
+        responseType: 'arraybuffer'
+      }
+    ).subscribe(response => this.downloadFile(response, "application/pdf"));
+  }
+
   downloadFile(data: any, type: string) {
-    let blob = new Blob([data], { type: type});
+    let blob = new Blob([data], {type: type});
     let url = window.URL.createObjectURL(blob);
     let pwa = window.open(url);
     if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-        alert( 'Please disable your Pop-up blocker and try again.');
+      alert('Please disable your Pop-up blocker and try again.');
     }
   }
 }
