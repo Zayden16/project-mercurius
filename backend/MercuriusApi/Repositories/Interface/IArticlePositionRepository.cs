@@ -24,15 +24,23 @@ namespace MercuriusApi.Repositories.Interface
         void DeleteArticlePositionRecord(int id);
 
         /// <summary>
+        /// Gets the article position records.
+        /// </summary>
+        /// <returns>The article positions.</returns>
+        List<ArticlePosition> GetArticlePositionRecords();  
+
+        /// <summary>
+        /// Gets the article positions by document id.
+        /// </summary>
+        /// <param name="documentId">The document identifier.</param>
+        /// <returns>The article positions.</returns>
+        List<ArticlePosition> GetArticlePositionsByDocumentId(int documentId);
+
+        /// <summary>
         /// Gets the article position single record.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>The article position.</returns>
         ArticlePosition GetArticlePositionSingleRecord(int id);
-        /// <summary>
-        /// Gets the article position records.
-        /// </summary>
-        /// <returns>The article positions.</returns>
-        List<ArticlePosition> GetArticlePositionRecords();  
     }  
 }

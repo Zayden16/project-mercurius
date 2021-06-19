@@ -49,7 +49,7 @@
             </p-cellEditor>
           </td>
           <td>
-            <button pButton icon="pi pi-eye" label="View" (click)="showArtPosDialog()" [style]="{'width':'100%'}"></button>
+            <button pButton icon="pi pi-eye" label="View" (click)="showArticlePositionDialog(document.Id)" [style]="{'width':'100%'}"></button>
           </td>
           <td style="text-align:center">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
@@ -92,7 +92,7 @@
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
-          <p-dropdown id="sendeeId" formControlName="sendeeId" [options]="creators" [(ngModel)]="newDocument.SendeeId"
+          <p-dropdown id="sendeeId" formControlName="sendeeId" [options]="sendees" [(ngModel)]="newDocument.SendeeId"
                       [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.sendeeId.errors }"></p-dropdown>
           <label for="sendeeId">SendeeId</label>
         </div>

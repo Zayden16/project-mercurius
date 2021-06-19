@@ -30,9 +30,7 @@ namespace MercuriusApi
         {
             services.AddControllers();
             services.AddCors();
-            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-
-            services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
+            services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
 
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IArticlePositionRepository, ArticlePositionRepository>();
@@ -43,12 +41,14 @@ namespace MercuriusApi
             services.AddScoped<IPlzRepository, PlzRepository>();
             services.AddScoped<ITaxRateRepository, TaxRateRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             services.AddScoped<IReportService, ReportService>();
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MercuriusApi", Version = "v1"});
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MercuriusApi", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
                       Enter 'Bearer' [space] and then your token in the text input below.
@@ -58,7 +58,7 @@ namespace MercuriusApi
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -101,7 +101,10 @@ namespace MercuriusApi
                 .AllowCredentials()); // allow credentials
 
             app.UseMiddleware<JwtMiddleware>();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

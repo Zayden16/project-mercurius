@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/model/User';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {ConfirmationService, SelectItem} from 'primeng/api';
+import {ArticlePositionService} from 'src/app/services/article-position.service';
+import {ArticlePosition} from 'src/model/ArticlePosition';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
+import {User} from "../../../model/User";
+import {ArticleService} from "../../services/article.service";
+import {Article} from "../../../model/Article";
 
 @Component({
   selector: 'app-article-position',
@@ -10,63 +14,71 @@ import { User } from 'src/model/User';
   styleUrls: ['./article-position.component.scss']
 })
 export class ArticlePositionComponent implements OnInit {
-  positions: User[] = [];
-  clonedUsers: any;
-  newUser = {} as User;
-  newUserForm: FormGroup;
+  documentId: number = 0;
+  articlePositions: ArticlePosition[] = [];
+  clonedArticlePositions: any;
+  newArticlePosition = {} as ArticlePosition;
+  newArticlePositionForm: FormGroup;
+
+  articles: SelectItem[] = [];
 
   displayDialog: boolean = false;
   submitted = false;
 
-  constructor(private userService: UserService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
-    this.newUserForm = this.formBuilder.group({
-      username: [null, Validators.required],
-      firstname: [null, Validators.required],
-      lastname: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(6)]],
-      confirmPassword: [null, Validators.required]
-    }, {validators: this.MustMatch('password', 'confirmPassword')} as AbstractControlOptions);
-   }
+  constructor(private articlePositionService: ArticlePositionService, private articleService: ArticleService,
+              private confirmService: ConfirmationService, private formBuilder: FormBuilder, public config: DynamicDialogConfig) {
+    this.newArticlePositionForm = this.formBuilder.group({
+      articleId: [null, Validators.required],
+      articleQuantity: [null, Validators.required]
+    });
+  }
 
   ngOnInit(): void {
-    this.userService.getUsers().then(data => this.positions = data);
-  }
-  
-   // Row Editor
-   onRowEditInit(user: User) {
-    this.clonedUsers[user.Id] = {...user};
+    this.documentId = this.config.data.documentId;
+    this.articlePositionService.getArticlePositionsByDocumentId(this.documentId).then(data => this.articlePositions = data);
+
+    this.articleService.getArticles().then(data => {
+      data.forEach((article: Article) => {
+        this.articles.push({label: article.Title, value: article.Id});
+      });
+    });
   }
 
-  onRowEditCancel(user: User, index: number) {
-    this.positions[index] = this.clonedUsers[user.Id];
-    delete this.clonedUsers[user.Id];
+  // Row Editor
+  onRowEditInit(articlePosition: ArticlePosition) {
+    this.clonedArticlePositions[articlePosition.Id] = {...articlePosition};
+  }
+
+  onRowEditCancel(articlePosition: ArticlePosition, index: number) {
+    this.articlePositions[index] = this.clonedArticlePositions[articlePosition.Id];
+    delete this.clonedArticlePositions[articlePosition.Id];
   }
 
   // CRUD
-  async createUser() {
+  async createArticlePosition() {
     this.submitted = true;
 
-    if (this.newUserForm.invalid) {
+    if (this.newArticlePositionForm.invalid) {
       return;
     }
 
-    await this.userService.createUser(this.newUser);
+    this.newArticlePosition.DocumentId = this.documentId;
+    await this.articlePositionService.createArticlePosition(this.newArticlePosition);
     this.hideDialog()
   }
 
-  async updateUser(user: User) {
-    await this.userService.updateUser(user);
+  async updateArticlePosition(articlePosition: ArticlePosition) {
+    await this.articlePositionService.updateArticlePosition(articlePosition);
   }
 
-  async deleteUser(event: Event, user: User) {
+  async deleteArticlePosition(event: Event, articlePosition: ArticlePosition) {
     this.confirmService.confirm({
       target: event.target!,
       message: 'Are you sure?',
       icon: 'pi pi-exclamation-triangle',
       accept: async () => {
-        await this.userService.deleteUser(user.Id);
-        delete this.positions[user.Id];
+        await this.articlePositionService.deleteArticlePosition(articlePosition.Id);
+        delete this.articlePositions[articlePosition.Id];
       },
       reject: () => {
       }
@@ -84,24 +96,7 @@ export class ArticlePositionComponent implements OnInit {
   }
 
   // Form
-  get newUserFormControls() {
-    return this.newUserForm.controls;
-  }
-
-  MustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        return;
-      }
-
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({mustMatch: true});
-      } else {
-        matchingControl.setErrors(null);
-      }
-    }
+  get newArticlePositionFormControls() {
+    return this.newArticlePositionForm.controls;
   }
 }

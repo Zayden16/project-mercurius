@@ -2,96 +2,92 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {AppSettings} from 'src/appsettings';
-import {Document} from 'src/model/Document';
+import {ArticlePosition} from 'src/model/ArticlePosition';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DocumentService {
+export class ArticlePositionService {
   constructor(private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  async getDocuments(): Promise<Document[]> {
+  async getArticlePositionsByDocumentId(documentId: number): Promise<ArticlePosition[]> {
     try {
-      return this.httpClient.get<Document[]>(AppSettings.BASE_URL + 'Document').toPromise();
+      return this.httpClient.get<ArticlePosition[]>(AppSettings.BASE_URL + `ArticlePosition/GetByDocumentId/${documentId}`).toPromise();
     } catch (error) {
       return Promise.reject();
     }
   }
 
-  async createDocument(document: Document): Promise<void> {
+  async createArticlePosition(articlePosition: ArticlePosition): Promise<void> {
     const body = {
-      Number: document.Number,
-      CreatorId: document.CreatorId,
-      SendeeId: document.SendeeId,
-      StatusId: 1,
-      TypeId: 1
+      ArticleId: articlePosition.ArticleId,
+      DocumentId: articlePosition.DocumentId,
+      Quantity: articlePosition.Quantity
     };
 
-    await this.httpClient.post(AppSettings.BASE_URL + 'Document', body)
+    await this.httpClient.post(AppSettings.BASE_URL + 'ArticlePosition', body)
       .subscribe({
         next: () => {
           location.reload();
           this.messageService.add({
             severity: 'success',
-            summary: 'Successfully created Document',
+            summary: 'Successfully created ArticlePosition',
             detail: `Success`
           });
         },
         error: () => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Failed to create Document',
+            summary: 'Failed to create ArticlePosition',
             detail: `Please check Input`
           });
         }
       });
   }
 
-  async updateDocument(document: Document): Promise<void> {
+  async updateArticlePosition(articlePosition: ArticlePosition): Promise<void> {
     const body = {
-      Id: document.Id,
-      Number: document.Number,
-      CreatorId: document.CreatorId,
-      SendeeId: document.SendeeId,
-      StatusId: 1,
-      TypeId: 1
+      Id: articlePosition.Id,
+      ArticleId: articlePosition.ArticleId,
+      DocumentId: articlePosition.DocumentId,
+      Quantity: articlePosition.Quantity
     };
 
-    await this.httpClient.put<Document>(AppSettings.BASE_URL + 'Document', body)
+    await this.httpClient.put<ArticlePosition>(AppSettings.BASE_URL + 'ArticlePosition', body)
       .subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Successfully modified Document',
+            summary: 'Successfully modified ArticlePosition',
             detail: `Success`
           });
         },
         error: () => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Failed to modify Document',
+            summary: 'Failed to modify ArticlePosition',
             detail: `Please check Input`
           });
         }
       });
   }
 
-  async deleteDocument(documentId: number): Promise<void> {
-    await this.httpClient.delete(AppSettings.BASE_URL + `Document/${documentId}`)
+  async deleteArticlePosition(articlePositionId: number): Promise<void> {
+    await this.httpClient.delete(AppSettings.BASE_URL + `ArticlePosition/${articlePositionId}`)
       .subscribe({
         next: () => {
           location.reload();
           this.messageService.add({
             severity: 'success',
-            summary: 'Successfully deleted Document',
+            summary: 'Successfully deleted ArticlePosition',
             detail: `Success`
           });
         },
         error: () => {
           this.messageService.add({
             severity: 'error',
-            summary: 'Failed to delete Document',
+            summary: 'Failed to delete ArticlePosition',
             detail: `Please check Input`
           });
         }
