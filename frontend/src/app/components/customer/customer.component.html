@@ -159,9 +159,8 @@
         </div>
 
         <div class="p-md-4 p-float-label p-m-1">
-          <input type="number" id="plzId" formControlName="plzId" [(ngModel)]="newCustomer.PlzId"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.plzId.errors }"
-                 pInputText>
+          <p-dropdown id="plzId" formControlName="plzId" [options]="postalCodes" [(ngModel)]="newCustomer.PlzId"
+                      [ngClass]="{ 'ng-invalid ng-dirty': submitted && newCustomerFormControls.plzId.errors }"></p-dropdown>
           <label for="plzId">PlzId</label>
         </div>
 
