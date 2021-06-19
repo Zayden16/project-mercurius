@@ -28,6 +28,12 @@ namespace MercuriusApi.Repositories.Interface
         /// Gets the user records.
         /// </summary>
         /// <returns>The users.</returns>
-        List<User> GetUserRecords();  
-    }  
+        List<User> GetUserRecords();
+        
+        /// <summary>
+        /// Deletes a User record.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        void DeleteUserRecord(int id);
+    }
 }

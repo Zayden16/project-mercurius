@@ -69,5 +69,24 @@ namespace MercuriusApi.Controllers
                 return BadRequest(message);
             }
         }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var data = _dataAccessProvider.GetUserSingleRecord(id);
+
+                if (data == null)
+                    return NotFound();
+
+                _dataAccessProvider.DeleteUserRecord(id);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                var message = exception.InnerException?.Message ?? exception.Message;
+                return BadRequest(message);
+            }
+        }
     }
 }

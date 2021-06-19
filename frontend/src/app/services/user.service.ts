@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Message, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { AppSettings } from 'src/appsettings';
 import { User } from 'src/model/User';
 
@@ -8,14 +8,10 @@ import { User } from 'src/model/User';
   providedIn: 'root'
 })
 export class UserService {
-
-  constructor(private httpClient: HttpClient, private messageService: MessageService) { }
-
-  public log(message: string) {
-    this.messageService.add({severity:'success', summary:'UserService', detail: message});
+  constructor(private httpClient: HttpClient, private messageService: MessageService) {
   }
-  
-  getUsers(): Promise<User[]>{
+
+  async getUsers(): Promise<User[]> {
     try {
       return this.httpClient.get<User[]>(AppSettings.BASE_URL + 'User').toPromise();
     } catch (error) {
@@ -23,14 +19,86 @@ export class UserService {
     }
   }
 
-  async createUser(user: User): Promise<any>{
-    return this.httpClient.post(AppSettings.BASE_URL + 'User',
-      {
-        "User_FirstName": user.User_FirstName,
-        "User_LastName": user.User_LastName,
-        "User_DisplayName": user.User_DisplayName,
-        "User_Mail": user.User_Mail,
-        "User_Password": user.User_Password
+  async createUser(user: User): Promise<void> {
+    const body = {
+      IBAN: user.IBAN,
+      ReferenceNumber: user.ReferenceNumber,
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      DisplayName: user.DisplayName,
+      Mail: user.Mail,
+      Password: user.Password
+    };
+
+    await this.httpClient.post(AppSettings.BASE_URL + 'User', body)
+      .subscribe({
+        next: () => {
+          location.reload();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully created User',
+            detail: `Success`
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to create User',
+            detail: `Please check Input`
+          });
+        }
+      });
+  }
+
+  async updateUser(user: User): Promise<void> {
+    const body = {
+      Id: user.Id,
+      IBAN: user.IBAN,
+      ReferenceNumber: user.ReferenceNumber,
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      DisplayName: user.DisplayName,
+      Mail: user.Mail,
+      Password: user.Password
+    };
+
+    await this.httpClient.put<User>(AppSettings.BASE_URL + 'User', body)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully modified User',
+            detail: `Success`
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to modify User',
+            detail: `Please check Input`
+          });
+        }
+      });
+  }
+
+  async deleteUser(userId: number): Promise<void> {
+    await this.httpClient.delete(AppSettings.BASE_URL + `User/${userId}`)
+      .subscribe({
+        next: () => {
+          location.reload();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successfully deleted User',
+            detail: `Success`
+          });
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed to delete User',
+            detail: `Please check Input`
+          });
+        }
       });
   }
 }

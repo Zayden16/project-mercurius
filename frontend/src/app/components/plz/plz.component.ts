@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { PlzService } from 'src/app/services/plz.service';
+import { ConfirmationService } from 'primeng/api';
 import { Plz } from 'src/model/Plz';
+import { PlzService } from '../../services/plz.service';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
 
 @Component({
   selector: 'app-plz',
@@ -9,43 +10,62 @@ import { Plz } from 'src/model/Plz';
   styleUrls: ['./plz.component.scss']
 })
 export class PlzComponent implements OnInit {
+  postalCodes: Plz[] = [];
+  newPlz = {} as Plz;
+  newPlzForm: FormGroup;
 
-  plzs: Plz[] = [];
-  clonedPlzs: any;
   displayDialog: boolean = false;
+  submitted = false;
 
-  constructor(private plzService: PlzService, private messageService: MessageService) { }
+  constructor(private plzService: PlzService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
+    this.newPlzForm = this.formBuilder.group({
+      number: [null, Validators.required],
+      city: [null, Validators.required]
+    });
+  }
 
   async ngOnInit(): Promise<void> {
-    this.plzs = await this.plzService.getPlzs();
-    console.log(this.plzs);
-      this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+    this.plzService.getPostalCodes().then(data => this.postalCodes = data);
   }
 
-  onRowEditInit(plz: Plz) {
-    this.clonedPlzs[plz.plz_Id] = {...plz};
-  }
+  // CRUD
+  async createPlz() {
+    this.submitted = true;
 
-  onRowEditSave(plz: Plz) {
-    if (plz.plz_Id > 0) {
-        delete this.clonedPlzs[plz.plz_Id];
-        this.messageService.add({severity:'success', summary: 'Success', detail:'User is updated'});
-    }  
-    else {
-        this.messageService.add({severity:'error', summary: 'Error', detail:'Invalid Price'});
+    if (this.newPlzForm.invalid) {
+      return;
     }
+
+    await this.plzService.createPlz(this.newPlz);
+    this.hideDialog()
   }
 
-  onRowEditCancel(plz: Plz, index: number) {
-    this.plzs[index] = this.clonedPlzs[plz.plz_Id];
-    delete this.plzs[plz.plz_Id];
+  async deletePlz(event: Event, plz: Plz) {
+    this.confirmService.confirm({
+      target: event.target!,
+      message: 'Are you sure?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        await this.plzService.deletePlz(plz.Id);
+        delete this.postalCodes[plz.Id];
+      },
+      reject: () => {
+      }
+    })
+
   }
 
-  onRowDelete(plz: Plz) {
-    delete this.plzs[plz.plz_Id];
-  }
-
-  showDialog(){
+  // Input Dialog
+  showDialog() {
     this.displayDialog = true;
+  }
+
+  hideDialog() {
+    this.displayDialog = false;
+  }
+
+  // Form
+  get newPlzFormControls() {
+    return this.newPlzForm.controls;
   }
 }

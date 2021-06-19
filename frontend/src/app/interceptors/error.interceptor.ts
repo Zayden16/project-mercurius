@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router, private authService: AuthenticationService) {}
+  constructor(private router: Router, private authService: AuthenticationService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.authService.logout();
         this.router.navigateByUrl('/login');
       }
-      
+
       const error = err.error.message || err.statusText;
       return throwError(error);
     }))

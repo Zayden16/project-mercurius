@@ -1,6 +1,90 @@
-<div class="content-wrapper">
-  <app-navigation></app-navigation>
-  <div class="p-m-0 container">
-    <h1>Tax Rates</h1>
+<div class="p-grid">
+  <app-navigation class="p-col-fixed"></app-navigation>
+  <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
+    <p-toast></p-toast>
+    <p-confirmPopup></p-confirmPopup>
+
+    <h1 class="p-m-1">TaxRates</h1>
+
+    <p-table [value]="taxRates" [rows]="5" [lazy]="true" dataKey="Id" editMode="row" styleClass="p-datatable-res">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Percentage</th>
+          <th>Description</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-taxRate let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="taxRate">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="taxRate.Id" readonly>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{taxRate.Id}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="taxRate.Percentage" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{taxRate.Percentage}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="taxRate.Description" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{taxRate.Description}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td style="text-align:center">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+              (click)="onRowEditInit(taxRate)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+              (click)="updateTaxRate(taxRate)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              (click)="onRowEditCancel(taxRate, ri)" class="p-button-rounded p-button-text"></button>
+          </td>
+          <td>
+            <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteTaxRate($event, taxRate)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
+      iconPos="left"></button>
+
+    <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center"
+      header="New TaxRate" [(visible)]="displayDialog" [modal]=true>
+      <form [formGroup]="newTaxRateForm" (ngSubmit)="createTaxRate()">
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="number" id="percentage" formControlName="percentage" [(ngModel)]="newTaxRate.Percentage"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newTaxRateFormControls.percentage.errors }" pInputText>
+          <label for="percentage">Percentage</label>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="description" formControlName="description" [(ngModel)]="newTaxRate.Description"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newTaxRateFormControls.description.errors }" pInputText>
+          <label for="description">Description</label>
+        </div>
+
+        <button pButton type="submit" label="Add TaxRate" class="p-m-3" icon="pi pi-plus"></button>
+      </form>
+    </p-dialog>
   </div>
 </div>

@@ -2,19 +2,23 @@
   <app-navigation class="p-col-fixed"></app-navigation>
   <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
     <p-toast></p-toast>
+    <p-confirmPopup></p-confirmPopup>
+
     <h1 class="p-m-1">Users</h1>
 
-    <p-table [value]="users" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="User_Id"
+    <p-table [value]="users" [scrollable]="true" [rows]="9" scrollHeight="550px" [lazy]="true" dataKey="Id"
              editMode="row" styleClass="p-datatable-res">
-      
       <ng-template pTemplate="header">
         <tr>
-          <th>User ID</th>
+          <th>Id</th>
+          <th>IBAN</th>
+          <th>Reference Number</th>
           <th>Username</th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>E-Mail</th>
           <th>Password</th>
+          <th></th>
           <th></th>
         </tr>
       </ng-template>
@@ -23,57 +27,67 @@
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_Id">
+                <input pInputText type="number" [(ngModel)]="user.Id" readonly>
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_Id}}
+                {{user.Id}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_DisplayName">
+                <input pInputText type="text" [(ngModel)]="user.IBAN" required>
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_DisplayName}}
+                {{user.IBAN}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_FirstName" required>
+                <input pInputText type="text" [(ngModel)]="user.DisplayName" required>
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_FirstName}}
+                {{user.DisplayName}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_LastName">
+                <input pInputText type="text" [(ngModel)]="user.FirstName" required>
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_LastName}}
+                {{user.FirstName}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="user.User_Mail">
+                <input pInputText type="text" [(ngModel)]="user.LastName" required>
               </ng-template>
               <ng-template pTemplate="output">
-                {{user.User_Mail}}
+                {{user.LastName}}
               </ng-template>
             </p-cellEditor>
           </td>
           <td>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input pInputText type="password" [(ngModel)]="user.User_Password">
+                <input pInputText type="email" [(ngModel)]="user.Mail" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{user.Mail}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="password" [(ngModel)]="user.Password" required>
               </ng-template>
               <ng-template pTemplate="output">
                 ******
@@ -82,98 +96,80 @@
           </td>
           <td style="text-align:center">
             <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                    (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
+              (click)="onRowEditInit(user)" class="p-button-rounded p-button-text"></button>
             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
-                    (click)="onRowEditSave(user)"
-                    class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
-            <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-trash" (click)="onRowDelete(user)"
-                    class="p-button-rounded p-button-text p-button-danger"></button>
+              (click)="updateUser(user)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
             <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
-                    (click)="onRowEditCancel(user, ri)" class="p-button-rounded p-button-text"></button>
+              (click)="onRowEditCancel(user, ri)" class="p-button-rounded p-button-text"></button>
+          </td>
+          <td>
+            <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteUser($event, user)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
 
     <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
-            iconPos="left"></button>
+      iconPos="left"></button>
 
     <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New User"
-              [(visible)]="displayDialog" [modal]=true>
+      [(visible)]="displayDialog" [modal]=true>
       <form [formGroup]="newUserForm" (ngSubmit)="createUser()">
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="iban" formControlName="iban" [(ngModel)]="newUser.IBAN"
+                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.iban.errors }" pInputText>
+          <label for="iban">IBAN</label>
+        </div>
 
-        <div class="p-md-4">
-        <span class="p-float-label p-m-1">
-          <input type="text" id="username" formControlName="username" [(ngModel)]="newUser.User_DisplayName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.firstname.errors }" pInputText>
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="username" formControlName="username" [(ngModel)]="newUser.DisplayName"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="username">Username</label>
-        </span>
-          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">Username is required</div>
-          </div>
         </div>
 
-        <div class="p-md-4">
-        <span class="p-float-label p-m-1">
-          <input type="text" id="firstname" formControlName="firstname" [(ngModel)]="newUser.User_FirstName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.firstname.errors }" pInputText>
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="firstname" formControlName="firstname" [(ngModel)]="newUser.FirstName"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.firstname.errors }" pInputText>
           <label for="firstname">Firstname</label>
-        </span>
-          <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
-            <div *ngIf="f.firstname.errors.required">Firstname is required</div>
-          </div>
         </div>
 
-        <div class="p-md-4">
-        <span class="p-float-label p-m-1">
-          <input type="text" id="lastname" formControlName="lastname" [(ngModel)]="newUser.User_LastName"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.lastname.errors }" pInputText>
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="text" id="lastname" formControlName="lastname" [(ngModel)]="newUser.LastName"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.lastname.errors }" pInputText>
           <label for="lastname">Lastname</label>
-        </span>
-          <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
-            <div *ngIf="f.lastname.errors.required">Lastname is required</div>
-          </div>
         </div>
 
-        <div class="p-md-4">
-        <span class="p-float-label p-m-1">
-          <input type="text" id="email" formControlName="email" [(ngModel)]="newUser.User_Mail"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.email.errors }" pInputText>
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="email" id="email" formControlName="email" [(ngModel)]="newUser.Mail"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.email.errors }" pInputText>
           <label for="email">Email</label>
-        </span>
-          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.required">Email is required</div>
-            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+          <div *ngIf="submitted && newUserFormControls.email.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.email.errors?.email">
+              This is not a valid email.
+            </div>
           </div>
         </div>
 
-        <div class="p-md-4">
-        <span class="p-float-label p-m-1">
-          <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.User_Password"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.password.errors }" pInputText>
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="password" id="password" formControlName="password" [(ngModel)]="newUser.Password"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.password.errors }" pInputText>
           <label for="password">Password</label>
-        </span>
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+          <div *ngIf="submitted && newUserFormControls.password.errors" class="invalid-feedback">
+            <div *ngIf="newUserFormControls.password.errors?.minlength">
+              Password must be at least 6 characters long.
+            </div>
           </div>
         </div>
 
-        <div class="p-md-4">
-        <span class="p-float-label p-m-1">
+        <div class="p-md-4 p-float-label p-m-1">
           <input type="password" id="confirmPassword" formControlName="confirmPassword"
-                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && f.confirmPassword.errors }" pInputText>
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newUserFormControls.confirmPassword.errors }" pInputText>
           <label for="confirmPassword">ConfirmPassword</label>
-        </span>
-          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-            <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
-          </div>
         </div>
 
-        <button pButton type="submit" label="Add User" (click)="createUser()" class="p-m-3" icon="pi pi-plus"></button>
+        <button pButton type="submit" label="Add User" class="p-m-3" icon="pi pi-plus"></button>
       </form>
     </p-dialog>
-
   </div>
 </div>

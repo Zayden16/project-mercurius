@@ -1,25 +1,35 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MercuriusApi.Models
 {
     public class User
     {
-        [JsonPropertyName("User_Id")]
+        [JsonPropertyName("Id")]
         public int User_Id { get; set; }
-        [JsonPropertyName("User_FirstName")]
 
+        [MaxLength(34)]
+        [JsonPropertyName("IBAN")]
+        public string User_IBAN { get; set; }
+
+        [MaxLength(27)]
+        [JsonPropertyName("ReferenceNumber")]
+        public string User_ReferenceNumber { get; set; }
+
+        [JsonPropertyName("FirstName")]
         public string User_FirstName { get; set; }
-        [JsonPropertyName("User_LastName")]
 
+        [JsonPropertyName("LastName")]
         public string User_LastName { get; set; }
-        [JsonPropertyName("User_DisplayName")]
 
+        [JsonPropertyName("DisplayName")]
         public string User_DisplayName { get; set; }
-        [JsonPropertyName("User_Mail")]
 
+        [JsonPropertyName("Mail")]
         public string User_Mail { get; set; }
-
+        
         [Newtonsoft.Json.JsonIgnore]
+        [JsonPropertyName("Password")]
         public string User_Password { get; set; }
     }
 }

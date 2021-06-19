@@ -23,13 +23,13 @@ namespace MercuriusApi.DataAccess
 
         public DbSet<DocumentStatus> DocumentStatus { get; set; }
 
-        public DbSet<DocumentType> DocumentType { get; set; }
-
         public DbSet<User> User { get; set; }
 
         public DbSet<Customer> Customer { get; set; }
 
         public DbSet<Plz> Plz { get; set; }
+
+        public DbSet<DocumentDetail> DocumentDetail { get; set; }
 
         #endregion
 
@@ -55,6 +55,11 @@ namespace MercuriusApi.DataAccess
                 .HasOne<Article>()
                 .WithMany()
                 .HasForeignKey(x => x.Article_Id);
+
+            builder.Entity<ArticlePosition>()
+                .HasOne<Document>()
+                .WithMany()
+                .HasForeignKey(x => x.Document_Id);
 
             builder.Entity<ArticleUnit>()
                 .HasKey(x => x.ArticleUnit_Id);
@@ -90,11 +95,6 @@ namespace MercuriusApi.DataAccess
                 .WithMany()
                 .HasForeignKey(x => x.Document_StatusId);
 
-            builder.Entity<Document>()
-                .HasOne<ArticlePosition>()
-                .WithMany()
-                .HasForeignKey(x => x.Document_ArticlePositionId);
-
             builder.Entity<DocumentStatus>()
                 .HasKey(x => x.DocumentStatus_Id);
 
@@ -110,6 +110,9 @@ namespace MercuriusApi.DataAccess
             builder.Entity<User>()
                 .HasKey(x => x.User_Id);
 
+            builder.Entity<DocumentDetail>()
+                .HasNoKey();
+            
             base.OnModelCreating(builder);
         }
 

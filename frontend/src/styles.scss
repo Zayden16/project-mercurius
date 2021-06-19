@@ -1,7 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 html, body {
-    min-height: 100vh;
-    height: auto;
     margin: 0;
     font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
   }
@@ -17,4 +15,10 @@ html, body {
   flex-wrap: wrap;
   justify-content: space-evenly;
   width: 100%;
+}
+
+app-navigation{
+  margin: 0;
+  padding: 0;
+  height: 100vh;
 }

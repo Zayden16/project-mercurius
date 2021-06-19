@@ -1,56 +1,110 @@
 <div class="p-grid">
-    <app-navigation class="p-col-fixed"></app-navigation>
-    <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
-      <p-toast></p-toast>
-      <h1 class="p-m-1">Documents</h1>
-      <p-table [value]="documents" [scrollable]="true" [rows]="5" scrollHeight="550px" [lazy]="true" dataKey="document_Id"
-        editMode="row" styleClass="p-datatable-res">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Document ID</th>
-            <th>Document Number</th>
-            <th>Document Type</th>
-            <th>Document Creator</th>
-            <th>Document Sendee</th>
-            <th>Document Status</th>
-            <th>Document Positions</th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-document let-editing="editing" let-ri="rowIndex">
-          <tr [pEditableRow]="document">
-            <td>
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="document.document_Id">
-                </ng-template>
-                <ng-template pTemplate="output">
-                  {{document.document_Id}}
-                </ng-template>
-              </p-cellEditor>
-            </td>
-            <td style="text-align:center">
-              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
-                class="p-button-rounded p-button-text"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
-              <button *ngIf="editing" pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"></button>
-              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" class="p-button-rounded p-button-text"></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
-        iconPos="left"></button>
-      <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center" header="New Document"
-        [(visible)]="displayDialog" [modal]=true>
-        <div class="p-md-4">
-          <span class="p-float-label p-m-1">
-            <input type="text" id="number" [(ngModel)]="newDocument.document_Number" pInputText>
-            <label for="number">DocumentNumber</label>
-          </span>
+  <app-navigation class="p-col-fixed"></app-navigation>
+  <div class="p-col p-m-5 p-d-flex-column p-flex-wrap">
+    <p-toast></p-toast>
+
+    <h1 class="p-m-1">Documents</h1>
+
+    <p-table [value]="documents" [scrollable]="true" [rows]="7" scrollHeight="500px" [lazy]="true" dataKey="Id"
+             editMode="row" styleClass="p-datatable-res">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Document Number</th>
+          <th>Document Creator</th>
+          <th>Document Sendee</th>
+          <th>Document Positions</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-document let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="document">
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="number" [(ngModel)]="document.Number" readonly>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{document.Number}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-dropdown [options]="creators" [(ngModel)]="document.CreatorId" [style]="{'width':'100%'}">
+                </p-dropdown>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <p-dropdown [options]="creators" [(ngModel)]="document.CreatorId" [style]="{'width':'100%'}"
+                  [readonly]="true"></p-dropdown>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-dropdown [options]="sendees" [(ngModel)]="document.SendeeId" [style]="{'width':'100%'}"></p-dropdown>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <p-dropdown [options]="sendees" [(ngModel)]="document.SendeeId" [style]="{'width':'100%'}"
+                  [readonly]="true"></p-dropdown>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            <button pButton icon="pi pi-eye" label="View" (click)="showArticlePositionDialog(document.Id)"
+              [style]="{'width':'100%'}"></button>
+          </td>
+          <td style="text-align:center">
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+              (click)="onRowEditInit(document)" class="p-button-rounded p-button-text"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+              (click)="updateDocument(document)"
+              class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+              (click)="onRowEditCancel(document, ri)" class="p-button-rounded p-button-text"></button>
+          </td>
+          <td style="text-align:center">
+            <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteDocument($event, document)"
+              class="p-button-rounded p-button-text p-button-danger"></button>
+          </td>
+          <td style="text-align:center">
+            <button pButton pRipple type="button" icon="pi pi-print" (click)="downloadDocument(document)"
+              class="p-button-rounded p-button-text"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <button pButton (click)="showDialog()" class="p-m-1 p-button-raised" type="button" label="New" icon="pi pi-plus"
+      iconPos="left"></button>
+
+    <p-dialog class="p-d-flex p-flex-column p-jc-center p-ai-center p-justify-center p-align-center"
+      header="New Document" [(visible)]="displayDialog" [modal]=true>
+      <form [formGroup]="newDocumentForm" (ngSubmit)="createDocument()">
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <input type="number" id="number" formControlName="number" [(ngModel)]="newDocument.Number" min="1"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.number.errors }" pInputText>
+          <label for="number">Number</label>
         </div>
-        <button pButton label="Add Document" class="p-m-3" icon="pi pi-plus"></button>
-      </p-dialog>
-    </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <p-dropdown id="creatorId" formControlName="creatorId" [options]="creators"
+            [(ngModel)]="newDocument.CreatorId"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.creatorId.errors }"></p-dropdown>
+          <label for="creatorId">CreatorId</label>
+        </div>
+
+        <div class="p-md-4 p-float-label p-m-1">
+          <p-dropdown id="sendeeId" formControlName="sendeeId" [options]="sendees" [(ngModel)]="newDocument.SendeeId"
+            [ngClass]="{ 'ng-invalid ng-dirty': submitted && newDocumentFormControls.sendeeId.errors }"></p-dropdown>
+          <label for="sendeeId">SendeeId</label>
+        </div>
+        <button pButton type="submit" label="Add Document" class="p-m-3" icon="pi pi-plus"></button>
+      </form>
+    </p-dialog>
   </div>
-  
+</div>

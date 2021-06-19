@@ -13,20 +13,21 @@ import { ArticleUnitComponent } from './components/article-unit/article-unit.com
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch:'full'},
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  { path: 'customers', component: CustomerComponent, canActivate:[AuthGuard]},
-  { path: 'plz', component: PlzComponent, canActivate:[AuthGuard] },
-  { path: 'documents', component: DocumentComponent, canActivate:[AuthGuard]},
-  { path: 'users', component: UserComponent, canActivate:[AuthGuard]},
-  { path: 'article', component: ArticleComponent, canActivate:[AuthGuard]},
-  { path: 'article-unit', component: ArticleUnitComponent, canActivate:[AuthGuard]},
-  { path: 'tax-rate', component: TaxRateComponent, canActivate:[AuthGuard]}
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'customers', component: CustomerComponent, canActivate: [AuthGuard] },
+  { path: 'plz', component: PlzComponent, canActivate: [AuthGuard] },
+  { path: 'documents', component: DocumentComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
+  { path: 'article', component: ArticleComponent, canActivate: [AuthGuard] },
+  { path: 'article-unit', component: ArticleUnitComponent, canActivate: [AuthGuard] },
+  { path: 'tax-rate', component: TaxRateComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

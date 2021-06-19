@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { User } from 'src/model/User';
 import { AuthenticationService } from './services/authentication.service';
@@ -11,14 +10,14 @@ import { AuthenticationService } from './services/authentication.service';
 })
 
 export class AppComponent implements OnInit {
-    title = 'Mercurius';
-    currentUser: User | undefined;
+  title = 'Mercurius';
+  currentUser: User | undefined;
 
-    constructor(private primengConfig: PrimeNGConfig,   private authService: AuthenticationService) { 
-      this.authService.currentUser.subscribe(x => this.currentUser  = x);
-     }
-  
-    ngOnInit(): void{
-      this.primengConfig.ripple = true;
-    }
+  constructor(private primengConfig: PrimeNGConfig, private authService: AuthenticationService) {
+    this.authService.currentUser.subscribe(x => this.currentUser = x);
   }
+
+  ngOnInit(): void {
+    this.primengConfig.ripple = true;
+  }
+}

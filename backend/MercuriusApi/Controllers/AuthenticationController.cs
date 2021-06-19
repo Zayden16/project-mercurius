@@ -16,24 +16,22 @@ namespace MercuriusApi.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private IUserRepository _userRepository;
-        private List<User> _users;
+        private readonly List<User> _users;
         private readonly AppSettings _appSettings;
 
         public AuthenticationController(IUserRepository userRepository, IOptions<AppSettings> appSettings)
         {
-            _userRepository = userRepository;
             _appSettings = appSettings.Value;
-            _users = _userRepository.GetUserRecords();
+            _users = userRepository.GetUserRecords();
         }
 
         [HttpPost]
-        public IActionResult Authenticate([FromBody]AuthenticateRequest requestModel)
+        public IActionResult Authenticate([FromBody] AuthenticateRequest requestModel)
         {
             var response = DoAuth(requestModel);
             if (response == null)
             {
-                return BadRequest(new {message = "Invalid Credentials"});
+                return BadRequest(new { message = "Invalid Credentials" });
             }
 
             return Ok(response);
@@ -42,7 +40,8 @@ namespace MercuriusApi.Controllers
         private AuthenticateResponse DoAuth(AuthenticateRequest authReq)
         {
             var user = _users.SingleOrDefault(x =>
-                x.User_DisplayName == authReq.Username && x.User_Password == authReq.Password);
+                string.Equals(x.User_DisplayName, authReq.Username, StringComparison.CurrentCultureIgnoreCase)
+                && x.User_Password == authReq.Password);
             if (user == null) return null;
             var token = GenerateJwtToken(user);
 
@@ -55,7 +54,7 @@ namespace MercuriusApi.Controllers
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {new Claim("id", user.User_Id.ToString())}),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.User_Id.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

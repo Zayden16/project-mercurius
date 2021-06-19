@@ -1,7 +1,10 @@
 BEGIN;
 
-INSERT INTO "User"("User_FirstName", "User_LastName", "User_DisplayName", "User_Mail", "User_Password")  
-VALUES ('Thomas', 'Shelby','Tom', 'tom@gmail.com', 'password');
+INSERT INTO "User"("User_IBAN", "User_ReferenceNumber", "User_FirstName", "User_LastName", "User_DisplayName", "User_Mail", "User_Password")  
+VALUES ('CH1504835157229200000', '21000000003139471430009017', 'Thomas', 'Shelby', 'Tom', 'tom@gmail.com', 'password');
+
+INSERT INTO "User"("User_IBAN", "User_ReferenceNumber", "User_FirstName", "User_LastName", "User_DisplayName", "User_Mail", "User_Password")  
+VALUES ('CH7208781000134597300', '53200001105000312897842002', 'Arthur', 'Shelby', 'Arthur', 'arthur@gmail.com', 'password');
 
 INSERT INTO "TaxRate"("Taxrate_Percentage", "Taxrate_Description")  
 VALUES (5, 'Tax');
@@ -30,9 +33,6 @@ VALUES ('cl');
 INSERT INTO "Article"("Article_Title", "Article_Description", "Article_Price", "Article_TaxRate", "Article_Unit")  
 VALUES ('TestArticle', 'This is a test.', 15.99, 1, 1);
 
-INSERT INTO "ArticlePosition"("Article_Id", "Article_Quantity")  
-VALUES (1, 15);
-
 INSERT INTO "DocumentType"("DocumentType_Description")  
 VALUES ('Invoice');
 
@@ -43,9 +43,12 @@ INSERT INTO "Plz"("Plz_Number", "Plz_City")
 VALUES ('6330', 'Zug');
 
 INSERT INTO "Customer"("Customer_FirstName", "Customer_LastName", "Customer_Address1", "Customer_Address2", "Customer_Email", "Customer_PlzId")  
-VALUES ('James', 'Bond', 'secret 15', '', 'james@gmail.com', 1);
+VALUES ('James', 'Bond', 'Chamerstrasse 15', '', 'james@gmail.com', 1);
 
-INSERT INTO "Document"("Document_Number", "Document_TypeId", "Document_CreatorId", "Document_SendeeId", "Document_StatusId", "Document_ArticlePositionId")  
-VALUES (100, 1, 1, 1, 1, 1);
+INSERT INTO "Document"("Document_Number", "Document_TypeId", "Document_CreatorId", "Document_SendeeId", "Document_StatusId")  
+VALUES (100, 1, 1, 1, 1);
+
+INSERT INTO "ArticlePosition"("Article_Id", "Document_Id", "Article_Quantity")  
+VALUES (1, 1, 15);
 
 END;

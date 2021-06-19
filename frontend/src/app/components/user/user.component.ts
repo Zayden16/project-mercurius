@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {MessageService} from 'primeng/api';
-import {User} from 'src/model/User';
-import {UserService} from '../../services/user.service';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { User } from 'src/model/User';
+import { UserService } from '../../services/user.service';
+import { FormGroup, FormBuilder, Validators, AbstractControlOptions } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -10,47 +10,41 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
   users: User[] = [];
   clonedUsers: any;
-  displayDialog: boolean = false;
   newUser = {} as User;
-
   newUserForm: FormGroup;
+
+  displayDialog: boolean = false;
   submitted = false;
 
-  constructor(private userService: UserService, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private userService: UserService, private confirmService: ConfirmationService, private formBuilder: FormBuilder) {
     this.newUserForm = this.formBuilder.group({
+      iban: [null, Validators.required],
       username: [null, Validators.required],
       firstname: [null, Validators.required],
       lastname: [null, Validators.required],
-      email: [null, Validators.required, Validators.email],
-      password: [null, Validators.required, Validators.minLength(6)],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(6)]],
       confirmPassword: [null, Validators.required]
-    }, {validators: this.MustMatch('password', 'confirmPassword')});
+    }, { validators: this.MustMatch('password', 'confirmPassword') } as AbstractControlOptions);
   }
 
   async ngOnInit(): Promise<void> {
-    this.users = await this.userService.getUsers();
+    this.userService.getUsers().then(data => this.users = data);
   }
 
+  // Row Editor
   onRowEditInit(user: User) {
-    this.clonedUsers[user.User_Id] = {...user};
-  }
-
-  onRowEditSave(user: User) {
-
+    this.clonedUsers[user.Id] = { ...user };
   }
 
   onRowEditCancel(user: User, index: number) {
-    this.users[index] = this.clonedUsers[user.User_Id];
-    delete this.clonedUsers[user.User_Id];
+    this.users[index] = this.clonedUsers[user.Id];
+    delete this.clonedUsers[user.Id];
   }
 
-  onRowDelete(user: User) {
-    delete this.users[user.User_Id];
-  }
-
+  // CRUD
   async createUser() {
     this.submitted = true;
 
@@ -58,14 +52,41 @@ export class UserComponent implements OnInit {
       return;
     }
 
-    console.log(await this.userService.createUser(this.newUser));
+    await this.userService.createUser(this.newUser);
+    this.hideDialog()
   }
 
+  async updateUser(user: User) {
+    await this.userService.updateUser(user);
+  }
+
+  async deleteUser(event: Event, user: User) {
+    this.confirmService.confirm({
+      target: event.target!,
+      message: 'Are you sure?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        await this.userService.deleteUser(user.Id);
+        delete this.users[user.Id];
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  // Input Dialog
   showDialog() {
     this.displayDialog = true;
   }
 
-  get f() { return this.newUserForm.controls; }
+  hideDialog() {
+    this.displayDialog = false;
+  }
+
+  // Form
+  get newUserFormControls() {
+    return this.newUserForm.controls;
+  }
 
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
@@ -73,11 +94,9 @@ export class UserComponent implements OnInit {
       const matchingControl = formGroup.controls[matchingControlName];
 
       if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        // return if another validator has already found an error on the matchingControl
         return;
       }
 
-      // set error on matchingControl if validation fails
       if (control.value !== matchingControl.value) {
         matchingControl.setErrors({ mustMatch: true });
       } else {

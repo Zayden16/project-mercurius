@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using MercuriusApi.DataAccess;
+using MercuriusApi.DocGen;
 using MercuriusApi.Helpers;
 using MercuriusApi.Repositories;
 using MercuriusApi.Repositories.Interface;
@@ -26,9 +30,7 @@ namespace MercuriusApi
         {
             services.AddControllers();
             services.AddCors();
-            var sqlConnectionString = Configuration["PostgreSqlConnectionString"];
-            
-            services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
+            services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(Configuration["PostgreSqlConnectionString"]));
 
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IArticlePositionRepository, ArticlePositionRepository>();
@@ -39,10 +41,38 @@ namespace MercuriusApi
             services.AddScoped<IPlzRepository, PlzRepository>();
             services.AddScoped<ITaxRateRepository, TaxRateRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IReportService, ReportService>();
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MercuriusApi", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
             });
         }
 
@@ -61,7 +91,7 @@ namespace MercuriusApi
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -69,7 +99,10 @@ namespace MercuriusApi
                 .AllowCredentials()); // allow credentials
 
             app.UseMiddleware<JwtMiddleware>();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

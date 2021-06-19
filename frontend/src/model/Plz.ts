@@ -1,5 +1,5 @@
-export interface Plz{
-    plz_Id: number,
-    plz_Number: number,
-    plz_City: string
+export interface Plz {
+  Id: number,
+  Number: number,
+  City: string
 }

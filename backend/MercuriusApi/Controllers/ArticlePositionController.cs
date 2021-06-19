@@ -28,6 +28,13 @@ namespace MercuriusApi.Controllers
             return _dataAccessProvider.GetArticlePositionRecords();
         }
 
+        [Route("GetByDocumentId/{documentId}")]
+        [HttpGet]
+        public IEnumerable<ArticlePosition> GetByDocumentId(int documentId)
+        {
+            return _dataAccessProvider.GetArticlePositionsByDocumentId(documentId);
+        }
+
         [HttpGet("{id}")]
         public ArticlePosition Details(int id)
         {
